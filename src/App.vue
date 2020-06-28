@@ -47,7 +47,7 @@ export default {
   name: "App",
   data() {
     return {
-      cards: [{ question: "hello", answer: "world", flipped: false }],
+      cards: [{ id: 1, question: "hello", answer: "world", flipped: false }],
       newFront: "",
       newBack: "",
       error: false,
@@ -71,7 +71,12 @@ export default {
       card.flipped = !card.flipped;
     },
     deleteCard: function() {},
-    editCard: function() {},
+    editCard: function(card) {
+      this.currentCardId = card.id;
+      this.newFront = card.question;
+      this.newBack = card.answer;
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    },
     saveCard: function() {}
   }
 };
