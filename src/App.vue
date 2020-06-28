@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import * as shuffleSeed from "shuffle-seed";
+
 export default {
   name: "App",
   data() {
@@ -55,7 +57,10 @@ export default {
     };
   },
   methods: {
-    randomColor: function() {},
+    randomColor: function(i) {
+      const colors = shuffleSeed.shuffle(this.colors, this.seed);
+      return colors[i % this.colors.length];
+    },
     shuffle: function(cards) {
       return cards;
     },
