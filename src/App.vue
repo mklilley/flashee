@@ -64,7 +64,9 @@ export default {
     shuffle: function(cards) {
       return cards;
     },
-    newSeed: function() {},
+    newSeed: function() {
+      this.seed = Date.now();
+    },
     toggleCard: function(card) {
       card.flipped = !card.flipped;
     },
