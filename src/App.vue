@@ -67,7 +67,8 @@ export default {
       return colors[i % this.colors.length];
     },
     shuffle: function(cards) {
-      return cards;
+      const shuffledDeck = shuffleSeed.shuffle(cards, this.seed);
+      return shuffledDeck;
     },
     newSeed: function() {
       this.seed = Date.now();
