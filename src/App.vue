@@ -82,6 +82,18 @@ export default {
       this.seed = Date.now();
     },
     toggleCard: function(card) {
+      // When the card is flipped back from answer to question, we treat the
+      // card as being "read". We update the read value in the data store
+      if (card.flipped) {
+        db.update(card.id, {
+          reads: card.reads + 1
+        });
+        // Reload the cards from the data store to update the view
+        this.cards = db.read();
+        // Randomise the cards after one has been read. This means the user
+        // doesn't have to scroll down to get new cards if they don't want to.
+        this.newSeed();
+      }
       card.flipped = !card.flipped;
     },
     deleteCard: function(card) {
