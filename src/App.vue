@@ -25,11 +25,11 @@
     <li v-for="(card, index) in shuffle(cards)" v-on:click="toggleCard(card)" :key="index">
       <transition name="flip">
         <p class="card" v-if="!card.flipped" key="front" v-bind:style="{backgroundColor:randomColor(index)}">
-          <span v-html="card.question"></span>
+          <span v-katex:auto v-html="card.question"></span>
           <span class="edit-card" v-on:click.stop="editCard(card)">✏️</span>
         </p>
         <p class="card" v-else key="back" v-bind:style="{backgroundColor:randomColor(index)}">
-          <span v-html="card.answer"></span>
+          <span v-katex:auto v-html="card.answer"></span>
           <span class="delete-card" v-on:click="deleteCard(card)">X</span>
           <span class="edit-card" v-on:click.stop="editCard(card)">✏️</span>
         </p>

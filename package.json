@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "katex": "^0.11.1",
     "shuffle-seed": "^1.1.6",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-katex": "^0.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.4.0",
