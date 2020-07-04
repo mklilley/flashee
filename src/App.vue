@@ -75,7 +75,12 @@ export default {
     toggleCard: function(card) {
       card.flipped = !card.flipped;
     },
-    deleteCard: function() {},
+    deleteCard: function(card) {
+      // delete card from data store
+      db.delete(card.id);
+      // reload the cards from the data store to update the view
+      this.cards = db.read();
+    },
     editCard: function(card) {
       this.currentCardId = card.id;
       this.newFront = card.question;
