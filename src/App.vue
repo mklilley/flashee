@@ -93,7 +93,44 @@ export default {
       // Scroll the view back to the top where the card form is
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     },
-    saveCard: function() {}
+    saveCard: function() {
+      // Make sure the card form doesn't have empty fields
+      if (!this.newFront.length || !this.newBack.length) {
+        this.error = true;
+      }
+      // No empty fields, we are good to go!
+      else {
+        // NEW CARD
+        // If no currentCardId, then we are creating a new card
+        if (this.currentCardId === "") {
+          // Create a card in the data store usinf data from the form
+          db.create({
+            question: this.newFront,
+            answer: this.newBack,
+            flipped: false
+          });
+          // Reload the cards from the data store to update the view
+          this.cards = db.read();
+        }
+        // UPDATE CARD
+        // If we have a currentCardId then we are updating an existing card
+        else {
+          // Update card with id = currentCardId data from the form data
+          db.update(this.currentCardId, {
+            question: this.newFront,
+            answer: this.newBack
+          });
+          // Reload the cards from the data store to update the view
+          this.cards = db.read();
+        }
+
+        // After the card has been saved we reset the form
+        this.newFront = "";
+        this.newBack = "";
+        this.currentCardId = "";
+        this.error = false;
+      }
+    }
   }
 };
 </script>
