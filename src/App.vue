@@ -82,9 +82,15 @@ export default {
       this.cards = db.read();
     },
     editCard: function(card) {
-      this.currentCardId = card.id;
+      // Populate the card form with the data from the card you want to edit
       this.newFront = card.question;
       this.newBack = card.answer;
+
+      // Display the card id above the card form just in case you want to go and
+      // manually find the card in the data store
+      this.currentCardId = card.id;
+
+      // Scroll the view back to the top where the card form is
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     },
     saveCard: function() {}
