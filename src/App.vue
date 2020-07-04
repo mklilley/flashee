@@ -43,11 +43,13 @@
 <script>
 import * as shuffleSeed from "shuffle-seed";
 
+import { db } from "@/services/storage";
+
 export default {
   name: "App",
   data() {
     return {
-      cards: [{ id: 1, question: "hello", answer: "world", flipped: false }],
+      cards: [],
       newFront: "",
       newBack: "",
       error: false,
@@ -55,6 +57,9 @@ export default {
       currentCardId: "",
       colors: ["#51aae5", "#e65f51", "#a17de9", "#feca34", "#e46055"]
     };
+  },
+  mounted() {
+    this.cards = db.read();
   },
   methods: {
     randomColor: function(i) {
