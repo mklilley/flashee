@@ -108,7 +108,8 @@ export default {
           db.create({
             question: this.newFront,
             answer: this.newBack,
-            flipped: false
+            flipped: false,
+            reads: this.cards[0] ? this.cards[0].reads : 0
           });
           // Reload the cards from the data store to update the view
           this.cards = db.read();
