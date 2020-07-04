@@ -68,6 +68,14 @@ export default {
     },
     shuffle: function(cards) {
       const shuffledDeck = shuffleSeed.shuffle(cards, this.seed);
+
+      // After deck is shuffled, sort the array so that the least seen cards
+      // come to the top of the list. This is to stop you from seeing the same
+      // cards all the time
+      shuffledDeck.sort(function(a, b) {
+        return parseFloat(a.reads || 0) - parseFloat(b.reads || 0);
+      });
+
       return shuffledDeck;
     },
     newSeed: function() {
