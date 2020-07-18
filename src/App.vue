@@ -102,9 +102,10 @@ export default {
     },
     deleteCard: function(card) {
       // delete card from data store
-      db.delete(card.id);
-      // reload the cards from the data store to update the view
-      this.cards = db.read();
+      db.delete(card.id).then(() => {
+        // reload the cards from the data store to update the view
+        this.cards = db.read();
+      });
     },
     editCard: function(card) {
       // Populate the card form with the data from the card you want to edit
@@ -134,9 +135,10 @@ export default {
             answer: this.newBack,
             flipped: false,
             reads: this.cards[0] ? this.cards[0].reads : 0
+          }).then(() => {
+            // Reload the cards from the data store to update the view
+            this.cards = db.read();
           });
-          // Reload the cards from the data store to update the view
-          this.cards = db.read();
         }
         // UPDATE CARD
         // If we have a currentCardId then we are updating an existing card
@@ -145,9 +147,10 @@ export default {
           db.update(this.currentCardId, {
             question: this.newFront,
             answer: this.newBack
+          }).then(() => {
+            // Reload the cards from the data store to update the view
+            this.cards = db.read();
           });
-          // Reload the cards from the data store to update the view
-          this.cards = db.read();
         }
 
         // After the card has been saved we reset the form
