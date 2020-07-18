@@ -65,9 +65,18 @@ const db = {
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
   },
-  delete: function(id) {
+  delete: async function(id) {
     // Get all the cards
     let allCards = JSON.parse(localStorage.getItem(key)) || {};
+
+    let remoteWorking = await remote.status();
+    if (remoteWorking === true) {
+      await remote.delete(id);
+    } else {
+      let remoteFails = JSON.parse(localStorage.getItem("remoteFails")) || {};
+      remoteFails[id] = "delete";
+      localStorage.setItem("remoteFails", JSON.stringify(remoteFails));
+    }
 
     // delete the card from the cards collection
     delete allCards[id];
