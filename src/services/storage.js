@@ -83,6 +83,25 @@ const db = {
 
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
+  },
+  restore: async function() {
+    let remoteWorking = await remote.status();
+    if (remoteWorking === true) {
+      let cards = await remote.read();
+
+      // Get all the cards
+      let allCards = {};
+
+      cards.forEach(item => {
+        let { _id, ...card } = item;
+        card.id = _id;
+        // Add the new card to cards collection
+        allCards[_id] = card;
+      });
+
+      // Save the updated cards collection
+      localStorage.setItem(key, JSON.stringify(allCards));
+    }
   }
 };
 
