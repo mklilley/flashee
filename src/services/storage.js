@@ -43,12 +43,24 @@ const db = {
     // Return the cards as an array
     return Object.values(allCards);
   },
-  update: function(id, newData) {
+  update: async function(id, newData, options = {}) {
     // Get all the cards
     let allCards = JSON.parse(localStorage.getItem(key)) || {};
 
     // Update the specific card with the new data
     allCards[id] = { ...allCards[id], ...newData };
+
+    // Don't update data on the remote database if remote flag is false
+    if (options.remote !== false) {
+      let remoteWorking = await remote.status();
+      if (remoteWorking === true) {
+        await remote.update(id, allCards[id]);
+      } else {
+        let remoteFails = JSON.parse(localStorage.getItem("remoteFails")) || {};
+        remoteFails[id] = "update";
+        localStorage.setItem("remoteFails", JSON.stringify(remoteFails));
+      }
+    }
 
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
