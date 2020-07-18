@@ -1,3 +1,5 @@
+import { box as remote } from "@/services/jsonbox";
+
 // function to create random id for each flash card - inspired by
 // https://stackoverflow.com/questions/105034/how-to-create-guid-uuid
 function id() {
@@ -12,16 +14,24 @@ function id() {
 const key = "cards";
 
 const db = {
-  create: function(newCard) {
-    // Give the new card an id
-    let i = id();
-    newCard.id = i;
+  create: async function(newCard) {
+    let remoteWorking = await remote.status();
+    if (remoteWorking === true) {
+      let result = await remote.create(newCard);
+      newCard.id = result["_id"];
+    } else {
+      let i = id();
+      newCard.id = i;
+      let remoteFails = JSON.parse(localStorage.getItem("remoteFails")) || {};
+      remoteFails[i] = "create";
+      localStorage.setItem("remoteFails", JSON.stringify(remoteFails));
+    }
 
     // Get all the cards
     let allCards = JSON.parse(localStorage.getItem(key)) || {};
 
     // Add the new card to cards collection
-    allCards[i] = newCard;
+    allCards[newCard.id] = newCard;
 
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
