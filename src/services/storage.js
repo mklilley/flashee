@@ -23,11 +23,14 @@ const key = "cards";
 
 const db = {
   create: async function(newCard) {
-    let remoteWorking = await remote.status();
-    if (remoteWorking === true) {
-      let result = await remote.create(newCard);
+    let result = await remote.create(newCard);
+
+    // The call to the remote is successful
+    if (result) {
       newCard.id = result["_id"];
-    } else {
+    }
+    // The call to the remote is unsuccessful
+    else {
       let i = id();
       newCard.id = i;
       recordRemoteFail(i, "create");
@@ -58,10 +61,9 @@ const db = {
 
     // Don't update data on the remote database if remote flag is false
     if (options.remote !== false) {
-      let remoteWorking = await remote.status();
-      if (remoteWorking === true) {
-        await remote.update(id, allCards[id]);
-      } else {
+      let result = await remote.update(id, allCards[id]);
+      // The call to the remote is unsuccessful
+      if (!result) {
         recordRemoteFail(id, "update");
       }
     }
@@ -73,10 +75,9 @@ const db = {
     // Get all the cards
     let allCards = JSON.parse(localStorage.getItem(key)) || {};
 
-    let remoteWorking = await remote.status();
-    if (remoteWorking === true) {
-      await remote.delete(id);
-    } else {
+    let result = await remote.delete(id);
+    // The call to the remote is unsuccessful
+    if (!result) {
       recordRemoteFail(id, "delete");
     }
 
@@ -87,10 +88,10 @@ const db = {
     localStorage.setItem(key, JSON.stringify(allCards));
   },
   restore: async function() {
-    let remoteWorking = await remote.status();
-    if (remoteWorking === true) {
-      let cards = await remote.read();
+    let cards = await remote.read();
 
+    // The call to the remote is successful
+    if (cards) {
       // Get all the cards
       let allCards = {};
 
@@ -103,6 +104,10 @@ const db = {
 
       // Save the updated cards collection
       localStorage.setItem(key, JSON.stringify(allCards));
+    }
+    // The call to the remote is unsuccessful
+    else {
+      // TODO
     }
   }
 };
