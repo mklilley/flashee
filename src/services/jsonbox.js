@@ -67,9 +67,15 @@ const box = {
       console.log(err);
     });
 
-    if (response.ok) {
+    if ((response || {}).ok) {
       return response.json();
+    } else {
+      return false;
     }
+
+    // if (response.ok) {
+    //   return response.json();
+    // }
   },
   read: async function(id) {
     const options = {
@@ -87,8 +93,10 @@ const box = {
       });
     }
 
-    if (response.ok) {
+    if ((response || {}).ok) {
       return response.json();
+    } else {
+      return false;
     }
   },
   update: async function(id, data) {
@@ -102,8 +110,10 @@ const box = {
       console.log(err);
     });
 
-    if (response.ok) {
+    if ((response || {}).ok) {
       return response.json();
+    } else {
+      return false;
     }
   },
   delete: async function(id) {
@@ -116,8 +126,10 @@ const box = {
       console.log(err);
     });
 
-    if (response.ok) {
+    if ((response || {}).ok) {
       return response.json();
+    } else {
+      return false;
     }
   }
 };
