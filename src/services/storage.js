@@ -27,10 +27,14 @@ const db = {
 
     // The call to the remote is successful
     if (result) {
+      // The output from remote.create() should be to echo back the card data
+      // with an extra key "id" which is provided by the remote database
       newCard = result;
     }
     // The call to the remote is unsuccessful
     if (!result) {
+      // If the remote database fails, we need to log the failure and provide
+      // and id for the card so we can save it in the localStorage
       let i = id();
       newCard.id = i;
       recordRemoteFail(i, "create");
