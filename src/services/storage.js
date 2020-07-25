@@ -10,6 +10,14 @@ function id() {
   });
 }
 
+// If remote database fails to respond, store the id of the failed card and
+// also what function failed, e.g. "create", "update" etc
+function recordRemoteFail(id, typeOfFail) {
+  let remoteFails = JSON.parse(localStorage.getItem("remoteFails")) || {};
+  remoteFails[id] = typeOfFail;
+  localStorage.setItem("remoteFails", JSON.stringify(remoteFails));
+}
+
 // key to identify the collection of cards in the data store
 const key = "cards";
 
@@ -22,9 +30,7 @@ const db = {
     } else {
       let i = id();
       newCard.id = i;
-      let remoteFails = JSON.parse(localStorage.getItem("remoteFails")) || {};
-      remoteFails[i] = "create";
-      localStorage.setItem("remoteFails", JSON.stringify(remoteFails));
+      recordRemoteFail(i, "create");
     }
 
     // Get all the cards
@@ -56,9 +62,7 @@ const db = {
       if (remoteWorking === true) {
         await remote.update(id, allCards[id]);
       } else {
-        let remoteFails = JSON.parse(localStorage.getItem("remoteFails")) || {};
-        remoteFails[id] = "update";
-        localStorage.setItem("remoteFails", JSON.stringify(remoteFails));
+        recordRemoteFail(id, "update");
       }
     }
 
@@ -73,9 +77,7 @@ const db = {
     if (remoteWorking === true) {
       await remote.delete(id);
     } else {
-      let remoteFails = JSON.parse(localStorage.getItem("remoteFails")) || {};
-      remoteFails[id] = "delete";
-      localStorage.setItem("remoteFails", JSON.stringify(remoteFails));
+      recordRemoteFail(id, "delete");
     }
 
     // delete the card from the cards collection
