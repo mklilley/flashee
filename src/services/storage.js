@@ -27,10 +27,10 @@ const db = {
 
     // The call to the remote is successful
     if (result) {
-      newCard.id = result["_id"];
+      newCard = result;
     }
     // The call to the remote is unsuccessful
-    else {
+    if (!result) {
       let i = id();
       newCard.id = i;
       recordRemoteFail(i, "create");

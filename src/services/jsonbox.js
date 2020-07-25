@@ -68,7 +68,9 @@ const box = {
     });
 
     if ((response || {}).ok) {
-      return response.json();
+      let json = await response.json();
+      data.id = json["_id"];
+      return data;
     } else {
       return false;
     }
