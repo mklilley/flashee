@@ -63,7 +63,9 @@ const box = {
       method: "POST"
     };
 
-    const response = await fetch(API_URL, options);
+    const response = await fetch(API_URL, options).catch(err => {
+      console.log(err);
+    });
 
     if (response.ok) {
       return response.json();
@@ -76,9 +78,13 @@ const box = {
     let response;
 
     if (id === undefined) {
-      response = await fetch(API_URL, options);
+      response = await fetch(API_URL, options).catch(err => {
+        console.log(err);
+      });
     } else {
-      response = await fetch(API_URL + "/" + id, options);
+      response = await fetch(API_URL + "/" + id, options).catch(err => {
+        console.log(err);
+      });
     }
 
     if (response.ok) {
@@ -92,7 +98,9 @@ const box = {
       method: "PUT"
     };
 
-    const response = await fetch(API_URL + "/" + id, options);
+    const response = await fetch(API_URL + "/" + id, options).catch(err => {
+      console.log(err);
+    });
 
     if (response.ok) {
       return response.json();
@@ -104,7 +112,9 @@ const box = {
     };
     let response;
 
-    response = await fetch(API_URL + "/" + id, options);
+    response = await fetch(API_URL + "/" + id, options).catch(err => {
+      console.log(err);
+    });
 
     if (response.ok) {
       return response.json();
