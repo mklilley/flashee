@@ -96,7 +96,19 @@ const box = {
     }
 
     if ((response || {}).ok) {
-      return response.json();
+      let json = await response.json();
+
+      let allItems = {};
+
+      // Rename the json data "_id" keys to "id"
+      json.forEach(item => {
+        item.id = item["_id"];
+        delete item["_id"];
+        // Add the new card to cards collection
+        allItems[item.id] = item;
+      });
+
+      return allItems;
     } else {
       return false;
     }
