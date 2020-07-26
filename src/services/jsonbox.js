@@ -68,16 +68,14 @@ const box = {
     });
 
     if ((response || {}).ok) {
+      // if response is ok then echo back the original data including the
+      // jsonbox id for the document
       let json = await response.json();
       data.id = json["_id"];
       return data;
     } else {
       return false;
     }
-
-    // if (response.ok) {
-    //   return response.json();
-    // }
   },
   read: async function(id) {
     const options = {
@@ -104,7 +102,7 @@ const box = {
       json.forEach(item => {
         item.id = item["_id"];
         delete item["_id"];
-        // Add the new card to cards collection
+        // Add the update item to allItems
         allItems[item.id] = item;
       });
 
