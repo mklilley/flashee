@@ -58,8 +58,8 @@ export default {
       colors: ["#51aae5", "#e65f51", "#a17de9", "#feca34", "#e46055"]
     };
   },
-  mounted() {
-    this.cards = db.read();
+  async mounted() {
+    this.cards = await db.read();
   },
   methods: {
     randomColor: function(i) {
@@ -159,6 +159,9 @@ export default {
         this.currentCardId = "";
         this.error = false;
       }
+    },
+    restoreData: async function() {
+      this.cards = await db.read({ remote: true });
     }
   }
 };
