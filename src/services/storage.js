@@ -83,10 +83,10 @@ const db = {
     // Update the specific card with the new data
     allCards[id] = { ...allCards[id], ...newData };
 
-    // Don't update data on the remote database if remote flag is false
-    if (options.remote !== false) {
+    // Only update data on the remote database if remote flag is true
+    if (options.remote === true) {
       let result = await remote.update(id, allCards[id]);
-      // The call to the remote is unsuccessful
+      // If the remote database fails, we need to log the failure
       if (!result) {
         recordRemoteFail(id, "update");
       }
