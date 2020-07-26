@@ -49,12 +49,32 @@ const db = {
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
   },
-  read: function() {
-    // Get all the cards
-    let allCards = JSON.parse(localStorage.getItem(key)) || {};
+  read: async function(options = {}) {
+    let cards;
+
+    // Go get all data from remote database if remote flag is true
+    if (options.remote === true) {
+      // Get all the cards
+      cards = await remote.read();
+
+      // The call to the remote is successful
+      if (cards) {
+        // Save the cards to the localStorage
+        localStorage.setItem(key, JSON.stringify(cards));
+      }
+      //
+      else {
+        // TODO
+      }
+    }
+    // If no remote flag, then read all data from local storage
+    else {
+      // Get all the cards
+      cards = JSON.parse(localStorage.getItem(key)) || {};
+    }
 
     // Return the cards as an array
-    return Object.values(allCards);
+    return Object.values(cards);
   },
   update: async function(id, newData, options = {}) {
     // Get all the cards
@@ -90,29 +110,6 @@ const db = {
 
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
-  },
-  restore: async function() {
-    let cards = await remote.read();
-
-    // The call to the remote is successful
-    if (cards) {
-      // Get all the cards
-      let allCards = {};
-
-      cards.forEach(item => {
-        let { _id, ...card } = item;
-        card.id = _id;
-        // Add the new card to cards collection
-        allCards[_id] = card;
-      });
-
-      // Save the updated cards collection
-      localStorage.setItem(key, JSON.stringify(allCards));
-    }
-    // The call to the remote is unsuccessful
-    else {
-      // TODO
-    }
   }
 };
 
