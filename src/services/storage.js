@@ -83,33 +83,35 @@ const db = {
     // Update the specific card with the new data
     allCards[id] = { ...allCards[id], ...newData };
 
-    // Only update data on the remote database if remote flag is true
-    if (options.remote === true) {
-      let result = await remote.update(id, allCards[id]);
-      // If the remote database fails, we need to log the failure
-      if (!result) {
-        recordRemoteFail(id, "update");
-      }
-    }
-
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
+
+    // Only update data on the remote database if remote flag is true
+    if (options.remote === true) {
+      remote.update(id, allCards[id]).then(success => {
+        // If the remote database fails, we need to log the failure
+        if (!success) {
+          recordRemoteFail(id, "update");
+        }
+      });
+    }
   },
   delete: async function(id) {
     // Get all the cards
     let allCards = JSON.parse(localStorage.getItem(key)) || {};
-
-    let result = await remote.delete(id);
-    // If the remote database fails, we need to log the failure
-    if (!result) {
-      recordRemoteFail(id, "delete");
-    }
 
     // delete the card from the cards collection
     delete allCards[id];
 
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
+
+    remote.delete(id).then(success => {
+      // If the remote database fails, we need to log the failure
+      if (!success) {
+        recordRemoteFail(id, "delete");
+      }
+    });
   }
 };
 
