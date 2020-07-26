@@ -96,12 +96,10 @@ export default {
       }
       card.flipped = !card.flipped;
     },
-    deleteCard: function(card) {
+    deleteCard: async function(card) {
       // delete card from data store
-      db.delete(card.id).then(() => {
-        // reload the cards from the data store to update the view
-        this.cards = db.read();
-      });
+      await db.delete(card.id);
+      this.cards = await db.read();
     },
     editCard: function(card) {
       // Populate the card form with the data from the card you want to edit
