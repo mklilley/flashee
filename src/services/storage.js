@@ -100,7 +100,7 @@ const db = {
     let allCards = JSON.parse(localStorage.getItem(key)) || {};
 
     let result = await remote.delete(id);
-    // The call to the remote is unsuccessful
+    // If the remote database fails, we need to log the failure
     if (!result) {
       recordRemoteFail(id, "delete");
     }
