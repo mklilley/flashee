@@ -126,27 +126,28 @@ export default {
         // If no currentCardId, then we are creating a new card
         if (this.currentCardId === "") {
           // Create a card in the data store usinf data from the form
-          db.create({
+          await db.create({
             question: this.newFront,
             answer: this.newBack,
             flipped: false,
             reads: this.cards[0] ? this.cards[0].reads : 0
-          }).then(() => {
-            // Reload the cards from the data store to update the view
-            this.cards = db.read();
           });
+          // Reload the cards from the data store to update the view
+          this.cards = await db.read();
         }
         // UPDATE CARD
         // If we have a currentCardId then we are updating an existing card
         else {
           // Update card with id = currentCardId data from the form data
-          db.update(this.currentCardId, {
-            question: this.newFront,
-            answer: this.newBack
-          }).then(() => {
-            // Reload the cards from the data store to update the view
-            this.cards = db.read();
-          });
+          // note this will also update the data on the remote database as well
+          // as the local one
+          await db.update(
+            this.currentCardId,
+            { question: this.newFront, answer: this.newBack },
+            { remote: true }
+          );
+          // Reload the cards from the data store to update the view
+          this.cards = await db.read();
         }
 
         // After the card has been saved we reset the form
