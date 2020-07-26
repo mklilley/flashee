@@ -81,19 +81,15 @@ export default {
     newSeed: function() {
       this.seed = Date.now();
     },
-    toggleCard: function(card) {
+    toggleCard: async function(card) {
       // When the card is flipped back from answer to question, we treat the
-      // card as being "read". We update the read value in the data store
+      // card as being "read". We update the read value in the local data store
       if (card.flipped) {
-        db.update(
-          card.id,
-          {
-            reads: card.reads + 1
-          },
-          { remote: false }
-        );
+        await db.update(card.id, {
+          reads: card.reads + 1
+        });
         // Reload the cards from the data store to update the view
-        this.cards = db.read();
+        this.cards = await db.read();
         // Randomise the cards after one has been read. This means the user
         // doesn't have to scroll down to get new cards if they don't want to.
         this.newSeed();
@@ -119,7 +115,7 @@ export default {
       // Scroll the view back to the top where the card form is
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     },
-    saveCard: function() {
+    saveCard: async function() {
       // Make sure the card form doesn't have empty fields
       if (!this.newFront.length || !this.newBack.length) {
         this.error = true;
