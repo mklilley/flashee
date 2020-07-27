@@ -4,6 +4,18 @@
 
   <!-- Taking a lot of inspiration from https://github.com/trezp/flashcards-vue and
   https://vuejs.org/v2/examples/modal.html thanks :-)  -->
+  <div class="settings" v-on:click="showSettings = true"></div>
+
+  <!-- Settings modal -->
+    <Modal v-if="showSettings" v-on:close="showSettings = false">
+      <div slot="body">
+      <label for="back">Json Box ID
+        <input v-on:keypress.enter="restoreData()" v-model.trim="boxID" type="text" id="boxID">
+      </label>
+      <button @click.prevent='restoreData()'>Restore</button>
+      Box status = {{boxStatus}}
+    </div>
+    </Modal>
 
   <button id="show-modal" v-on:click="createCard()" v-if="cards.length!=0">Create Card</button>
 
@@ -26,6 +38,8 @@
 
   <br> <br>
   <button @click.prevent='newSeed()'>Shuffle</button>
+
+
 
 
   <ul class="flashcard-list">
@@ -71,7 +85,8 @@ export default {
       seed: Date.now(),
       currentCardId: "",
       colors: ["#51aae5", "#e65f51", "#a17de9", "#feca34", "#e46055"],
-      showModal: false
+      showModal: false,
+      showSettings: false
     };
   },
   components: {
@@ -384,5 +399,17 @@ button:hover {
   display: block;
   color: #e44e42;
   font-weight: 600;
+}
+
+.settings {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.settings:after {
+  content: "\2807";
+  font-size: 50px;
+  color: #87cb84;
 }
 </style>
