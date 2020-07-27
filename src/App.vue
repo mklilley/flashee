@@ -5,9 +5,9 @@
   <!-- Taking a lot of inspiration from https://github.com/trezp/flashcards-vue and
   https://vuejs.org/v2/examples/modal.html thanks :-)  -->
 
-  <button id="show-modal" @click="createCard()" v-if="cards.length!=0">Create Card</button>
+  <button id="show-modal" v-on:click="createCard()" v-if="cards.length!=0">Create Card</button>
 
-  <Modal v-if="showModal" @close="showModal = false">
+  <Modal v-if="showModal" v-on:close="showModal = false">
     <div class="flashcard-form" slot="body">
       <div class="card-id" style="font-size:10px"><span v-if="currentCardId">ID: {{currentCardId}}</span></div>
       <label for="front">Question
