@@ -22,6 +22,12 @@
 
 
   <ul class="flashcard-list">
+
+    <p v-if="cards.length==0" class="no-card" v-on:click.stop="createCard()">
+      <span>No cards, tap to create one</span>
+    </p>
+
+
     <li v-for="(card, index) in shuffle(cards)" v-on:click="toggleCard(card)" :key="index">
       <transition name="flip">
         <p class="card" v-if="!card.flipped" key="front" v-bind:style="{backgroundColor:randomColor(index)}">
@@ -113,6 +119,7 @@ export default {
       // Scroll the view back to the top where the card form is
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     },
+    createCard: function() {},
     saveCard: async function() {
       // Make sure the card form doesn't have empty fields
       if (!this.newFront.length || !this.newBack.length) {
@@ -191,6 +198,29 @@ export default {
   cursor: pointer;
   position: relative;
   color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  -webkit-box-shadow: 9px 10px 22px -8px rgba(209, 193, 209, 0.5);
+  -moz-box-shadow: 9px 10px 22px -8px rgba(209, 193, 209, 0.5);
+  box-shadow: 9px 10px 22px -8px rgba(209, 193, 209, 0.5);
+  will-change: transform;
+}
+
+.no-card {
+  display: block;
+  width: 150px;
+  height: 175px;
+  padding: 80px 50px;
+  background-color: #fff;
+  border-color: grey;
+  border-style: dashed;
+  border-radius: 7px;
+  margin: 5px;
+  text-align: center;
+  line-height: 27px;
+  cursor: pointer;
+  position: relative;
+  color: grey;
   font-weight: 600;
   font-size: 20px;
   -webkit-box-shadow: 9px 10px 22px -8px rgba(209, 193, 209, 0.5);
