@@ -2,21 +2,28 @@
 <template>
 <div id="app">
 
-<!-- Taking a lot of inspiration from https://github.com/trezp/flashcards-vue thanks :-)  -->
+  <!-- Taking a lot of inspiration from https://github.com/trezp/flashcards-vue and
+  https://vuejs.org/v2/examples/modal.html thanks :-)  -->
 
-  <div class="flashcard-form">
-    <div class="card-id" style="font-size:10px"><span v-if="currentCardId">ID: {{currentCardId}}</span></div>
-    <label for="front">Question
-      <input v-model.trim="newFront" type="text" id="front">
-    </label>
-    <br> <br>
-    <label for="back">Answer
-      <input v-on:keypress.enter="saveCard()" v-model.trim="newBack" type="text" id="back">
-    </label>
-    <br> <br>
-    <button v-on:click="saveCard()">Save Card</button>
-    <span class="error" v-show="error">Oops! Flashcards need a front and a back.</span>
-  </div>
+  <button id="show-modal" @click="createCard()" v-if="cards.length!=0">Create Card</button>
+
+  <Modal v-if="showModal" @close="showModal = false">
+    <div class="flashcard-form" slot="body">
+      <div class="card-id" style="font-size:10px"><span v-if="currentCardId">ID: {{currentCardId}}</span></div>
+      <label for="front">Question
+        <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front">
+      </label>
+      <br> <br>
+      <label for="back">Answer
+        <input v-on:keypress.enter="saveCard()" v-model.trim="newBack" type="text" id="back">
+      </label>
+      <br> <br>
+      <button v-on:click="saveCard()">Save Card</button>
+      <span class="error" v-show="error">Oops! Flashcards need a front and a back.</span>
+    </div>
+  </Modal>
+
+
   <br> <br>
   <button @click.prevent='newSeed()'>Shuffle</button>
 
@@ -51,6 +58,8 @@ import * as shuffleSeed from "shuffle-seed";
 
 import { db } from "@/services/storage";
 
+import Modal from "./components/Modal.vue";
+
 export default {
   name: "App",
   data() {
@@ -61,8 +70,12 @@ export default {
       error: false,
       seed: Date.now(),
       currentCardId: "",
-      colors: ["#51aae5", "#e65f51", "#a17de9", "#feca34", "#e46055"]
+      colors: ["#51aae5", "#e65f51", "#a17de9", "#feca34", "#e46055"],
+      showModal: false
     };
+  },
+  components: {
+    Modal
   },
   async mounted() {
     this.cards = await db.read();
@@ -111,15 +124,21 @@ export default {
       // Populate the card form with the data from the card you want to edit
       this.newFront = card.question;
       this.newBack = card.answer;
+      this.error = false;
 
       // Display the card id above the card form just in case you want to go and
       // manually find the card in the data store
       this.currentCardId = card.id;
 
-      // Scroll the view back to the top where the card form is
-      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      this.showModal = true;
     },
-    createCard: function() {},
+    createCard: function() {
+      this.newFront = "";
+      this.newBack = "";
+      this.currentCardId = "";
+      this.showModal = true;
+      this.error = false;
+    },
     saveCard: async function() {
       // Make sure the card form doesn't have empty fields
       if (!this.newFront.length || !this.newBack.length) {
@@ -139,6 +158,9 @@ export default {
           });
           // Reload the cards from the data store to update the view
           this.cards = await db.read();
+
+          // close the card edit modal
+          this.showModal = false;
         }
         // UPDATE CARD
         // If we have a currentCardId then we are updating an existing card
@@ -153,6 +175,9 @@ export default {
           );
           // Reload the cards from the data store to update the view
           this.cards = await db.read();
+
+          // close the card edit modal
+          this.showModal = false;
         }
 
         // After the card has been saved we reset the form
