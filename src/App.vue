@@ -4,20 +4,31 @@
 
   <!-- Taking a lot of inspiration from https://github.com/trezp/flashcards-vue and
   https://vuejs.org/v2/examples/modal.html thanks :-)  -->
-  <div class="settings" v-on:click="showSettings = true"></div>
+
+  <!-- icons from https://css.gg/ -->
+
+  <div class="top-bar">
+
+    <div @click.prevent='newSeed()'  v-if="cards.length!=0"><i class="gg-dice-6"></i></div>
+
+    <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0"> <i class="gg-add"></i></div>
+
+    <div v-on:click="showSettings = true" ><i class="gg-menu" ></i></div>
+
+  </div>
+
+
 
   <!-- Settings modal -->
-    <Modal v-if="showSettings" v-on:close="showSettings = false">
-      <div slot="body">
+  <Modal v-if="showSettings" v-on:close="showSettings = false">
+    <div slot="body">
       <label for="back">Json Box ID
         <input v-on:keypress.enter="restoreData()" v-model.trim="boxID" type="text" id="boxID">
       </label>
       <button @click.prevent='restoreData()'>Restore</button>
       Box status = {{boxStatus}}
     </div>
-    </Modal>
-
-  <button id="show-modal" v-on:click="createCard()" v-if="cards.length!=0">Create Card</button>
+  </Modal>
 
   <Modal v-if="showModal" v-on:close="showModal = false">
     <div class="flashcard-form" slot="body">
@@ -35,9 +46,6 @@
     </div>
   </Modal>
 
-
-  <br> <br>
-  <button @click.prevent='newSeed()'>Shuffle</button>
 
 
 
@@ -218,7 +226,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
   max-width: 100%;
   padding: 2em;
 }
@@ -401,15 +408,102 @@ button:hover {
   font-weight: 600;
 }
 
-.settings {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
 
-.settings:after {
-  content: "\2807";
-  font-size: 50px;
+.gg-add {
+  --ggs: 1.5;
+   box-sizing: border-box;
+   position: relative;
+   display: block;
+   width: 22px;
+   height: 22px;
+   border: 2px solid;
+   transform: scale(var(--ggs,1));
+   border-radius: 22px;
   color: #87cb84;
 }
+.gg-add::after,
+.gg-add::before {
+   content: "";
+   display: block;
+   box-sizing: border-box;
+   position: absolute;
+   width: 10px;
+   height: 2px;
+   background: currentColor;
+   border-radius: 5px;
+   top: 8px;
+   left: 4px;
+}
+.gg-add::after {
+   width: 2px;
+   height: 10px;
+   top: 4px;
+   left: 8px;
+}
+
+.gg-dice-6 {
+    --ggs: 1.5;
+    display: block;
+    transform: scale(var(--ggs,1));
+    position: relative;
+    box-sizing: border-box;
+    width: 22px;
+    height: 22px;
+    border: 2px solid;
+    border-radius: 3px;
+    color:#87cb84;
+
+}
+.gg-dice-6::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    background: currentColor;
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 4px;
+    left:2px;
+    top:2px;
+    box-shadow:
+        0 5px 0, 0 10px 0,
+        10px 0 0, 10px 5px 0,
+        10px 10px 0;
+}
+
+
+.gg-menu {
+  --ggs:1.5;
+    transform: scale(var(--ggs,1));
+    color:#87cb84;
+
+}
+.gg-menu,
+.gg-menu::after,
+.gg-menu::before {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 3px;
+    background: currentColor
+}
+.gg-menu::after,
+.gg-menu::before {
+    content: "";
+    position: absolute;
+    top: 6px
+}
+.gg-menu::after {
+    top: 12px;
+}
+
+.top-bar{
+ display: flex;
+ justify-content: space-around;
+ height: 20px
+}
+
+
 </style>
