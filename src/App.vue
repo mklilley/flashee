@@ -32,14 +32,12 @@
 
   <Modal v-if="showModal" v-on:close="showModal = false">
     <div class="flashcard-form" slot="body">
+
       <div class="card-id" style="font-size:10px"><span v-if="currentCardId">ID: {{currentCardId}}</span></div>
-      <label for="front">Question
-        <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front">
-      </label>
-      <br> <br>
-      <label for="back">Answer
-        <input v-on:keypress.enter="saveCard()" v-model.trim="newBack" type="text" id="back">
-      </label>
+        <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question">
+        <span class="math" v-katex:auto v-on:click="toggleMath('newFront')"  v-bind:class='{mathActive:math.newFront}'>$$f(x)$$</span>
+       <br> <br>
+        <input v-on:keypress.enter="saveCard()" v-model.trim="newBack" type="text" id="back" placeholder="Answer"> <span class="math" v-katex:auto v-on:click="toggleMath('newBack')" v-bind:class='{mathActive:math.newBack}'> $$f(x)$$</span>
       <br> <br>
       <button v-on:click="saveCard()">Save Card</button>
       <span class="error" v-show="error">Oops! Flashcards need a front and a back.</span>
@@ -94,7 +92,8 @@ export default {
       currentCardId: "",
       colors: ["#51aae5", "#e65f51", "#a17de9", "#feca34", "#e46055"],
       showModal: false,
-      showSettings: false
+      showSettings: false,
+      math: { newFront: false, newBack: false }
     };
   },
   components: {
@@ -119,6 +118,20 @@ export default {
       });
 
       return shuffledDeck;
+    },
+    toggleMath: function(varName) {
+      let data = this[varName].split("$$");
+      switch (data.length) {
+        case 1:
+          this[varName] = "$$" + data[0] + "$$";
+          this.math[varName] = true;
+          break;
+        case 3:
+          this[varName] = data[1];
+          this.math[varName] = false;
+          break;
+        default:
+      }
     },
     newSeed: function() {
       this.seed = Date.now();
@@ -149,6 +162,10 @@ export default {
       this.newBack = card.answer;
       this.error = false;
 
+      // Check if there is math in the text and if so then make sure the math option is active
+      this.math.newFront = this.newFront.match(/^\$\$/) === null ? false : true;
+      this.math.newBack = this.newBack.match(/^\$\$/) === null ? false : true;
+
       // Display the card id above the card form just in case you want to go and
       // manually find the card in the data store
       this.currentCardId = card.id;
@@ -161,6 +178,7 @@ export default {
       this.currentCardId = "";
       this.showModal = true;
       this.error = false;
+      this.math = { newFront: false, newBack: false };
     },
     saveCard: async function() {
       // Make sure the card form doesn't have empty fields
@@ -497,7 +515,32 @@ button:hover {
   justify-content: space-around;
   height: 20px;
 }
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: grey;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: grey;
+}
+:-ms-input-placeholder {
+  /* IE 10+ */
+  color: grey;
+}
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: grey;
 }
 
+.math {
+  position: absolute;
+  right: 0;
+  padding: 5px;
+  color: #eaeaea;
+}
 
+.mathActive {
+  color: #87cb84;
+}
 </style>
