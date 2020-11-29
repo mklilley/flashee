@@ -2,7 +2,7 @@
 // jsonbox api works
 
 // This function creates a new box ID and came from inspecting
-// the index.html code of ttps://jsonbox.io/
+// the index.html code of https://jsonbox.io/
 function createUniqueID() {
   var dt = new Date().getTime();
   var uuid = "xxyxxxxxxyxxxxxyxxxx".replace(/[xy]/g, function(c) {
@@ -15,10 +15,12 @@ function createUniqueID() {
 
 // This API_BASE is used to make most api requests to create, read, update and
 // delete data
-const API_BASE = "https://jsonbox.io/box_";
+const API_BASE = "https://json.lilley.io/flash_";
+
 
 // This API_BASE_META is being used to test if the service is available
-const API_BASE_META = "https://jsonbox.io/_meta/box_";
+const API_BASE_META = "https://json.lilley.io/_meta/flash_";
+
 
 // Check to see if the app is already storing data in a jsonbox and if not then
 // create a new boxID to be used as such.
