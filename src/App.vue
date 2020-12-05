@@ -19,17 +19,22 @@
 
 
 
+
   <!-- Settings modal -->
   <Modal v-if="showSettings" v-on:close="showSettings = false">
     <div slot="body">
+      <h3> Settings </h3>
       <label for="back">Json Box ID
         <input v-on:keypress.enter="restoreData()" v-model.trim="boxID" type="text" id="boxID">
-      </label>
-      <button @click.prevent='restoreData()'>Restore</button>
-      Box status = {{boxStatus}}
+      </label> <br><br>
+      <button @click.prevent='restoreData()'>Restore</button><br><br>
+      Box status = {{boxStatus}} <br><br>
+      <button @click.prevent='welcome()'>Show welcome screen</button>
     </div>
   </Modal>
 
+
+  <!-- Card edit modal -->
   <Modal v-if="showModal" v-on:close="showModal = false">
     <div class="flashcard-form" slot="body">
 
