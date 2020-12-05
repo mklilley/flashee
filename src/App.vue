@@ -83,12 +83,12 @@
       <transition name="flip">
         <p class="card" v-if="!card.flipped" key="front" v-bind:style="{backgroundColor:randomColor(index)}">
           <span v-katex:auto v-html="card.question"></span>
-          <span class="edit-card" v-on:click.stop="editCard(card)">✏️</span>
+          <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen" ></i></span>
         </p>
         <p class="card" v-else key="back" v-bind:style="{backgroundColor:randomColor(index)}">
           <span v-katex:auto v-html="card.answer"></span>
-          <span class="delete-card" v-on:click.stop="deleteCard(card)">X</span>
-          <span class="edit-card" v-on:click.stop="editCard(card)">✏️</span>
+          <span class="delete-card" v-on:click.stop="deleteCard(card)"><i class="gg-trash" ></i></span>
+          <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen" ></i></span>
         </p>
       </transition>
     </li>
@@ -554,6 +554,90 @@ button:hover {
 }
 .gg-menu::after {
   top: 12px;
+}
+
+.gg-trash {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 10px;
+  height: 12px;
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 2px, inset -2px 0 0, inset 2px 0 0;
+  border-bottom-left-radius: 1px;
+  border-bottom-right-radius: 1px;
+  margin-top: 4px;
+}
+
+.gg-trash::after,
+.gg-trash::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+}
+
+.gg-trash::after {
+  background: currentColor;
+  border-radius: 3px;
+  width: 16px;
+  height: 2px;
+  top: -4px;
+  left: -5px;
+}
+
+.gg-trash::before {
+  width: 10px;
+  height: 4px;
+  border: 2px solid;
+  border-bottom: transparent;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  top: -7px;
+  left: -2px;
+}
+
+.gg-pen {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: rotate(-45deg) scale(var(--ggs, 1));
+  width: 14px;
+  height: 4px;
+  border-right: 2px solid transparent;
+  box-shadow: 0 0 0 2px, inset -2px 0 0;
+  border-top-right-radius: 1px;
+  border-bottom-right-radius: 1px;
+  margin-right: -2px;
+}
+
+.gg-pen::after,
+.gg-pen::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+}
+
+.gg-pen::before {
+  background: currentColor;
+  border-left: 0;
+  right: -6px;
+  width: 3px;
+  height: 4px;
+  border-radius: 1px;
+  top: 0;
+}
+
+.gg-pen::after {
+  width: 8px;
+  height: 7px;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 7px solid;
+  left: -11px;
+  top: -2px;
 }
 
 .top-bar {
