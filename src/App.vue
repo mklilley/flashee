@@ -127,25 +127,27 @@ export default {
   },
   async mounted() {
     this.cards = await db.read();
-    this.showWelcome = !(localStorage.getItem("haveSeenWelcome"))
+    this.showWelcome = !localStorage.getItem("haveSeenWelcome");
   },
   methods: {
-    copyToClipboard: function(text){
-    navigator.clipboard.writeText(text).then(() => {
-      console.log('Async: Copying to clipboard was successful!');
-      this.copyText = "copied 👍"
-    }, function(err) {
-      console.error('Async: Could not copy text: ', err);
-      });
+    copyToClipboard: function(text) {
+      navigator.clipboard.writeText(text).then(
+        () => {
+          console.log("Async: Copying to clipboard was successful!");
+          this.copyText = "copied 👍";
+        },
+        function(err) {
+          console.error("Async: Could not copy text: ", err);
+        }
+      );
     },
-    welcome: function (){
-      this.showWelcome = true
-      this.copyText = "copy"
+    welcome: function() {
+      this.showWelcome = true;
+      this.copyText = "copy";
     },
     closeWelcome: function() {
-      this.showWelcome = false
-      localStorage.setItem("haveSeenWelcome",true);
-
+      this.showWelcome = false;
+      localStorage.setItem("haveSeenWelcome", true);
     },
     randomColor: function(i) {
       const colors = shuffleSeed.shuffle(this.colors, this.seed);
