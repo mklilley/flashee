@@ -45,7 +45,26 @@
   </Modal>
 
 
-
+  <!-- Welcome modal -->
+  <Modal v-if="showWelcome" v-on:close="showWelcome = false">
+    <div slot="body" >
+      <h1>Welcome to Flash</h1>
+      <h2>The simple flash card app</h2>
+      <div style="text-align:left">
+      <h3>Local data storage</h3>
+      Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/.">localStorage</a>.
+      <h3>Online data storage</h3>
+      Your flash cards will also be backed up online for free (you can turn this off in settings).<br><br>
+      If you don't use the app for a year, however, your data will be deleted. <br><br>
+      Here is your key to access the online storage:<br><br>
+      <strong >{{boxID}}</strong>   <button @click.prevent="copyToClipboard(boxID )">{{copyText}}</button><br><br>
+      Copy your key and keep it safe - anyone with the key can view, edit and delete your data. <br><br>
+      You can access your key at any time in settings. You can also restore your data and delte all your data in the  settings too.
+    </div>
+    <br>
+    <button @click.prevent='closeWelcome()'>OK</button>
+    </div>
+  </Modal>
 
 
   <ul class="flashcard-list">
@@ -93,7 +112,9 @@ export default {
       colors: ["#51aae5", "#e65f51", "#a17de9", "#feca34", "#e46055"],
       showModal: false,
       showSettings: false,
-      math: { newFront: false, newBack: false }
+      showWelcome: false,
+      math: { newFront: false, newBack: false },
+      copyText: "copy"
     };
   },
   components: {
@@ -101,8 +122,26 @@ export default {
   },
   async mounted() {
     this.cards = await db.read();
+    this.showWelcome = !(localStorage.getItem("haveSeenWelcome"))
   },
   methods: {
+    copyToClipboard: function(text){
+    navigator.clipboard.writeText(text).then(() => {
+      console.log('Async: Copying to clipboard was successful!');
+      this.copyText = "copied 👍"
+    }, function(err) {
+      console.error('Async: Could not copy text: ', err);
+      });
+    },
+    welcome: function (){
+      this.showWelcome = true
+      this.copyText = "copy"
+    },
+    closeWelcome: function() {
+      this.showWelcome = false
+      localStorage.setItem("haveSeenWelcome",true);
+
+    },
     randomColor: function(i) {
       const colors = shuffleSeed.shuffle(this.colors, this.seed);
       return colors[i % this.colors.length];
