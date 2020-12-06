@@ -39,7 +39,7 @@
       <button @click.prevent='restoreData()'>Restore</button><br><br>
       Box status = {{boxStatus}} <br><br>
     </div>
-      <button @click.prevent='welcome()'>Show welcome screen</button><br><br>
+      <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
 
         <button @click.prevent='showData=true'>Show your data</button>
     </div>
@@ -179,15 +179,15 @@ export default {
         () => {
           console.log("Async: Copying to clipboard was successful!");
           this.copyText = "copied 👍";
+          let copyTimer = setTimeout(() => {
+            this.copyText = "copy";
+            clearTimeout(copyTimer);
+          }, 1000);
         },
         function(err) {
           console.error("Async: Could not copy text: ", err);
         }
       );
-    },
-    welcome: function() {
-      this.showWelcome = true;
-      this.copyText = "copy";
     },
     closeWelcome: function() {
       this.showWelcome = false;
