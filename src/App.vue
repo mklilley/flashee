@@ -119,7 +119,8 @@ export default {
       showSettings: false,
       showWelcome: false,
       math: { newFront: false, newBack: false },
-      copyText: "copy"
+      copyText: "copy",
+      useRemoteStorage: true
     };
   },
   components: {
@@ -199,7 +200,7 @@ export default {
     },
     deleteCard: async function(card) {
       // delete card from data store
-      await db.delete(card.id);
+      await db.delete(card.id, { remote: this.useRemoteStorage });
       this.cards = await db.read();
     },
     editCard: function(card) {
@@ -237,12 +238,15 @@ export default {
         // If no currentCardId, then we are creating a new card
         if (this.currentCardId === "") {
           // Create a card in the data store usinf data from the form
-          await db.create({
-            question: this.newFront,
-            answer: this.newBack,
-            flipped: false,
-            reads: this.cards[0] ? this.cards[0].reads : 0
-          });
+          await db.create(
+            {
+              question: this.newFront,
+              answer: this.newBack,
+              flipped: false,
+              reads: this.cards[0] ? this.cards[0].reads : 0
+            },
+            { remote: this.useRemoteStorage }
+          );
           // Reload the cards from the data store to update the view
           this.cards = await db.read();
 
@@ -258,7 +262,7 @@ export default {
           await db.update(
             this.currentCardId,
             { question: this.newFront, answer: this.newBack },
-            { remote: true }
+            { remote: this.useRemoteStorage }
           );
           // Reload the cards from the data store to update the view
           this.cards = await db.read();
