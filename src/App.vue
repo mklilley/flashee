@@ -23,13 +23,24 @@
   <!-- Settings modal -->
   <Modal v-if="showSettings" v-on:close="showSettings = false">
     <div slot="body">
-      <h3> Settings </h3>
-      <label for="back">Json Box ID
+      <h2> Settings </h2>
+        <div style="text-align:left">
+            <h3>Online storage</h3>
+            <label class="switch"> Toggle online storage
+              <input type="checkbox" v-model="useRemoteStorage" @change="toggleRemoteStorage()">
+              <span class="slider round"></span>
+            </label><br><br>
+
+      <div v-if="useRemoteStorage">
+    <strong >{{boxID}}</strong>   <button @click.prevent="copyToClipboard(boxID )">{{copyText}}</button><br><br>
+      <label for="back"> Box ID
         <input v-on:keypress.enter="restoreData()" v-model.trim="boxID" type="text" id="boxID">
       </label> <br><br>
       <button @click.prevent='restoreData()'>Restore</button><br><br>
       Box status = {{boxStatus}} <br><br>
+    </div>
       <button @click.prevent='welcome()'>Show welcome screen</button>
+    </div>
     </div>
   </Modal>
 
@@ -59,12 +70,17 @@
       <h3>Local data storage</h3>
       Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/.">localStorage</a>.
       <h3>Online data storage</h3>
-      Your flash cards will also be backed up online for free (you can turn this off in settings).<br><br>
+      <span v-if="useRemoteStorage">
+      Your flash cards will also be backed up in an online storage "box" for free (you can turn this off in settings).<br><br>
       If you don't use the app for a year, however, your data will be deleted. <br><br>
-      Here is your key to access the online storage:<br><br>
+      Here is your storage box ID:<br><br>
       <strong >{{boxID}}</strong>   <button @click.prevent="copyToClipboard(boxID )">{{copyText}}</button><br><br>
-      Copy your key and keep it safe - anyone with the key can view, edit and delete your data. <br><br>
-      You can access your key at any time in settings. You can also restore your data and delte all your data in the  settings too.
+      Copy your box ID and keep it safe - anyone with the ID can view, edit and delete your data. <br><br>
+      Head over to settings to learn more about creating "protected" boxes, restoring and deleting your data.
+    </span>
+    <span v-else>
+      Currently disabled in settings
+    </span>
     </div>
     <br>
     <button @click.prevent='closeWelcome()'>OK</button>
@@ -129,8 +145,22 @@ export default {
   async mounted() {
     this.cards = await db.read();
     this.showWelcome = !localStorage.getItem("haveSeenWelcome");
+    if (localStorage.useRemoteStorage === null) {
+      localStorage.useRemoteStorage = true;
+    }
+    // need to JSON prase in order for true/false to be boolean rather than string
+    this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
   },
   methods: {
+    toggleRemoteStorage: function() {
+      // if useRemoteStorage has been turned off, we need to remove any
+      // cards from the remote storage
+      if (this.useRemoteStorage == false) {
+        this.deleteRemoteCards(this.cards);
+      }
+      // persist useRemoteStorage in local storage
+      localStorage.useRemoteStorage = this.useRemoteStorage;
+    },
     copyToClipboard: function(text) {
       navigator.clipboard.writeText(text).then(
         () => {
@@ -201,6 +231,32 @@ export default {
     deleteCard: async function(card) {
       // delete card from data store
       await db.delete(card.id, { remote: this.useRemoteStorage });
+      this.cards = await db.read();
+    },
+    deleteRemoteCards: async function(cards) {
+      // We will be deleting many remote cards at once and then recreating them locally.
+      // For this we will need to create an array of promises and wait for them all
+      // to resolve
+      let promDelete = [];
+      let promCreate = [];
+      for (let card of cards) {
+        promDelete.push(db.delete(card.id, { remote: true }));
+        promCreate.push(
+          db.create(
+            {
+              question: card.question,
+              answer: card.answer,
+              flipped: false,
+              reads: card.reads
+            },
+            { remote: false }
+          )
+        );
+      }
+      await Promise.all(promDelete);
+      await Promise.all(promCreate);
+
+      // Reload the cards from the data store to update the view
       this.cards = await db.read();
     },
     editCard: function(card) {
