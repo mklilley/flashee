@@ -22,22 +22,30 @@ function recordRemoteFail(id, typeOfFail) {
 const key = "cards";
 
 const db = {
-  create: async function(newCard) {
-    let result = await remote.create(newCard);
+  create: async function(newCard, options = {}) {
+    // Only create data on the remote database if remote flag is true
+    if (options.remote === true) {
+      let result = await remote.create(newCard);
 
-    // The call to the remote is successful
-    if (result) {
-      // The output from remote.create() should be to echo back the card data
-      // with an extra key "id" which is provided by the remote database
-      newCard = result;
-    }
-    // The call to the remote is unsuccessful
-    if (!result) {
-      // If the remote database fails, we need to log the failure and provide
-      // and id for the card so we can save it in the localStorage
+      // The call to the remote is successful
+      if (result) {
+        // The output from remote.create() should be to echo back the card data
+        // with an extra key "id" which is provided by the remote database
+        newCard = result;
+      }
+      // The call to the remote is unsuccessful
+      if (!result) {
+        // If the remote database fails, we need to log the failure and provide
+        // an id for the card so we can save it in the localStorage
+        let i = id();
+        newCard.id = i;
+        recordRemoteFail(i, "create");
+      }
+    } else {
+      // If only using local storage we need to provide an
+      //  id for the card so we can save it in the localStorage
       let i = id();
       newCard.id = i;
-      recordRemoteFail(i, "create");
     }
 
     // Get all the cards
@@ -96,7 +104,7 @@ const db = {
       });
     }
   },
-  delete: async function(id) {
+  delete: async function(id, options = {}) {
     // Get all the cards
     let allCards = JSON.parse(localStorage.getItem(key)) || {};
 
@@ -106,12 +114,15 @@ const db = {
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
 
-    remote.delete(id).then(success => {
-      // If the remote database fails, we need to log the failure
-      if (!success) {
-        recordRemoteFail(id, "delete");
-      }
-    });
+    // Only delete data on the remote database if remote flag is true
+    if (options.remote === true) {
+      remote.delete(id).then(success => {
+        // If the remote database fails, we need to log the failure
+        if (!success) {
+          recordRemoteFail(id, "delete");
+        }
+      });
+    }
   }
 };
 
