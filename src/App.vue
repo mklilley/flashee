@@ -39,7 +39,9 @@
       <button @click.prevent='restoreData()'>Restore</button><br><br>
       Box status = {{boxStatus}} <br><br>
     </div>
-      <button @click.prevent='welcome()'>Show welcome screen</button>
+      <button @click.prevent='welcome()'>Show welcome screen</button><br><br>
+
+        <button @click.prevent='showData=true'>Show your data</button>
     </div>
     </div>
   </Modal>
@@ -87,6 +89,16 @@
     </div>
   </Modal>
 
+  <!-- showData modal -->
+  <Modal v-if="showData" v-on:close="showData = false">
+    <div slot="body" >
+      <h1>Your data</h1>
+      <button @click.prevent="copyToClipboard(JSON.stringify(cards))">{{copyText}}</button> <button @click.prevent="showData = false">close</button> <br><br>
+      <div style="text-align:left;">
+      {{cards}}
+    </div>
+    </div>
+  </Modal>
 
   <ul class="flashcard-list">
 
@@ -136,7 +148,8 @@ export default {
       showWelcome: false,
       math: { newFront: false, newBack: false },
       copyText: "copy",
-      useRemoteStorage: true
+      useRemoteStorage: true,
+      showData: false
     };
   },
   components: {
