@@ -76,6 +76,8 @@ export default {
 
 .modal-body {
   margin: 20px 0;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .modal-default-button {
