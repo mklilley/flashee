@@ -167,9 +167,12 @@ export default {
   methods: {
     toggleRemoteStorage: function() {
       // if useRemoteStorage has been turned off, we need to remove any
-      // cards from the remote storage
+      // cards from the remote storage, else we need to add the local cards
+      // to the remote storage
       if (this.useRemoteStorage == false) {
         this.deleteRemoteCards(this.cards);
+      } else {
+        this.createRemoteCards(this.cards);
       }
       // persist useRemoteStorage in local storage
       localStorage.useRemoteStorage = this.useRemoteStorage;
@@ -268,6 +271,32 @@ export default {
       }
       await Promise.all(promDelete);
       await Promise.all(promCreate);
+
+      // Reload the cards from the data store to update the view
+      this.cards = await db.read();
+    },
+    createRemoteCards: async function(cards) {
+      // We will be deleting many local cards at once and then recreating them
+      // remotely. For this we will need to create an array of promises and wait for
+      // them allto resolve
+      let promDelete = [];
+      let promCreate = [];
+      for (let card of cards) {
+        promDelete.push(db.delete(card.id, { remote: false }));
+        promCreate.push(
+          db.create(
+            {
+              question: card.question,
+              answer: card.answer,
+              flipped: false,
+              reads: card.reads
+            },
+            { remote: true }
+          )
+        );
+      }
+      await Promise.all(promCreate);
+      await Promise.all(promDelete);
 
       // Reload the cards from the data store to update the view
       this.cards = await db.read();
