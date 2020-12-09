@@ -32,8 +32,9 @@
             </label><br><br>
 
       <div v-if="useRemoteStorage">
-    <strong >{{boxID}}</strong>   <button @click.prevent="copyToClipboard(boxID )">{{copyText}}</button><br><br>
-      <label for="back"> Box ID
+        <strong>Storage box ID:</strong><br>
+    {{boxID}}  <button @click.prevent="copyToClipboard(boxID )">{{copyText}}</button><br><br>
+       <label for="back"> Box ID
         <input v-on:keypress.enter="restoreData()" v-model.trim="boxID" type="text" id="boxID">
       </label> <br><br>
       <button @click.prevent='restoreData()'>Restore</button><br><br>
