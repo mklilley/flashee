@@ -36,6 +36,7 @@ let API_META_URL = API_BASE_META + boxID;
 // Box object is composed of:
 // id     : The jsonbox ID currently being used
 // status : Function to check whether jsonbox is up and running
+// switch : Function to switch the existing jsonbox ID to a new one specified by the user
 // create : Function to create a new "document" in the jsonbox
 // read   : Function to get data for a specific "document" from the jsonbox or
 //          get all documents
@@ -56,6 +57,23 @@ const box = {
     });
 
     if ((response || {}).ok) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  switch: async function(newBoxID) {
+    // In case the HTML code doesn't work as expected, lower case and trim user input
+    newBoxID = newBoxID.toLowerCase().trim();
+
+    // Check that the user has entered a valid boxID, i.e.
+    // 20 character HEX string
+    let isHex20 = newBoxID.match("^[0-9a-f]{20}$");
+    if (isHex20 !== null) {
+      localStorage.setItem("jsonbox", newBoxID);
+
+      API_URL = API_BASE + newBoxID;
+      API_META_URL = API_BASE_META + newBoxID;
       return true;
     } else {
       return false;
