@@ -41,7 +41,7 @@
       <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
   <h3>Your data</h3>
         <button @click.prevent='downloadData()'>Download your data</button><br><br>
-        <button @click.prevent='deleteAllData()'>Delete all your data</button>
+        <button @click.prevent='showConfirmDelete=true'>Delete all your data</button>
     </div>
     </div>
   </Modal>
@@ -100,6 +100,16 @@
     </div>
   </Modal>
 
+  <!-- confirmDelete modal -->
+  <Modal v-if="showConfirmDelete" v-on:close="showConfirmDelete = false">
+    <div slot="body" >
+      <h2>Delete all data</h2>
+      <button v-on:click="deleteAllData();showConfirmDelete=false">Yes, delete everything</button> <br><br>
+      <button v-on:click="showConfirmDelete=false">No, take me back</button>
+
+    </div>
+  </Modal>
+
 
   <ul class="flashcard-list">
 
@@ -153,7 +163,8 @@ export default {
       copyText: "copy",
       useRemoteStorage: true,
       showSwitchBox: false,
-      switchBoxID: ""
+      switchBoxID: "",
+      showConfirmDelete: false
     };
   },
   components: {
