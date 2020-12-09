@@ -30,8 +30,8 @@ if (boxID === null) {
   localStorage.setItem("jsonbox", boxID);
 }
 
-const API_URL = API_BASE + boxID;
-const API_META_URL = API_BASE_META + boxID;
+let API_URL = API_BASE + boxID;
+let API_META_URL = API_BASE_META + boxID;
 
 // Box object is composed of:
 // id     : The jsonbox ID currently being used
@@ -42,7 +42,10 @@ const API_META_URL = API_BASE_META + boxID;
 // update : Function to update the data for a specific "document" from the jsonbox
 // delete : Function to delete a specific "document" from the jsonbox
 const box = {
-  id: boxID,
+  id: async function() {
+    let boxID = localStorage.getItem("jsonbox");
+    return boxID;
+  },
   status: async function() {
     const options = {
       method: "GET"
