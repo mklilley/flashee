@@ -22,6 +22,15 @@ function recordRemoteFail(id, typeOfFail) {
 const key = "cards";
 
 const db = {
+  id: async function() {
+    return await remote.id();
+  },
+  status: async function() {
+    return await remote.status();
+  },
+  switch: async function(storageID) {
+    return await remote.switch(storageID);
+  },
   create: async function(newCard, options = {}) {
     // Only create data on the remote database if remote flag is true
     if (options.remote === true) {
