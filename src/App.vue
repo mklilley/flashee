@@ -34,10 +34,8 @@
       <div v-if="useRemoteStorage">
         <strong>Storage box ID:</strong><br>
     {{boxID}}  <button @click.prevent="copyToClipboard(boxID )">{{copyText}}</button><br><br>
-       <label for="back"> Box ID
-        <input v-on:keypress.enter="restoreData()" v-model.trim="boxID" type="text" id="boxID">
-      </label> <br><br>
       <button @click.prevent='restoreData()'>Restore from current box</button><br><br>
+      <button @click.prevent='showSwitchBoxModal()'>Switch to another box</button><br><br>
       Box status = {{boxStatus}} <br><br>
     </div>
       <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
@@ -100,6 +98,17 @@
     </div>
     </div>
   </Modal>
+
+  <!-- switchBox modal -->
+  <Modal v-if="showSwitchBox" v-on:close="showSwitchBox = false">
+    <div slot="body" >
+      <h2>Switch box</h2>
+       <input v-on:keypress.enter="switchBox()" v-model.trim="switchBoxID" type="text" placeholder="new box ID goes here"><br><br>
+      <button v-on:click="switchBox()">Switch to new box</button>
+      <span class="error" v-show="error">Oops! Box ID must be 20 characters made up of numbers and the letters a-f</span>
+    </div>
+  </Modal>
+
 
   <ul class="flashcard-list">
 
