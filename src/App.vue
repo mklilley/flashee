@@ -37,7 +37,7 @@
        <label for="back"> Box ID
         <input v-on:keypress.enter="restoreData()" v-model.trim="boxID" type="text" id="boxID">
       </label> <br><br>
-      <button @click.prevent='restoreData()'>Restore</button><br><br>
+      <button @click.prevent='restoreData()'>Restore from current box</button><br><br>
       Box status = {{boxStatus}} <br><br>
     </div>
       <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
