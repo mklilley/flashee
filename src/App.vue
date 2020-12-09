@@ -40,7 +40,7 @@
     </div>
       <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
   <h3>Your data</h3>
-        <button @click.prevent='showData=true'>Show your data</button><br><br>
+        <button @click.prevent='downloadData()'>Download your data</button><br><br>
         <button @click.prevent='deleteAllData()'>Delete all your data</button>
     </div>
     </div>
@@ -89,16 +89,6 @@
     </div>
   </Modal>
 
-  <!-- showData modal -->
-  <Modal v-if="showData" v-on:close="showData = false">
-    <div slot="body" >
-      <h1>Your data</h1>
-      <button @click.prevent="copyToClipboard(JSON.stringify(cards))">{{copyText}}</button> <button @click.prevent="showData = false">close</button> <br><br>
-      <div style="text-align:left;">
-      {{cards}}
-    </div>
-    </div>
-  </Modal>
 
   <!-- switchBox modal -->
   <Modal v-if="showSwitchBox" v-on:close="showSwitchBox = false">
@@ -162,7 +152,6 @@ export default {
       math: { newFront: false, newBack: false },
       copyText: "copy",
       useRemoteStorage: true,
-      showData: false,
       showSwitchBox: false,
       switchBoxID: ""
     };
@@ -182,6 +171,24 @@ export default {
     this.boxID = await db.id();
   },
   methods: {
+    downloadData: function() {
+      //  Adapted from https://ourcodeworld.com/articles/read/189/how-to-create-a-file-and-generate-a-download-with-javascript-in-the-browser-without-a-server
+
+      var element = document.createElement("a");
+      element.setAttribute(
+        "href",
+        "data:text/plain;charset=utf-8," +
+          encodeURIComponent(JSON.stringify(this.cards))
+      );
+      element.setAttribute("download", "flash.json");
+
+      element.style.display = "none";
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    },
     deleteAllData: async function() {
       // We will be deleting all cards at once. For this we will need to
       //  to create an array of promises and wait for them all to resolve
