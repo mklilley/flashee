@@ -161,7 +161,9 @@ export default {
       math: { newFront: false, newBack: false },
       copyText: "copy",
       useRemoteStorage: true,
-      showData: false
+      showData: false,
+      showSwitchBox: false,
+      switchBoxID: ""
     };
   },
   components: {
@@ -179,6 +181,29 @@ export default {
     this.boxID = await db.id();
   },
   methods: {
+    showSwitchBoxModal: function() {
+      this.error = false;
+      this.switchBoxID = "";
+      this.showSwitchBox = true;
+    },
+    switchBox: async function() {
+      this.error = false;
+      // lowercase the data before trying to swtich
+      this.switchBoxID = this.switchBoxID.toLowerCase();
+      // Try to switch to new box. If the boxID isn't valid then we give user error message
+      let switchedOK = await db.switch(this.switchBoxID);
+      if (switchedOK) {
+        // Switch went ok. Now update the boxID, close modal and reset switchBoxID
+        this.boxID = await db.id();
+        this.showSwitchBox = false;
+        this.switchBoxID = "";
+        // After switching we need to restore the data from the remote source. This
+        // can be done asynchronously so no need to add await
+        this.restoreData();
+      } else {
+        this.error = true;
+      }
+    },
     toggleRemoteStorage: function() {
       // if useRemoteStorage has been turned off, we need to remove any
       // cards from the remote storage, else we need to add the local cards
