@@ -39,8 +39,9 @@
       Box status = {{boxStatus}} <br><br>
     </div>
       <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
-
-        <button @click.prevent='showData=true'>Show your data</button>
+  <h3>Your data</h3>
+        <button @click.prevent='showData=true'>Show your data</button><br><br>
+        <button @click.prevent='deleteAllData()'>Delete all your data</button>
     </div>
     </div>
   </Modal>
@@ -181,6 +182,18 @@ export default {
     this.boxID = await db.id();
   },
   methods: {
+    deleteAllData: async function() {
+      // We will be deleting all cards at once. For this we will need to
+      //  to create an array of promises and wait for them all to resolve
+      let promDelete = [];
+      for (let card of this.cards) {
+        promDelete.push(db.delete(card.id, { remote: true }));
+      }
+      await Promise.all(promDelete);
+
+      // Reload the now empty set of cards from the data store to update the view
+      this.cards = await db.read();
+    },
     showSwitchBoxModal: function() {
       this.error = false;
       this.switchBoxID = "";
