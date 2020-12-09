@@ -137,6 +137,8 @@ export default {
   name: "App",
   data() {
     return {
+      boxID: "",
+      boxStatus: true,
       cards: [],
       newFront: "",
       newBack: "",
@@ -164,6 +166,8 @@ export default {
     }
     // need to JSON prase in order for true/false to be boolean rather than string
     this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
+    this.boxStatus = await db.status();
+    this.boxID = await db.id();
   },
   methods: {
     toggleRemoteStorage: function() {
