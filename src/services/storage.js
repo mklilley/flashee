@@ -25,6 +25,9 @@ const db = {
   id: async function() {
     return await remote.id();
   },
+  apiKey: async function() {
+    return await remote.apiKey();
+  },
   status: async function() {
     return await remote.status();
   },
