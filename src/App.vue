@@ -37,6 +37,7 @@
       <button @click.prevent='restoreData()'>Restore from current box</button><br><br>
       <button @click.prevent='showSwitchBoxModal()'>Switch to another box</button><br><br>
       Box status = {{boxStatus}} <br><br>
+      {{apiKey}}
     </div>
       <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
   <h3>Your data</h3>
@@ -148,6 +149,7 @@ export default {
   data() {
     return {
       boxID: "",
+      apiKey: "",
       boxStatus: true,
       cards: [],
       newFront: "",
@@ -180,6 +182,7 @@ export default {
     this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
     this.boxStatus = await db.status();
     this.boxID = await db.id();
+    this.apiKey = await db.apiKey();
   },
   methods: {
     downloadData: function() {
