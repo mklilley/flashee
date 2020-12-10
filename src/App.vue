@@ -39,7 +39,6 @@
       <button @click.prevent='restoreData()'>Restore from current box</button><br><br>
       <button @click.prevent='showSwitchBoxModal()'>Switch to another box</button><br><br>
       Box status = {{boxStatus}} <br><br>
-      {{apiKey}}
     </div>
       <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
   <h3>Your data</h3>
