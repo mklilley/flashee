@@ -115,6 +115,9 @@ const box = {
       headers: { "Content-Type": "application/json" },
       method: "POST"
     };
+    if (apiKey) {
+      options.headers["X-API-KEY"] = apiKey;
+    }
 
     const response = await fetch(API_URL, options).catch(err => {
       console.log(err);
@@ -170,6 +173,9 @@ const box = {
       headers: { "Content-Type": "application/json" },
       method: "PUT"
     };
+    if (apiKey) {
+      options.headers["X-API-KEY"] = apiKey;
+    }
 
     const response = await fetch(API_URL + "/" + id, options).catch(err => {
       console.log(err);
@@ -185,6 +191,9 @@ const box = {
     const options = {
       method: "DELETE"
     };
+    if (apiKey) {
+      options.headers = { "X-API-KEY": apiKey };
+    }
     let response;
 
     response = await fetch(API_URL + "/" + id, options).catch(err => {
