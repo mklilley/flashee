@@ -13,14 +13,22 @@ function createUniqueID() {
   return uuid;
 }
 
+// from https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
+// Used to create a valid api-key
+function createUUID() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    var r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 // This API_BASE is used to make most api requests to create, read, update and
 // delete data
 const API_BASE = "https://json.lilley.io/flash_";
 
-
 // This API_BASE_META is being used to test if the service is available
 const API_BASE_META = "https://json.lilley.io/_meta/flash_";
-
 
 // Check to see if the app is already storing data in a jsonbox and if not then
 // create a new boxID to be used as such.
@@ -30,11 +38,23 @@ if (boxID === null) {
   localStorage.setItem("jsonbox", boxID);
 }
 
+// Check to see if the app has any apiKeys set and if not then attach one
+// to the current jsonbox
+let apiKey;
+let apiKeys = JSON.parse(localStorage.getItem("apiKeys"));
+if (apiKeys === null) {
+  apiKey = createUUID();
+  localStorage.setItem("apiKeys", JSON.stringify({ [boxID]: apiKey }));
+} else {
+  apiKey = apiKeys[boxID];
+}
+
 let API_URL = API_BASE + boxID;
 let API_META_URL = API_BASE_META + boxID;
 
 // Box object is composed of:
 // id     : The jsonbox ID currently being used
+// apiKey : The jsonbox apiKey assigned to the current jsonbox
 // status : Function to check whether jsonbox is up and running
 // switch : Function to switch the existing jsonbox ID to a new one specified by the user
 // create : Function to create a new "document" in the jsonbox
@@ -46,6 +66,9 @@ const box = {
   id: async function() {
     let boxID = localStorage.getItem("jsonbox");
     return boxID;
+  },
+  apiKey: async function() {
+    return apiKey;
   },
   status: async function() {
     const options = {
@@ -62,7 +85,7 @@ const box = {
       return false;
     }
   },
-  switch: async function(newBoxID) {
+  switch: async function(newBoxID, newApiKey) {
     // In case the HTML code doesn't work as expected, lower case and trim user input
     newBoxID = newBoxID.toLowerCase().trim();
 
@@ -74,6 +97,13 @@ const box = {
 
       API_URL = API_BASE + newBoxID;
       API_META_URL = API_BASE_META + newBoxID;
+
+      // TODO: check validity of newApiKey
+      let apiKeys = JSON.parse(localStorage.getItem("apiKeys"));
+      apiKeys[newBoxID] = newApiKey ? newApiKey : "";
+      localStorage.setItem("apiKeys", JSON.stringify(apiKeys));
+      apiKey = apiKeys[newBoxID];
+
       return true;
     } else {
       return false;
