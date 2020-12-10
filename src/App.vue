@@ -225,7 +225,7 @@ export default {
       // lowercase the data before trying to swtich
       this.switchBoxID = this.switchBoxID.toLowerCase();
       // Try to switch to new box. If the boxID isn't valid then we give user error message
-      let switchedOK = await db.switch(this.switchBoxID);
+      let switchedOK = await db.switch(this.switchBoxID, this.apiKey);
       if (switchedOK) {
         // Switch went ok. Now update the boxID, close modal and reset switchBoxID
         this.boxID = await db.id();
