@@ -209,7 +209,7 @@ export default {
       //  to create an array of promises and wait for them all to resolve
       let promDelete = [];
       for (let card of this.cards) {
-        promDelete.push(db.delete(card.id, { remote: true }));
+        promDelete.push(db.delete(card.id, { remote: this.useRemoteStorage }));
       }
       await Promise.all(promDelete);
 
