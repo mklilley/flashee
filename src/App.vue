@@ -34,6 +34,8 @@
       <div v-if="useRemoteStorage">
         <strong>Storage box ID:</strong><br>
     {{boxID}}  <button @click.prevent="copyToClipboard(boxID )">{{copyText}}</button><br><br>
+    <strong>Storage box key:</strong><br>
+{{apiKey}}  <button @click.prevent="copyToClipboard(apiKey )">{{copyText}}</button><br><br>
       <button @click.prevent='restoreData()'>Restore from current box</button><br><br>
       <button @click.prevent='showSwitchBoxModal()'>Switch to another box</button><br><br>
       Box status = {{boxStatus}} <br><br>
