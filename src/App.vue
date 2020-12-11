@@ -78,9 +78,10 @@
       Your flash cards will also be backed up in an online storage "box" for free (you can turn this off in settings).<br><br>
       If you don't use the app for a year, however, your data will be deleted. <br><br>
       Here is your storage box ID:<br><br>
-      <strong >{{boxID}}</strong>   <button @click.prevent="copyToClipboard(boxID )">{{copyText}}</button><br><br>
-      Copy your box ID and keep it safe - anyone with the ID can view, edit and delete your data. <br><br>
-      Head over to settings to learn more about creating "protected" boxes, restoring and deleting your data.
+      <strong >{{boxID}}</strong>  <br><br>
+      Here is your personal storage key:<br><br>
+      <strong >{{apiKey}}</strong>  <br><br>
+      <button @click.prevent="copyToClipboard('boxID: '+boxID+'\nstorageKey: '+apiKey)">Copy your box ID and key</button> and keep them safe - anyone with your box ID can view your data and anyone with your key can edit and delete your data. <br><br>
     </span>
     <span v-else>
       Currently disabled in settings
