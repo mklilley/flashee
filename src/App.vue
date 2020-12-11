@@ -72,7 +72,7 @@
       <h2>The simple flash card app</h2>
       <div style="text-align:left">
       <h3>Local data storage</h3>
-      Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/.">localStorage</a>.
+      Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/." target="_blank">localStorage</a>.
       <h3>Online data storage</h3>
       <span v-if="useRemoteStorage">
       Your flash cards will also be backed up in an online storage "box" for free (you can turn this off in settings).<br><br>
