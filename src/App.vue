@@ -33,9 +33,9 @@
 
       <div v-if="useRemoteStorage">
         <strong>Storage box ID:</strong><br>
-    {{boxID}}  <button @click.prevent="copyToClipboard(boxID )">{{copyText}}</button><br><br>
+    {{boxID}}  <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
     <strong>Storage box key:</strong><br>
-{{apiKey}}  <button @click.prevent="copyToClipboard(apiKey )">{{copyText}}</button><br><br>
+{{apiKey}}  <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
       <button @click.prevent='restoreData()'>Restore from current box</button><br><br>
       <button @click.prevent='showSwitchBoxModal()'>Switch to another box</button><br><br>
       Box status = {{boxStatus}} <br><br>
@@ -81,7 +81,7 @@
       <strong >{{boxID}}</strong>  <br><br>
       Here is your personal storage key:<br><br>
       <strong >{{apiKey}}</strong>  <br><br>
-      <button @click.prevent="copyToClipboard('boxID: '+boxID+'\nstorageKey: '+apiKey)">Copy your box ID and key</button> and keep them safe - anyone with your box ID can view your data and anyone with your key can edit and delete your data. <br><br>
+      <button @click.prevent="copyToClipboard('boxID: '+boxID+'\nstorageKey: '+apiKey, $event)">Copy your box ID and key</button> and keep them safe - anyone with your box ID can view your data and anyone with your key can edit and delete your data. <br><br>
     </span>
     <span v-else>
       Currently disabled in settings
@@ -164,7 +164,6 @@ export default {
       showSettings: false,
       showWelcome: false,
       math: { newFront: false, newBack: false },
-      copyText: "copy",
       useRemoteStorage: true,
       showSwitchBox: false,
       switchBoxID: "",
@@ -252,13 +251,13 @@ export default {
       // persist useRemoteStorage in local storage
       localStorage.useRemoteStorage = this.useRemoteStorage;
     },
-    copyToClipboard: function(text) {
+    copyToClipboard: function(text, event) {
       navigator.clipboard.writeText(text).then(
         () => {
           console.log("Async: Copying to clipboard was successful!");
-          this.copyText = "copied 👍";
+          event.target.classList.toggle("copied");
           let copyTimer = setTimeout(() => {
-            this.copyText = "copy";
+            event.target.classList.toggle("copied");
             clearTimeout(copyTimer);
           }, 1000);
         },
@@ -640,6 +639,9 @@ button {
 
 button:hover {
   background-color: #70a66f;
+}
+button.copied::after {
+  content: " 👍";
 }
 
 .error {
