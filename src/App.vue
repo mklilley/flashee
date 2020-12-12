@@ -213,7 +213,6 @@ export default {
   },
   methods: {
     addDataFromFile: async function(cards) {
-      console.log(this.useRemoteStorage);
       let promCreate = [];
       let reads = this.cards[0] ? this.cards[0].reads : 0;
       for (let card of cards) {
