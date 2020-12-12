@@ -206,8 +206,27 @@ export default {
     this.apiKey = await db.apiKey();
   },
   methods: {
-    addDataFromFile: function(data) {
-      console.log(data);
+    addDataFromFile: async function(cards) {
+      console.log(this.useRemoteStorage);
+      let promCreate = [];
+      let reads = this.cards[0] ? this.cards[0].reads : 0;
+      for (let card of cards) {
+        promCreate.push(
+          db.create(
+            {
+              question: card.question,
+              answer: card.answer,
+              flipped: false,
+              reads: reads
+            },
+            { remote: this.useRemoteStorage }
+          )
+        );
+      }
+
+      await Promise.all(promCreate);
+      // Reload the cards from the data store to update the view
+      this.cards = await db.read();
     },
     readFile: function(event) {
       this.fileOK = false;
