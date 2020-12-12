@@ -43,7 +43,8 @@
       <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
   <h3>Your data</h3>
         <button @click.prevent='downloadData()'>Download your data</button><br><br>
-        <button @click.prevent='showConfirmDelete=true'>Delete all your data</button>
+        <button @click.prevent='showConfirmDelete=true'>Delete all your data</button><br><br>
+        <button @click.prevent='showAddFomFileModal()'>Add data from file</button>
     </div>
     </div>
   </Modal>
@@ -116,6 +117,16 @@
     </div>
   </Modal>
 
+  <!-- addFromFile modal -->
+  <Modal v-if="showAddFromFile" v-on:close="showAddFromFile = false">
+    <div slot="body" >
+      <h2>Add data from file</h2>
+      <input type="file" @change="readFile"><br><br>
+      <span class="error" v-show="error">{{addFromFileError}}</span>
+      <button v-show="fileOK" v-on:click="addDataFromFile(file);showAddFromFile=false">Add data</button>
+    </div>
+  </Modal>
+
 
   <ul class="flashcard-list">
 
@@ -173,7 +184,10 @@ export default {
       showConfirmDelete: false,
       switchApiKey: "",
       switchBoxError: "",
-      usCurrentApiKey: true
+      usCurrentApiKey: true,
+      showAddFromFile: false,
+      addFromFileError: "",
+      fileOK: false
     };
   },
   components: {
@@ -192,6 +206,37 @@ export default {
     this.apiKey = await db.apiKey();
   },
   methods: {
+    addDataFromFile: function(data) {
+      console.log(data);
+    },
+    readFile: function(event) {
+      this.fileOK = false;
+      this.error = false;
+
+      let file = event.target.files[0];
+
+      if (file) {
+        let reader = new FileReader();
+
+        reader.readAsText(file);
+
+        reader.onload = () => {
+          this.fileOK = true;
+          this.file = reader.result;
+        };
+
+        reader.onerror = () => {
+          this.error = true;
+          this.fileOK = false;
+          this.addFromFileError = reader.error;
+        };
+      }
+    },
+    showAddFomFileModal: function() {
+      this.error = false;
+      this.fileOK = false;
+      this.showAddFromFile = true;
+    },
     downloadData: function() {
       //  Adapted from https://ourcodeworld.com/articles/read/189/how-to-create-a-file-and-generate-a-download-with-javascript-in-the-browser-without-a-server
 
