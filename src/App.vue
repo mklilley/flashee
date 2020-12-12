@@ -242,6 +242,9 @@ export default {
         reader.onload = () => {
           try {
             this.file = JSON.parse(reader.result);
+            if (!Array.isArray(this.file)) {
+              throw new Error("Data not in array format");
+            }
             this.fileOK = true;
           } catch (error) {
             this.error = true;
