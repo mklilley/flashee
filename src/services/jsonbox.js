@@ -88,26 +88,46 @@ const box = {
   switch: async function(newBoxID, newApiKey) {
     // In case the HTML code doesn't work as expected, lower case and trim user input
     newBoxID = newBoxID.toLowerCase().trim();
+    newApiKey = newApiKey.toLowerCase().trim();
 
     // Check that the user has entered a valid boxID, i.e.
     // 20 character HEX string
     let isHex20 = newBoxID.match("^[0-9a-f]{20}$");
-    if (isHex20 !== null) {
-      localStorage.setItem("jsonbox", newBoxID);
-
-      API_URL = API_BASE + newBoxID;
-      API_META_URL = API_BASE_META + newBoxID;
-
-      // TODO: check validity of newApiKey
-      let apiKeys = JSON.parse(localStorage.getItem("apiKeys"));
-      apiKeys[newBoxID] = newApiKey ? newApiKey : "";
-      localStorage.setItem("apiKeys", JSON.stringify(apiKeys));
-      apiKey = apiKeys[newBoxID];
-
-      return true;
-    } else {
-      return false;
+    // If user entered a newApiKey for this box, then check it is a valid UUID
+    let isUUID;
+    if (newApiKey) {
+      isUUID = newApiKey.match(
+        "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+      );
     }
+
+    let errorMessage = "";
+    if (isHex20 === null) {
+      errorMessage +=
+        "Opps! Box ID must be 20 characters made up of numbers and the letters a-f. ";
+    }
+    if (isUUID === null) {
+      errorMessage += "Storage key must be a valid UUID.";
+    }
+
+    if (isHex20 === null || isUUID === null) {
+      throw new Error(errorMessage);
+    }
+
+    // In there are no validation errors in newBoxID or newApiKey then change boxID and apikey
+    localStorage.setItem("jsonbox", newBoxID);
+
+    API_URL = API_BASE + newBoxID;
+    API_META_URL = API_BASE_META + newBoxID;
+
+    // if no apiKey is supplied then store blank apiKey (this will evetually be)
+    // treated as a publicly editable box TODO
+    let apiKeys = JSON.parse(localStorage.getItem("apiKeys"));
+    apiKeys[newBoxID] = newApiKey ? newApiKey : "";
+    localStorage.setItem("apiKeys", JSON.stringify(apiKeys));
+    apiKey = apiKeys[newBoxID];
+
+    return true;
   },
   create: async function(data) {
     const options = {
