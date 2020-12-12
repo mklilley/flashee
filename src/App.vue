@@ -195,12 +195,18 @@ export default {
   },
   async mounted() {
     this.cards = await db.read();
-    this.showWelcome = !localStorage.getItem("haveSeenWelcome");
-    if (localStorage.useRemoteStorage === null) {
+    // If first time using the app, we need to set up some localStorage variables
+    // for keeping track of the welcome screen and use choice on remote storage
+    if (localStorage.haveSeenWelcome === undefined) {
+      localStorage.haveSeenWelcome = false;
+      this.showWelcome = true;
+    }
+    if (localStorage.useRemoteStorage === undefined) {
       localStorage.useRemoteStorage = true;
     }
     // need to JSON prase in order for true/false to be boolean rather than string
     this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
+    this.showWelcome = !JSON.parse(localStorage.haveSeenWelcome);
     this.boxStatus = await db.status();
     this.boxID = await db.id();
     this.apiKey = await db.apiKey();
