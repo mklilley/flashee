@@ -97,9 +97,12 @@
   <Modal v-if="showSwitchBox" v-on:close="showSwitchBox = false">
     <div slot="body" >
       <h2>Switch box</h2>
-       <input v-on:keypress.enter="switchBox()" v-model.trim="switchBoxID" type="text" placeholder="new box ID goes here"><br><br>
+       <input v-on:keypress.enter="switchBox()" v-model.trim="switchBoxID" type="text" placeholder="New box ID"><br><br>
+       Use current storage key
+       <input type="checkbox" v-model="usCurrentApiKey">
+        <input v-if="!usCurrentApiKey" v-on:keypress.enter="switchBox()" v-model.trim="switchApiKey" type="text" placeholder="New storage key"><br><br>
       <button v-on:click="switchBox()">Switch to new box</button>
-      <span class="error" v-show="error">Oops! Box ID must be 20 characters made up of numbers and the letters a-f</span>
+      <span class="error" v-show="error">{{switchBoxError}}</span>
     </div>
   </Modal>
 
@@ -167,7 +170,10 @@ export default {
       useRemoteStorage: true,
       showSwitchBox: false,
       switchBoxID: "",
-      showConfirmDelete: false
+      showConfirmDelete: false,
+      switchApiKey: "",
+      switchBoxError: "",
+      usCurrentApiKey: true
     };
   },
   components: {
@@ -218,6 +224,8 @@ export default {
     },
     showSwitchBoxModal: function() {
       this.error = false;
+      this.usCurrentApiKey = true;
+      this.switchBoxError = "";
       this.switchBoxID = "";
       this.showSwitchBox = true;
     },
@@ -225,18 +233,33 @@ export default {
       this.error = false;
       // lowercase the data before trying to swtich
       this.switchBoxID = this.switchBoxID.toLowerCase();
+      this.switchApiKey = this.switchApiKey.toLowerCase();
+
+      let switchApiKey;
+      if (this.usCurrentApiKey) {
+        switchApiKey = this.apiKey;
+      } else {
+        switchApiKey = this.switchApiKey;
+      }
+
       // Try to switch to new box. If the boxID isn't valid then we give user error message
-      let switchedOK = await db.switch(this.switchBoxID, this.apiKey);
+
+      let switchedOK = await db
+        .switch(this.switchBoxID, switchApiKey)
+        .catch(error => {
+          this.switchBoxError = error;
+          this.error = true;
+        });
       if (switchedOK) {
-        // Switch went ok. Now update the boxID, close modal and reset switchBoxID
+        // Switch went ok. Now update the boxID and apiKey, close modal and reset switchBoxID
         this.boxID = await db.id();
+        this.apiKey = await db.apiKey();
         this.showSwitchBox = false;
         this.switchBoxID = "";
+        this.switchApiKey = "";
         // After switching we need to restore the data from the remote source. This
         // can be done asynchronously so no need to add await
         this.restoreData();
-      } else {
-        this.error = true;
       }
     },
     toggleRemoteStorage: function() {
