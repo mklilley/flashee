@@ -221,8 +221,15 @@ export default {
         reader.readAsText(file);
 
         reader.onload = () => {
-          this.fileOK = true;
-          this.file = reader.result;
+          try {
+            this.file = JSON.parse(reader.result);
+            this.fileOK = true;
+          } catch (error) {
+            this.error = true;
+            this.fileOK = false;
+            this.addFromFileError =
+              'Error: File must contain a list of questions and answers in the form [{"question":"2x2", "answer":"4"},{...},...] ';
+          }
         };
 
         reader.onerror = () => {
