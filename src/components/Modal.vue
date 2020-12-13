@@ -16,6 +16,9 @@
               default body
             </slot>
           </div>
+          <span class="close" @click="$emit('close')"
+            ><i class="gg-close-o"></i
+          ></span>
 
           <!-- <div class="modal-footer">
             <slot name="footer">
@@ -59,6 +62,7 @@ export default {
 }
 
 .modal-container {
+  position: relative;
   width: 300px;
   margin: 0px auto;
   padding: 20px 30px;
@@ -75,6 +79,7 @@ export default {
 }
 
 .modal-body {
+  position: relative;
   margin: 20px 0;
   max-height: 80vh;
   overflow-y: auto;
@@ -105,5 +110,53 @@ export default {
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+.gg-close-o {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 22px;
+  height: 22px;
+  border: 2px solid;
+  border-radius: 40px;
+}
+
+.gg-close-o::after,
+.gg-close-o::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 12px;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(45deg);
+  border-radius: 5px;
+  top: 8px;
+  left: 3px;
+}
+
+.gg-close-o::after {
+  transform: rotate(-45deg);
+}
+
+.delete-card:hover,
+.error {
+  opacity: 1;
+  transform: rotate(360deg);
+}
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 15px 15px;
+  opacity: 0.4;
+  transition: all 0.5s ease;
+}
+.close:hover {
+  opacity: 1;
+  transform: rotate(360deg);
 }
 </style>
