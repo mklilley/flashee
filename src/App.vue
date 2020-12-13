@@ -69,7 +69,7 @@
   <!-- Welcome modal -->
   <Modal v-if="showWelcome" v-on:close="showWelcome = false">
     <div slot="body">
-      <h1>Welcome to Flash</h1>
+      <h1><img src="@/assets/logo.svg"><br>Welcome to Flash</h1>
       <h2>The simple flash card app</h2>
       <div style="text-align:left">
         <h3>Local data storage</h3>
