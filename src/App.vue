@@ -226,8 +226,16 @@ export default {
       let numDaysSinceKeepAlive =
         (new Date() - Date.parse(localStorage.lastKeepAliveDate)) / msInDay;
       if (numDaysSinceKeepAlive > 90) {
-        await db.keepAlive();
-        localStorage.lastKeepAliveDate = new Date();
+        let keepAliveSuccess = await db.keepAlive();
+        if (keepAliveSuccess) {
+          localStorage.lastKeepAliveDate = new Date();
+        } else {
+          alert(
+            `Your online storage data will be deleted in ${Math.round(
+              360 - numDaysSinceKeepAlive
+            )} days`
+          );
+        }
       }
     },
     addDataFromFile: async function(cards, event) {
