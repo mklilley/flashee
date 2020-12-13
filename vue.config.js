@@ -6,6 +6,7 @@ module.exports = {
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black",
     manifestOptions: {
+      start_url: "./index.html",
       icons: [
         {
           src: "./img/icons/android-chrome-192x192.png",
