@@ -123,7 +123,7 @@
       <h2>Add data from file</h2>
       <input type="file" @change="readFile"><br><br>
       <span class="error" v-show="error">{{addFromFileError}}</span>
-      <button v-show="fileOK" v-on:click="addDataFromFile(file);showAddFromFile=false">Add data</button>
+      <button v-show="fileOK" v-on:click="addDataFromFile(file,$event)">Add data</button>
     </div>
   </Modal>
 
@@ -212,7 +212,7 @@ export default {
     this.apiKey = await db.apiKey();
   },
   methods: {
-    addDataFromFile: async function(cards) {
+    addDataFromFile: async function(cards, event) {
       let promCreate = [];
       let reads = this.cards[0] ? this.cards[0].reads : 0;
       for (let card of cards) {
@@ -229,9 +229,12 @@ export default {
         );
       }
 
+      event.target.classList.toggle("wait");
       await Promise.all(promCreate);
       // Reload the cards from the data store to update the view
       this.cards = await db.read();
+      event.target.classList.toggle("wait");
+      this.showAddFromFile = false;
     },
     readFile: function(event) {
       this.fileOK = false;
@@ -744,6 +747,10 @@ button:hover {
 }
 button.copied::after {
   content: " 👍";
+}
+
+button.wait::after {
+  content: " ⌛";
 }
 
 .error {
