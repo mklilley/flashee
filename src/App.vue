@@ -200,8 +200,8 @@ export default {
     // for keeping track of the welcome screen, users choice on remote storage and
     // keeping the remote data alive if remote storage is being used (it expires after a year)
     if (localStorage.haveSeenWelcome === undefined) {
-      localStorage.haveSeenWelcome = false;
       this.showWelcome = true;
+      localStorage.haveSeenWelcome = true;
     }
     if (localStorage.useRemoteStorage === undefined) {
       localStorage.useRemoteStorage = true;
@@ -212,7 +212,6 @@ export default {
 
     // need to JSON prase in order for true/false to be boolean rather than string
     this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
-    this.showWelcome = !JSON.parse(localStorage.haveSeenWelcome);
     this.boxStatus = await db.status();
     this.boxID = await db.id();
     this.apiKey = await db.apiKey();
