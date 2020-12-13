@@ -67,7 +67,7 @@
 
 
   <!-- Welcome modal -->
-  <Modal v-if="showWelcome" v-on:close="showWelcome = false">
+  <Modal v-if="showWelcome" v-on:close="closeWelcome()">
     <div slot="body">
       <h1><img src="@/assets/logo.svg"><br>Welcome to Flash</h1>
       <h2>The simple flash card app</h2>
@@ -200,8 +200,7 @@ export default {
     // for keeping track of the welcome screen, users choice on remote storage and
     // keeping the remote data alive if remote storage is being used (it expires after a year)
     if (localStorage.haveSeenWelcome === undefined) {
-      this.showWelcome = true;
-      localStorage.haveSeenWelcome = true;
+      localStorage.haveSeenWelcome = false;
     }
     if (localStorage.useRemoteStorage === undefined) {
       localStorage.useRemoteStorage = true;
@@ -212,6 +211,7 @@ export default {
 
     // need to JSON prase in order for true/false to be boolean rather than string
     this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
+    this.showWelcome = !JSON.parse(localStorage.haveSeenWelcome);
     this.boxStatus = await db.status();
     this.boxID = await db.id();
     this.apiKey = await db.apiKey();
