@@ -34,6 +34,9 @@ const db = {
   switch: async function(storageID, apiKey) {
     return await remote.switch(storageID, apiKey);
   },
+  keepAlive: async function() {
+    return await remote.read();
+  },
   create: async function(newCard, options = {}) {
     // Only create data on the remote database if remote flag is true
     if (options.remote === true) {

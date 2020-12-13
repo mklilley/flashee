@@ -196,7 +196,8 @@ export default {
   async mounted() {
     this.cards = await db.read();
     // If first time using the app, we need to set up some localStorage variables
-    // for keeping track of the welcome screen and use choice on remote storage
+    // for keeping track of the welcome screen, users choice on remote storage and
+    // keeping the remote data alive if remote storage is being used (it expires after a year)
     if (localStorage.haveSeenWelcome === undefined) {
       localStorage.haveSeenWelcome = false;
       this.showWelcome = true;
@@ -204,14 +205,31 @@ export default {
     if (localStorage.useRemoteStorage === undefined) {
       localStorage.useRemoteStorage = true;
     }
+    if (localStorage.lastKeepAliveDate === undefined) {
+      localStorage.lastKeepAliveDate = new Date();
+    }
+
     // need to JSON prase in order for true/false to be boolean rather than string
     this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
     this.showWelcome = !JSON.parse(localStorage.haveSeenWelcome);
     this.boxStatus = await db.status();
     this.boxID = await db.id();
     this.apiKey = await db.apiKey();
+
+    if (this.useRemoteStorage) {
+      this.keepDataAlive();
+    }
   },
   methods: {
+    keepDataAlive: async function() {
+      let msInDay = 1000 * 60 * 60 * 24;
+      let numDaysSinceKeepAlive =
+        (new Date() - Date.parse(localStorage.lastKeepAliveDate)) / msInDay;
+      if (numDaysSinceKeepAlive > 90) {
+        await db.keepAlive();
+        localStorage.lastKeepAliveDate = new Date();
+      }
+    },
     addDataFromFile: async function(cards, event) {
       let promCreate = [];
       let reads = this.cards[0] ? this.cards[0].reads : 0;
@@ -557,6 +575,7 @@ export default {
     },
     restoreData: async function() {
       this.cards = await db.read({ remote: true });
+      localStorage.lastKeepAliveDate = new Date();
     }
   }
 };
