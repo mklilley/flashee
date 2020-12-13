@@ -160,7 +160,8 @@ const box = {
     let response;
 
     if (id === undefined) {
-      response = await fetch(API_URL, options).catch(err => {
+      options;
+      response = await fetch(API_URL + "?limit=1000", options).catch(err => {
         console.log(err);
       });
     } else {
