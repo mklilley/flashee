@@ -1,5 +1,5 @@
 module.exports = {
-  // ...other vue-cli plugin options...
+  publicPath: "",
   pwa: {
     themeColor: "#feca34",
     msTileColor: "#000000",
