@@ -9,11 +9,11 @@
 
   <div class="top-bar">
 
-    <div @click.prevent='newSeed()'  v-if="cards.length!=0"><i class="gg-dice-6"></i></div>
+    <div @click.prevent='newSeed()' v-if="cards.length!=0"><i class="gg-dice-6"></i></div>
 
     <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0"> <i class="gg-add"></i></div>
 
-    <div v-on:click="showSettings = true" ><i class="gg-menu" ></i></div>
+    <div v-on:click="showSettings = true"><i class="gg-menu"></i></div>
 
   </div>
 
@@ -24,28 +24,28 @@
   <Modal v-if="showSettings" v-on:close="showSettings = false">
     <div slot="body">
       <h2> Settings </h2>
-        <div style="text-align:left">
-            <h3>Online storage</h3>
-            <label class="switch"> Toggle online storage
-              <input type="checkbox" v-model="useRemoteStorage" @change="toggleRemoteStorage()">
-              <span class="slider round"></span>
-            </label><br><br>
+      <div style="text-align:left">
+        <h3>Online storage</h3>
+        <label class="switch"> Toggle online storage
+          <input type="checkbox" v-model="useRemoteStorage" @change="toggleRemoteStorage()">
+          <span class="slider round"></span>
+        </label><br><br>
 
-      <div v-if="useRemoteStorage">
-        <strong>Storage box ID:</strong><br>
-    {{boxID}}  <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
-    <strong>Storage box key:</strong><br>
-{{apiKey}}  <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
-      <button @click.prevent='restoreData()'>Restore from current box</button><br><br>
-      <button @click.prevent='showSwitchBoxModal()'>Switch to another box</button><br><br>
-      Box status = {{boxStatus}} <br><br>
-    </div>
-      <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
-  <h3>Your data</h3>
+        <div v-if="useRemoteStorage">
+          <strong>Storage box ID:</strong><br>
+          {{boxID}} <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
+          <strong>Storage box key:</strong><br>
+          {{apiKey}} <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
+          <button @click.prevent='restoreData()'>Restore from current box</button><br><br>
+          <button @click.prevent='showSwitchBoxModal()'>Switch to another box</button><br><br>
+          Box status = {{boxStatus}} <br><br>
+        </div>
+        <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
+        <h3>Your data</h3>
         <button @click.prevent='downloadData()'>Download your data</button><br><br>
         <button @click.prevent='showConfirmDelete=true'>Delete all your data</button><br><br>
         <button @click.prevent='showAddFomFileModal()'>Add data from file</button>
-    </div>
+      </div>
     </div>
   </Modal>
 
@@ -55,10 +55,10 @@
     <div class="flashcard-form" slot="body">
 
       <div class="card-id" style="font-size:10px"><span v-if="currentCardId">ID: {{currentCardId}}</span></div>
-        <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question">
-        <span class="math" v-katex:auto v-on:click="toggleMath('newFront')"  v-bind:class='{mathActive:math.newFront}'>$$f(x)$$</span>
-       <br> <br>
-        <input v-on:keypress.enter="saveCard()" v-model.trim="newBack" type="text" id="back" placeholder="Answer"> <span class="math" v-katex:auto v-on:click="toggleMath('newBack')" v-bind:class='{mathActive:math.newBack}'> $$f(x)$$</span>
+      <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question">
+      <span class="math" v-katex:auto v-on:click="toggleMath('newFront')" v-bind:class='{mathActive:math.newFront}'>$f(x)$</span>
+      <br> <br>
+      <input v-on:keypress.enter="saveCard()" v-model.trim="newBack" type="text" id="back" placeholder="Answer"> <span class="math" v-katex:auto v-on:click="toggleMath('newBack')" v-bind:class='{mathActive:math.newBack}'> $f(x)$</span>
       <br> <br>
       <button v-on:click="saveCard()">Save Card</button>
       <span class="error" v-show="error">Oops! Flashcards need a front and a back.</span>
@@ -68,40 +68,41 @@
 
   <!-- Welcome modal -->
   <Modal v-if="showWelcome" v-on:close="showWelcome = false">
-    <div slot="body" >
+    <div slot="body">
       <h1>Welcome to Flash</h1>
       <h2>The simple flash card app</h2>
       <div style="text-align:left">
-      <h3>Local data storage</h3>
-      Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/." target="_blank">localStorage</a>.
-      <h3>Online data storage</h3>
-      <span v-if="useRemoteStorage">
-      Your flash cards will also be backed up in an online storage "box" for free (you can turn this off in settings).<br><br>
-      If you don't use the app for a year, however, your data will be deleted. <br><br>
-      Here is your storage box ID:<br><br>
-      <strong >{{boxID}}</strong>  <br><br>
-      Here is your personal storage key:<br><br>
-      <strong >{{apiKey}}</strong>  <br><br>
-      <button @click.prevent="copyToClipboard('boxID: '+boxID+'\nstorageKey: '+apiKey, $event)">Copy your box ID and key</button> and keep them safe - anyone with your box ID can view your data and anyone with your key can edit and delete your data. <br><br>
-    </span>
-    <span v-else>
-      Currently disabled in settings
-    </span>
-    </div>
-    <br>
-    <button @click.prevent='closeWelcome()'>OK</button>
+        <h3>Local data storage</h3>
+        Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/." target="_blank">localStorage</a>.
+        <h3>Online data storage</h3>
+        <span v-if="useRemoteStorage">
+          Your flash cards will also be backed up in an online storage "box" for free (you can turn this off in settings).<br><br>
+          If you don't use the app for a year, however, your data will be deleted. <br><br>
+          Here is your storage box ID:<br><br>
+          <strong>{{boxID}}</strong> <br><br>
+          Here is your personal storage key:<br><br>
+          <strong>{{apiKey}}</strong> <br><br>
+          <button @click.prevent="copyToClipboard('boxID: '+boxID+'\nstorageKey: '+apiKey, $event)">Copy your box ID and key</button> and keep them safe - anyone with your box ID can view your data and anyone with your key can edit and delete your
+          data. <br><br>
+        </span>
+        <span v-else>
+          Currently disabled in settings
+        </span>
+      </div>
+      <br>
+      <button @click.prevent='closeWelcome()'>OK</button>
     </div>
   </Modal>
 
 
   <!-- switchBox modal -->
   <Modal v-if="showSwitchBox" v-on:close="showSwitchBox = false">
-    <div slot="body" >
+    <div slot="body">
       <h2>Switch box</h2>
-       <input v-on:keypress.enter="switchBox()" v-model.trim="switchBoxID" type="text" placeholder="New box ID"><br><br>
-       Use current storage key
-       <input type="checkbox" v-model="usCurrentApiKey">
-        <input v-if="!usCurrentApiKey" v-on:keypress.enter="switchBox()" v-model.trim="switchApiKey" type="text" placeholder="New storage key"><br><br>
+      <input v-on:keypress.enter="switchBox()" v-model.trim="switchBoxID" type="text" placeholder="New box ID"><br><br>
+      Use current storage key
+      <input type="checkbox" v-model="usCurrentApiKey">
+      <input v-if="!usCurrentApiKey" v-on:keypress.enter="switchBox()" v-model.trim="switchApiKey" type="text" placeholder="New storage key"><br><br>
       <button v-on:click="switchBox()">Switch to new box</button>
       <span class="error" v-show="error">{{switchBoxError}}</span>
     </div>
@@ -109,7 +110,7 @@
 
   <!-- confirmDelete modal -->
   <Modal v-if="showConfirmDelete" v-on:close="showConfirmDelete = false">
-    <div slot="body" >
+    <div slot="body">
       <h2>Delete all data</h2>
       <button v-on:click="deleteAllData();showConfirmDelete=false">Yes, delete everything</button> <br><br>
       <button v-on:click="showConfirmDelete=false">No, take me back</button>
@@ -119,7 +120,7 @@
 
   <!-- addFromFile modal -->
   <Modal v-if="showAddFromFile" v-on:close="showAddFromFile = false">
-    <div slot="body" >
+    <div slot="body">
       <h2>Add data from file</h2>
       <input type="file" @change="readFile"><br><br>
       <span class="error" v-show="error">{{addFromFileError}}</span>
@@ -139,12 +140,12 @@
       <transition name="flip">
         <p class="card" v-if="!card.flipped" key="front" v-bind:style="{backgroundColor:randomColor(index)}">
           <span v-katex:auto v-html="card.question"></span>
-          <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen" ></i></span>
+          <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
         </p>
         <p class="card" v-else key="back" v-bind:style="{backgroundColor:randomColor(index)}">
           <span v-katex:auto v-html="card.answer"></span>
-          <span class="delete-card" v-on:click.stop="deleteCard(card)"><i class="gg-trash" ></i></span>
-          <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen" ></i></span>
+          <span class="delete-card" v-on:click.stop="deleteCard(card)"><i class="gg-trash"></i></span>
+          <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
         </p>
       </transition>
     </li>
