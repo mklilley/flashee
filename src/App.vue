@@ -70,7 +70,8 @@
   <Modal v-if="showWelcome" v-on:close="closeWelcome()">
     <div slot="body">
       <h1><img src="@/assets/logo.svg"><br>Welcome to Flash</h1>
-      <h2>The simple flash card app</h2>
+      <h2>The free & simple flash card app</h2>
+      <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
       <div style="text-align:left">
         <h3>Local data storage</h3>
         Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/." target="_blank">localStorage</a>.
