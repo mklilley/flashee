@@ -795,6 +795,19 @@ button {
   transition: all 0.3s ease;
 }
 
+button:disabled,
+button[disabled] {
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
+  color: #666666 !important;
+}
+button:disabled:hover,
+button[disabled][hover] {
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
+  color: #666666 !important;
+}
+
 button:hover {
   background-color: #70a66f;
 }
