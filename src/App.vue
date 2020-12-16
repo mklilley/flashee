@@ -1041,7 +1041,7 @@ button.wait::after {
 }
 
 .mathActive {
-  color: #87cb84;
+  color: rgb(161, 125, 233);
 }
 
 .settings {
