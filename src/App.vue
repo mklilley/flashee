@@ -22,10 +22,10 @@
 
   <!-- Settings modal -->
   <Modal v-if="showSettings" v-on:close="showSettings = false">
-    <div slot="body">
+    <div slot="body" class="settings">
       <h2> Settings </h2>
-      <div style="text-align:left">
-        <div class="settings-your-data">
+      <div style="text-align:left" >
+        <div class="your-data">
         <h3 v-bind:class="{open: showSettingsYourData}" @click.prevent="toggle('showSettingsYourData')">Your data</h3>
         <div v-if="showSettingsYourData" class="items">
         <button @click.prevent='downloadData()'>Download your data</button><br><br>
@@ -1009,30 +1009,37 @@ button.wait::after {
   color: #87cb84;
 }
 
-.settings-your-data h3 {
+.settings h3 {
   box-sizing: border-box;
   border-radius: 5px;
-  background-color: rgb(254, 202, 52);
   margin: 0;
   width: 100%;
   color: white;
   padding: 10px;
 }
 
-.settings-your-data h3.open {
+.settings h3.open {
   border-radius: 5px 5px 0px 0px;
 }
 
-.settings-your-data .items {
+.settings .items {
   box-sizing: border-box;
   border-radius: 0px 0px 5px 5px;
-  background-color: rgb(254, 202, 52, 0.1);
   width: 100%;
   color: white;
   padding: 10px;
 }
-.settings-your-data button {
+
+.your-data button {
   background-color: rgb(254, 202, 52);
   border-color: rgb(254, 202, 52);
+}
+
+.your-data .items {
+  background-color: rgb(254, 202, 52, 0.1);
+}
+
+.your-data h3 {
+  background-color: rgb(254, 202, 52);
 }
 </style>
