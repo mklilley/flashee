@@ -25,6 +25,14 @@
     <div slot="body">
       <h2> Settings </h2>
       <div style="text-align:left">
+        <div class="settings-your-data">
+        <h3 v-bind:class="{open: showSettingsYourData}" @click.prevent="toggle('showSettingsYourData')">Your data</h3>
+        <div v-if="showSettingsYourData" class="items">
+        <button @click.prevent='downloadData()'>Download your data</button><br><br>
+        <button @click.prevent='showConfirmDelete=true'>Delete all your data</button><br><br>
+        <button @click.prevent='showAddFomFileModal()'>Add data from file</button>
+      </div>
+      </div>
         <h3>Online storage</h3>
         <label class="switch"> Toggle online storage
           <input type="checkbox" v-model="useRemoteStorage" @change="toggleRemoteStorage()">
@@ -41,10 +49,7 @@
           Box status = {{boxStatus}} <br><br>
         </div>
         <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
-        <h3>Your data</h3>
-        <button @click.prevent='downloadData()'>Download your data</button><br><br>
-        <button @click.prevent='showConfirmDelete=true'>Delete all your data</button><br><br>
-        <button @click.prevent='showAddFomFileModal()'>Add data from file</button>
+
       </div>
     </div>
   </Modal>
@@ -189,7 +194,8 @@ export default {
       usCurrentApiKey: true,
       showAddFromFile: false,
       addFromFileError: "",
-      fileOK: false
+      fileOK: false,
+      showSettingsYourData: false
     };
   },
   components: {
@@ -1001,5 +1007,32 @@ button.wait::after {
 
 .mathActive {
   color: #87cb84;
+}
+
+.settings-your-data h3 {
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: rgb(254, 202, 52);
+  margin: 0;
+  width: 100%;
+  color: white;
+  padding: 10px;
+}
+
+.settings-your-data h3.open {
+  border-radius: 5px 5px 0px 0px;
+}
+
+.settings-your-data .items {
+  box-sizing: border-box;
+  border-radius: 0px 0px 5px 5px;
+  background-color: rgb(254, 202, 52, 0.1);
+  width: 100%;
+  color: white;
+  padding: 10px;
+}
+.settings-your-data button {
+  background-color: rgb(254, 202, 52);
+  border-color: rgb(254, 202, 52);
 }
 </style>
