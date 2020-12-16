@@ -224,9 +224,9 @@ export default {
     // need to JSON prase in order for true/false to be boolean rather than string
     this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
     this.showWelcome = !JSON.parse(localStorage.haveSeenWelcome);
-    this.boxStatus = await db.status();
     this.boxID = await db.id();
     this.apiKey = await db.apiKey();
+    this.boxStatus = await db.status();
 
     if (this.useRemoteStorage) {
       this.keepDataAlive();
