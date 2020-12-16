@@ -131,11 +131,11 @@
 
 
   <ul class="flashcard-list">
-
-    <p v-if="cards.length==0" class="no-card" v-on:click.stop="createCard()">
+  <li v-if="cards.length==0">
+    <p  class="no-card" v-on:click.stop="createCard()">
       <span>No cards, tap to create one</span>
     </p>
-
+  </li>
 
     <li v-for="(card, index) in shuffle(cards)" v-on:click="toggleCard(card)" :key="index">
       <transition name="flip">
@@ -606,13 +606,16 @@ export default {
 /* Flash cards */
 
 .card {
-  display: block;
-  width: 150px;
-  height: 175px;
-  padding: 80px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 280px;
+  max-width: 80%;
+  height: 400px;
+  padding: 0px 10%;
   background-color: #51aae5;
   border-radius: 7px;
-  margin: 5px;
+  margin: 5px auto;
   text-align: center;
   line-height: 27px;
   cursor: pointer;
@@ -627,15 +630,18 @@ export default {
 }
 
 .no-card {
-  display: block;
-  width: 150px;
-  height: 175px;
-  padding: 80px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 280px;
+  max-width: 80%;
+  height: 400px;
+  padding: 0px 10%;
   background-color: #fff;
   border-color: grey;
   border-style: dashed;
   border-radius: 7px;
-  margin: 5px;
+  margin: 5px auto;
   text-align: center;
   line-height: 27px;
   cursor: pointer;
