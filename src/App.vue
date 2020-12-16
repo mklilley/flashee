@@ -700,7 +700,7 @@ li:nth-child(-7n + 7) .card {
   position: absolute;
   right: 0;
   top: 0;
-  padding: 10px 15px;
+  padding: 20px 20px;
   opacity: 0.4;
   transition: all 0.5s ease;
 }
@@ -720,7 +720,7 @@ li:nth-child(-7n + 7) .card {
   position: absolute;
   left: 0;
   top: 0;
-  padding: 10px 15px;
+  padding: 20px 20px;
   opacity: 0.4;
   transition: all 0.5s ease;
 }
@@ -880,6 +880,7 @@ button.wait::after {
 }
 
 .gg-trash {
+  --ggs: 1.5;
   box-sizing: border-box;
   position: relative;
   display: block;
@@ -922,6 +923,7 @@ button.wait::after {
 }
 
 .gg-pen {
+  --ggs: 1.5;
   box-sizing: border-box;
   position: relative;
   display: block;
