@@ -222,6 +222,10 @@ export default {
     }
   },
   methods: {
+    toggle: function(variableName) {
+      this[variableName] = !this[variableName];
+      return;
+    },
     keepDataAlive: async function() {
       let msInDay = 1000 * 60 * 60 * 24;
       let numDaysSinceKeepAlive =
