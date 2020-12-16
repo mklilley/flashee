@@ -36,19 +36,22 @@
       <div class="online-storage ">
         <h3 v-bind:class="{open: showSettingsOnlineStorage}" @click.prevent="toggle('showSettingsOnlineStorage')">Online storage</h3>
         <div v-if="showSettingsOnlineStorage" class="items">
+          <span class="error" v-if="boxStatus==false"> Problem with online storage</span><br>
+
         <label class="switch"> Toggle online storage
-          <input type="checkbox" v-model="useRemoteStorage" @change="toggleRemoteStorage()">
+          <input :disabled="boxStatus==false" type="checkbox" v-model="useRemoteStorage" @change="toggleRemoteStorage()">
           <span class="slider round"></span>
         </label><br><br>
 
         <div v-if="useRemoteStorage">
+          <button :disabled="boxStatus==false" @click.prevent='restoreData()'>Restore data from storage box</button><br><br>
+          <button :disabled="boxStatus==false" @click.prevent='showSwitchBoxModal()'>Switch to another storage box</button><br><br>
           <strong>Storage box ID:</strong><br>
           {{boxID}} <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
           <strong>Storage box key:</strong><br>
           {{apiKey}} <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
-          <button @click.prevent='restoreData()'>Restore from current box</button><br><br>
-          <button @click.prevent='showSwitchBoxModal()'>Switch to another box</button><br><br>
-          Box status = {{boxStatus}} <br><br>
+
+
         </div>
         </div>
         </div><br>
