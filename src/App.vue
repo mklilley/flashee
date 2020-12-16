@@ -820,7 +820,7 @@ button.wait::after {
   border: 2px solid;
   transform: scale(var(--ggs, 1));
   border-radius: 22px;
-  color: #87cb84;
+  color: rgb(161, 125, 233);
 }
 .gg-add::after,
 .gg-add::before {
@@ -852,7 +852,7 @@ button.wait::after {
   height: 22px;
   border: 2px solid;
   border-radius: 3px;
-  color: #87cb84;
+  color: rgb(161, 125, 233);
 }
 .gg-dice-6::before {
   content: "";
@@ -871,7 +871,7 @@ button.wait::after {
 .gg-menu {
   --ggs: 1.5;
   transform: scale(var(--ggs, 1));
-  color: #87cb84;
+  color: rgb(161, 125, 233);
 }
 .gg-menu,
 .gg-menu::after,
