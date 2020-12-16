@@ -32,8 +32,10 @@
         <button @click.prevent='showConfirmDelete=true'>Delete all your data</button><br><br>
         <button @click.prevent='showAddFomFileModal()'>Add data from file</button>
       </div>
-      </div>
-        <h3>Online storage</h3>
+      </div><br>
+      <div class="online-storage ">
+        <h3 v-bind:class="{open: showSettingsOnlineStorage}" @click.prevent="toggle('showSettingsOnlineStorage')">Online storage</h3>
+        <div v-if="showSettingsOnlineStorage" class="items">
         <label class="switch"> Toggle online storage
           <input type="checkbox" v-model="useRemoteStorage" @change="toggleRemoteStorage()">
           <span class="slider round"></span>
@@ -48,6 +50,8 @@
           <button @click.prevent='showSwitchBoxModal()'>Switch to another box</button><br><br>
           Box status = {{boxStatus}} <br><br>
         </div>
+        </div>
+        </div><br>
         <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
 
       </div>
@@ -195,7 +199,8 @@ export default {
       showAddFromFile: false,
       addFromFileError: "",
       fileOK: false,
-      showSettingsYourData: false
+      showSettingsYourData: false,
+      showSettingsOnlineStorage: false
     };
   },
   components: {
@@ -1009,6 +1014,10 @@ button.wait::after {
   color: #87cb84;
 }
 
+.settings {
+  color: black;
+}
+
 .settings h3 {
   box-sizing: border-box;
   border-radius: 5px;
@@ -1026,7 +1035,6 @@ button.wait::after {
   box-sizing: border-box;
   border-radius: 0px 0px 5px 5px;
   width: 100%;
-  color: white;
   padding: 10px;
 }
 
@@ -1041,5 +1049,18 @@ button.wait::after {
 
 .your-data h3 {
   background-color: rgb(254, 202, 52);
+}
+
+.online-storage button {
+  background-color: rgb(81, 170, 229);
+  border-color: rgb(81, 170, 229);
+}
+
+.online-storage .items {
+  background-color: rgb(81, 170, 229, 0.1);
+}
+
+.online-storage h3 {
+  background-color: rgb(81, 170, 229);
 }
 </style>
