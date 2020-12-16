@@ -110,7 +110,7 @@
 
   <!-- switchBox modal -->
   <Modal v-if="showSwitchBox" v-on:close="showSwitchBox = false">
-    <div slot="body">
+    <div slot="body" class="online-storage">
       <h2>Switch box</h2>
       <input v-on:keypress.enter="switchBox()" v-model.trim="switchBoxID" type="text" placeholder="New box ID"><br><br>
       Use current storage key
