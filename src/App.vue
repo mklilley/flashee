@@ -649,12 +649,12 @@ export default {
   border-radius: 7px;
   margin: 5px auto;
   text-align: center;
-  line-height: 27px;
+  /* line-height: 27px; */
   cursor: pointer;
   position: relative;
   color: #fff;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 25px;
   -webkit-box-shadow: 9px 10px 22px -8px rgba(209, 193, 209, 0.5);
   -moz-box-shadow: 9px 10px 22px -8px rgba(209, 193, 209, 0.5);
   box-shadow: 9px 10px 22px -8px rgba(209, 193, 209, 0.5);
@@ -675,12 +675,12 @@ export default {
   border-radius: 7px;
   margin: 5px auto;
   text-align: center;
-  line-height: 27px;
+  /* line-height: 25px; */
   cursor: pointer;
   position: relative;
   color: grey;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 25px;
   -webkit-box-shadow: 9px 10px 22px -8px rgba(209, 193, 209, 0.5);
   -moz-box-shadow: 9px 10px 22px -8px rgba(209, 193, 209, 0.5);
   box-shadow: 9px 10px 22px -8px rgba(209, 193, 209, 0.5);
