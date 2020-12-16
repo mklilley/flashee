@@ -123,8 +123,9 @@
 
   <!-- confirmDelete modal -->
   <Modal v-if="showConfirmDelete" v-on:close="showConfirmDelete = false">
-    <div slot="body">
+    <div slot="body" class="your-data" >
       <h2>Delete all data</h2>
+      <span class="error" v-if="boxStatus==false & useRemoteStorage==true"> Problem with online storage. Only local data will be deleted.</span><br>
       <button v-on:click="deleteAllData();showConfirmDelete=false">Yes, delete everything</button> <br><br>
       <button v-on:click="showConfirmDelete=false">No, take me back</button>
 
