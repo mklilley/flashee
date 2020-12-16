@@ -1034,8 +1034,8 @@ button.wait::after {
 }
 
 .math {
-  position: absolute;
-  right: 0;
+  /* position: absolute;
+  right: 0; */
   padding: 5px;
   color: #eaeaea;
 }
