@@ -55,7 +55,13 @@
         </div>
         </div>
         </div><br>
-        <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
+          <div class="misc ">
+            <h3 v-bind:class="{open: showSettingsMisc}" @click.prevent="toggle('showSettingsMisc')">Miscellaneous</h3>
+            <div v-if="showSettingsMisc" class="items">
+
+            <button @click.prevent='showWelcome=true'>Show welcome screen</button>
+          </div>
+          </div>
 
       </div>
     </div>
@@ -64,7 +70,7 @@
 
   <!-- Card edit modal -->
   <Modal v-if="showModal" v-on:close="showModal = false">
-    <div class="flashcard-form" slot="body">
+    <div class="flashcard-form misc" slot="body">
 
       <div class="card-id" style="font-size:10px"><span v-if="currentCardId">ID: {{currentCardId}}</span></div>
       <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question">
@@ -80,14 +86,17 @@
 
   <!-- Welcome modal -->
   <Modal v-if="showWelcome" v-on:close="closeWelcome()">
-    <div slot="body">
+    <div slot="body" class="misc">
       <h1><img src="@/assets/logo.svg"><br>Welcome to Flash</h1>
       <h2>The free & simple flash card app</h2>
-      <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+      <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> <br><br>
       <div style="text-align:left">
-        <h3>Local data storage</h3>
+        <h3 class="open">Local data storage</h3>
+        <div class="items">
         Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/." target="_blank">localStorage</a>.
-        <h3>Online data storage</h3>
+      </div> <br>
+        <h3 class="open">Online data storage</h3>
+          <div class="items">
         <span v-if="useRemoteStorage">
           Your flash cards will also be backed up in an online storage "box" for free (you can turn this off in settings).<br><br>
           If you don't use the app for a year, however, your data will be deleted. <br><br>
@@ -101,6 +110,7 @@
         <span v-else>
           Currently disabled in settings
         </span>
+        </div>
       </div>
       <br>
       <button @click.prevent='closeWelcome()'>OK</button>
@@ -204,7 +214,8 @@ export default {
       addFromFileError: "",
       fileOK: false,
       showSettingsYourData: false,
-      showSettingsOnlineStorage: false
+      showSettingsOnlineStorage: false,
+      showSettingsMisc: false
     };
   },
   components: {
@@ -1079,5 +1090,38 @@ button.wait::after {
 
 .online-storage h3 {
   background-color: rgb(81, 170, 229);
+}
+
+.misc button {
+  background-color: rgb(161, 125, 233);
+  border-color: rgb(161, 125, 233);
+}
+
+.misc .items {
+  background-color: rgb(161, 125, 233, 0.1);
+}
+
+.misc .items {
+  box-sizing: border-box;
+  border-radius: 0px 0px 5px 5px;
+  width: 100%;
+  padding: 10px;
+}
+
+.misc h3 {
+  background-color: rgb(161, 125, 233);
+}
+
+.misc h3 {
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin: 0;
+  width: 100%;
+  color: white;
+  padding: 10px;
+}
+
+.misc h3.open {
+  border-radius: 5px 5px 0px 0px;
 }
 </style>
