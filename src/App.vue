@@ -30,7 +30,7 @@
         <div v-if="showSettingsYourData" class="items">
         <button @click.prevent='downloadData()'>Download your data</button><br><br>
         <button @click.prevent='showConfirmDelete=true'>Delete all your data</button><br><br>
-        <button @click.prevent='showAddFomFileModal()'>Add data from file</button>
+        <button @click.prevent='showAddFomFileModal()'>Import data from file</button>
       </div>
       </div><br>
       <div class="online-storage ">
