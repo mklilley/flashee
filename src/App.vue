@@ -793,10 +793,6 @@ li {
   transition: all 0.3s ease;
 }
 
-li:hover {
-  transform: scale(1.1);
-}
-
 li:nth-child(-n + 3) .card {
   background-color: #e65f51;
 }
@@ -835,12 +831,6 @@ li:nth-child(-7n + 7) .card {
   height: 10px;
 }
 
-.delete-card:hover,
-.error {
-  opacity: 1;
-  transform: rotate(360deg);
-}
-
 .edit-card {
   position: absolute;
   left: 0;
@@ -848,12 +838,6 @@ li:nth-child(-7n + 7) .card {
   padding: 20px 20px;
   opacity: 0.4;
   transition: all 0.5s ease;
-}
-
-.edit-card:hover,
-.error {
-  opacity: 1;
-  transform: rotate(360deg);
 }
 
 .flip-enter-active {
@@ -922,16 +906,7 @@ button[disabled] {
   background-color: #cccccc !important;
   color: #666666 !important;
 }
-button:disabled:hover,
-button[disabled][hover] {
-  border: 1px solid #999999 !important;
-  background-color: #cccccc !important;
-  color: #666666 !important;
-}
 
-button:hover {
-  background-color: #70a66f;
-}
 button.copied::after {
   content: " 👍";
 }
@@ -1232,5 +1207,31 @@ button.wait::after {
 
 .misc h3.open {
   border-radius: 5px 5px 0px 0px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  li:hover {
+    transform: scale(1.1);
+  }
+  .edit-card:hover {
+    opacity: 1;
+    transform: rotate(360deg);
+  }
+
+  .delete-card:hover {
+    opacity: 1;
+    transform: rotate(360deg);
+  }
+
+  button:disabled:hover,
+  button[disabled][hover] {
+    border: 1px solid #999999 !important;
+    background-color: #cccccc !important;
+    color: #666666 !important;
+  }
+
+  button:hover {
+    background-color: #70a66f;
+  }
 }
 </style>
