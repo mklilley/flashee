@@ -89,7 +89,7 @@
   <!-- Welcome modal -->
   <Modal v-if="showWelcome" v-on:close="closeWelcome()">
     <div slot="body" class="misc">
-      <h1><img src="@/assets/logo.svg"><br>Welcome to Flash</h1>
+      <h1><img src="@/assets/logo.svg"><br>Flashee</h1>
       <h2>The free & simple flash card app</h2>
       <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> <br><br>
       <div style="text-align:left">
