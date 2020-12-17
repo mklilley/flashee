@@ -800,6 +800,20 @@ input {
   outline: none;
 }
 
+.feedback input {
+  width: 80%;
+}
+
+.feedback textarea {
+  border-radius: 5px;
+  border: 2px solid #eaeaea;
+  padding: 10px;
+  outline: none;
+  width: 80%;
+  font-family: "Montserrat", sans-serif;
+  height: 200px;
+}
+
 button {
   border-radius: 5px;
   border: 1px solid #87cb84;
