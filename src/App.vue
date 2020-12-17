@@ -108,6 +108,10 @@
           <strong>{{apiKey}}</strong> <br><br>
           <button @click.prevent="copyToClipboard('boxID: '+boxID+'\nstorageKey: '+apiKey, $event)">Copy your box ID and key</button> and keep them safe - anyone with your box ID can view your data and anyone with your key can edit and delete your
           data. <br><br>
+
+          There is no backup of the online data, so if your data is lost due to some technical issues, it's lost forever.<br><br>
+
+          Please don't use this app to store sensitive information - it's not been stress tested for data security bugs.<br><br>
         </span>
         <span v-else>
           Currently disabled in settings
