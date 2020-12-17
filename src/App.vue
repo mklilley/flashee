@@ -191,6 +191,8 @@ import { db } from "@/services/storage";
 
 import Modal from "./components/Modal.vue";
 
+import VueRecaptcha from "vue-recaptcha";
+
 export default {
   name: "App",
   data() {
@@ -225,7 +227,8 @@ export default {
     };
   },
   components: {
-    Modal
+    Modal,
+    VueRecaptcha
   },
   async mounted() {
     this.cards = await db.read();
