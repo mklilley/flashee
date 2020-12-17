@@ -59,7 +59,9 @@
             <h3 v-bind:class="{open: showSettingsMisc}" @click.prevent="toggle('showSettingsMisc')">Miscellaneous</h3>
             <div v-if="showSettingsMisc" class="items">
 
-            <button @click.prevent='showWelcome=true'>Show welcome screen</button>
+            <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
+
+              <button @click.prevent='showSendFeedbackModal()'>Send Feedback</button><br><br>
           </div>
           </div>
 
@@ -155,6 +157,25 @@
       <input type="file" @change="readFile"><br><br>
       <span class="error" v-show="error">{{addFromFileError}}</span>
       <button v-show="fileOK" v-on:click="addDataFromFile(file,$event)">Add data</button>
+    </div>
+  </Modal>
+
+  <!-- showFeedback modal -->
+  <Modal v-if="showFeedback" v-on:close="showFeedback = false">
+    <div slot="body" class="misc feedback">
+      <h2>Feedback</h2>
+      <!-- modify this form HTML and place wherever you want your form -->
+
+      <form v-on:submit.prevent="sendFeedback($event)">
+          <input maxlength="10000" required v-model="feedbackEmail" type="email" name="email" placeholder="Your email"><br><br>
+          <textarea maxlength="10000" required v-model="feedbackMessage" name="message" placeholder="Your message"></textarea> <br><br>
+
+        <vue-recaptcha ref="recaptcha" sitekey="6LfgCwoaAAAAAN6cSEf1nORFFicjw6STUtV3U4Em" :loadRecaptchaScript="true" @verify="recaptchaOK=true"></vue-recaptcha>
+        <span class="error" v-show="error">Problem sending your feedback. Please check your internet connection and try again.</span>
+
+        <br>
+        <button v-if="recaptchaOK" type="submit">Send</button>
+      </form>
     </div>
   </Modal>
 
