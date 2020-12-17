@@ -244,7 +244,11 @@ export default {
       fileOK: false,
       showSettingsYourData: false,
       showSettingsOnlineStorage: false,
-      showSettingsMisc: false
+      showSettingsMisc: false,
+      showFeedback: false,
+      recaptchaOK: false,
+      feedbackEmail: "",
+      feedbackMessage: ""
     };
   },
   components: {
@@ -278,6 +282,67 @@ export default {
     }
   },
   methods: {
+    showSendFeedbackModal: function() {
+      this.error = false;
+      if (this.$refs.recaptcha) {
+        this.$refs.recaptcha.reset();
+      }
+      this.recaptchaOK = false;
+      this.feedbackEmail = "";
+      this.feedbackMessage = "";
+      this.showFeedback = true;
+    },
+    sendFeedback: async function(event) {
+      this.error = false;
+      let inputs = event.target.elements;
+      let jsonForm = {};
+
+      jsonForm.email = this.feedbackEmail;
+      jsonForm.message = this.feedbackMessage;
+
+      // Iterate over the form elements
+      for (let input of inputs) {
+        if (input.name === "g-recaptcha-response") {
+          // Update text input
+          jsonForm["g-recaptcha-response"] = input.value;
+        }
+      }
+
+      let options = {
+        body: JSON.stringify(jsonForm),
+        headers: { "Content-Type": "application/json" },
+        method: "POST"
+      };
+
+      event.submitter.classList.toggle("wait");
+
+      const response = await fetch(
+        "https://formspree.io/f/xeqprbgl",
+        options
+      ).catch(err => {
+        this.error = true;
+        console.log(err);
+        this.$refs.recaptcha.reset();
+        this.recaptchaOK = false;
+        event.submitter.classList.toggle("wait");
+      });
+
+      this.$refs.recaptcha.reset();
+      this.recaptchaOK = false;
+      event.submitter.classList.toggle("wait");
+
+      if ((response || {}).ok) {
+        this.showFeedback = false;
+        this.feedbackEmail = "";
+        this.feedbackMessage = "";
+      } else {
+        this.error = true;
+      }
+
+      return;
+
+      //
+    },
     toggle: function(variableName) {
       this[variableName] = !this[variableName];
       return;
