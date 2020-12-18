@@ -8,7 +8,7 @@
 
 ### The story
 
-I built a basic version of Flashee in the Christmas holidays of 2018. The idea was to help me remember physics facts. Since then, I've enjoyed using it every day as part of my casual physics morning routine 🤓. I thought other people might also find it useful so I decided to clean it up and make it available to everyone for free.
+I built a basic version of Flashee in the Christmas holidays of 2018. The idea was to help me remember physics facts. Since then, I've enjoyed using it every day as part of my casual physics morning routine 🤓 . I thought other people might also find it useful so I decided to clean it up and make it available to everyone for free.
 
 ### Disclaimer
 
@@ -39,14 +39,6 @@ The app doesn't require a backend to function - the flash card data is stored on
 
 I use [Formspree](https://formspree.io/) to process the feedback form and route responses to my personal email address.
 
-I built this portfolio website in 2016.
-
-After spending a lot of time in the AngularJS world, I decided that I wanted to go back to basics for a bit and so made this site with pure HTML, CSS and JavaScript.
-
-Use this `dev` branch when you want to make changes to lilley.io - the live code lives in the `master` branch.
-
-This project uses [gulp](https://gulpjs.com/) as the build tool.
-
 ## Making Flashee better
 
 I'd love it if we could make Flashee better together. Please feel free to [create an issue](https://github.com/mklilley/flashee/issues) to make suggestions. If you enjoy playing with code then you can also go ahead and create a local version on your computer. Here is how to do this:
@@ -59,7 +51,7 @@ I'd love it if we could make Flashee better together. Please feel free to [creat
 - Change files inside of the `src` folder
   - `App.vue` is (rightly or wrongly) where almost of the action happens - i.e. the content, styles and app logic.
   - `services/storage.js` handles data storage locally and calls `services/jsonbox.js` for remote storage.
-  - `services/jsonbox.js` contains jsonbox specific code. To use a different jsonbox provider, change variable `API_BASE` and `API_BASE_META`.
+  - `services/jsonbox.js` contains jsonbox specific code. To use a different jsonbox provider, change variables `API_BASE` and `API_BASE_META`.
 
 ### Back end
 
