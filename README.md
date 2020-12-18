@@ -58,7 +58,7 @@ You don't need to create your own backend if you just want to tweak the look and
 - Use the [original jsonbox](https://github.com/vasanthv/jsonbox)
 - Use [my fork of jsonbox](https://github.com/mklilley/jsonbox)
 
-I made [some small changes](https://github.com/vasanthv/jsonbox/compare/master...mklilley:master) to the original jsonbox whose purpose is mainly to make the data less ephemeral
+I made [some small changes](https://github.com/vasanthv/jsonbox/compare/master...mklilley:master) to the original jsonbox whose purpose is mainly to make the data less ephemeral.
 
 Details of how to set up a jsonbox can be found in the respective repositories.
 
