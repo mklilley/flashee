@@ -119,6 +119,11 @@
           Currently disabled in settings
         </span>
         </div>
+        <br>
+        <h3 class="open">The story</h3>
+        <div class="items">
+          I built a basic version of Flashee in the Christmas holidays of 2018. The idea was to help me remember physics facts. Since then, I've enjoyed using it every day as part of my casual physics morning routine 🤓 . I thought other people might also find it useful so I decided to clean it up and make it available to everyone for free. You can find the code on <a target="_blank" href="https://github.com/mklilley/flashee">GitHub <img src="@/assets/github.png" height=20></a>.  Enjoy!
+        </div>
       </div>
       <br>
       <button @click.prevent='closeWelcome()'>OK</button>
