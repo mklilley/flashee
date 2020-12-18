@@ -2,17 +2,13 @@
 
 <a href="https://flashee.lilley.io/" target="_blank"><img src="https://flashee.lilley.io/img/logo.441e7873.svg" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
-## The free and simple flash card app
+**The free and simple flash card app**
 
-<a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;" ></a>
 
-### The story
+## The story
 
 I built a basic version of Flashee in the Christmas holidays of 2018. The idea was to help me remember physics facts. Since then, I've enjoyed using it every day as part of my casual physics morning routine 🤓 . I thought other people might also find it useful so I decided to clean it up and make it available to everyone for free.
-
-### Disclaimer
-
-I code for fun in my spare time so this is not a professional app/service. Please don't use this app to store sensitive information - it's not been stress tested for data security bugs. Data lives on your device and you can export it to a text file at any time. There is also a cloud storage option. There is no backup of the online storage - so if your data is lost due to some technical issues then it is lost forever. I'll do my best to keep the app/service running indefinitely, but if it starts getting abused then I might have to shut it down.
 
 ## How I made Flashee
 
@@ -45,13 +41,17 @@ I'd love it if we could make Flashee better together. Please feel free to [creat
 
 ### Front end
 
-- Clone this repo
+- Fork this repo
+- Clone your version of this repo
 - Run `npm install`
 - Run `npm run serve` - this runs a local copy of Flashee that updates live when it detects any code changes you make.
 - Change files inside of the `src` folder
   - `App.vue` is (rightly or wrongly) where almost of the action happens - i.e. the content, styles and app logic.
   - `services/storage.js` handles data storage locally and calls `services/jsonbox.js` for remote storage.
   - `services/jsonbox.js` contains jsonbox specific code. To use a different jsonbox provider, change variables `API_BASE` and `API_BASE_META`.
+- Commit your changes
+- Push your changes
+- Make a pull request to merge the changes back into my repo
 
 ### Back end
 
@@ -60,6 +60,10 @@ You don't need to create your own backend if you just want to tweak the look and
 - Use the [original jsonbox](https://github.com/vasanthv/jsonbox)
 - Use [my fork of jsonbox](https://github.com/mklilley/jsonbox)
 
-I made [some small changes](https://github.com/vasanthv/jsonbox/compare/master...mklilley:master) to the original jsonbox whose purpose is mainly to make the data less ephemeral.
+I made [some small changes](https://github.com/vasanthv/jsonbox/compare/master...mklilley:master) to the original jsonbox whose purpose is mainly to make the data less ephemeral
 
 Details of how to set up a jsonbox can be found in the respective repositories.
+
+## Disclaimer
+
+I code for fun in my spare time so this is not a professional app/service. Please don't use this app to store sensitive information - it's not been stress tested for data security bugs. Data lives on your device and you can export it to a text file at any time. There is also a cloud storage option. There is no backup of the online storage - so if your data is lost due to some technical issues then it is lost forever. I'll do my best to keep the app/service running indefinitely, but if it starts getting abused then I might have to shut it down.
