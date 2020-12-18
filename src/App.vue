@@ -1235,8 +1235,16 @@ button.wait::after {
     color: #666666 !important;
   }
 
-  button:hover {
-    background-color: #70a66f;
+  .your-data button:hover {
+    background-color: rgb(254, 202, 52, 0.7);
+  }
+
+  .online-storage button:hover {
+    background-color: rgb(81, 170, 229, 0.7);
+  }
+
+  .misc button:hover {
+    background-color: rgb(161, 125, 233, 0.7);
   }
 }
 </style>
