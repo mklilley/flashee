@@ -194,11 +194,11 @@
 
     <li v-for="(card, index) in shuffle(cards)" v-on:click="toggleCard(card)" :key="index">
       <transition name="flip">
-        <p class="card" v-if="!card.flipped" key="front" v-bind:style="{backgroundColor:randomColor(index)}">
+        <p class="card" v-if="!card.flipped" key="front" v-bind:style="{backgroundColor:card.color}">
           <span v-katex:auto v-html="card.question"></span>
           <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
         </p>
-        <p class="card" v-else key="back" v-bind:style="{backgroundColor:randomColor(index)}">
+        <p class="card" v-else key="back" v-bind:style="{backgroundColor:card.color}">
           <span v-katex:auto v-html="card.answer"></span>
           <span class="delete-card" v-on:click.stop="deleteCard(card)"><i class="gg-trash"></i></span>
           <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
@@ -538,6 +538,10 @@ export default {
     },
     shuffle: function(cards) {
       const shuffledDeck = shuffleSeed.shuffle(cards, this.seed);
+
+      for (let i = 0; i < shuffledDeck.length; i++) {
+        shuffledDeck[i].color = this.randomColor(i);
+      }
 
       // After deck is shuffled, sort the array so that the least seen cards
       // come to the top of the list. This is to stop you from seeing the same
