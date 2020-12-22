@@ -464,7 +464,6 @@ export default {
       await Promise.all(promDelete);
 
       // Reload the now empty set of cards from the data store to update the view
-      // and shuffle the cards
       this.cards = await this.loadCards();
     },
     showSwitchBoxModal: function() {
@@ -617,7 +616,7 @@ export default {
       await Promise.all(promDelete);
       await Promise.all(promCreate);
 
-      // Reload the cards from the data store to update the view and shuffle the cards
+      // Reload the cards from the data store to update the view
       this.cards = await this.loadCards();
     },
     createRemoteCards: async function(cards) {
@@ -643,7 +642,7 @@ export default {
       await Promise.all(promCreate);
       await Promise.all(promDelete);
 
-      // Reload the cards from the data store to update the view and shuffle the cards
+      // Reload the cards from the data store to update the view
       this.cards = await this.loadCards();
     },
     editCard: function(card) {
@@ -690,7 +689,7 @@ export default {
             },
             { remote: this.useRemoteStorage }
           );
-          // Reload the cards from the data store to update the view and shuffle them
+          // Reload the cards from the data store to update the view
           this.cards = await this.loadCards();
 
           // close the card edit modal
@@ -707,7 +706,7 @@ export default {
             { question: this.newFront, answer: this.newBack },
             { remote: this.useRemoteStorage }
           );
-          // Reload the cards from the data store to update the view and shuffle them
+          // Reload the cards from the data store to update the view
           this.cards = await this.loadCards();
 
           // close the card edit modal
