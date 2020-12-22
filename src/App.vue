@@ -192,7 +192,7 @@
     </p>
   </li>
 
-    <li v-for="(card, index) in shuffle(cards)" v-on:click="toggleCard(card)" :key="index">
+    <li v-for="(card, index) in cards" v-on:click="toggleCard(card, index)" :key="index">
       <transition name="flip">
         <p class="card" v-if="!card.flipped" key="front" v-bind:style="{backgroundColor:card.color}">
           <span v-katex:auto v-html="card.question"></span>
@@ -261,7 +261,7 @@ export default {
     VueRecaptcha
   },
   async mounted() {
-    this.cards = await db.read();
+    this.cards = this.shuffle(await db.read());
     // If first time using the app, we need to set up some localStorage variables
     // for keeping track of the welcome screen, users choice on remote storage and
     // keeping the remote data alive if remote storage is being used (it expires after a year)
@@ -388,8 +388,8 @@ export default {
 
       event.target.classList.toggle("wait");
       await Promise.all(promCreate);
-      // Reload the cards from the data store to update the view
-      this.cards = await db.read();
+      // Reload the cards from the data store to update the view and shuffle
+      this.cards = this.shuffle(await db.read());
       event.target.classList.toggle("wait");
       this.showAddFromFile = false;
     },
@@ -459,7 +459,8 @@ export default {
       await Promise.all(promDelete);
 
       // Reload the now empty set of cards from the data store to update the view
-      this.cards = await db.read();
+      // and shuffle the cards
+      this.cards = this.shuffle(await db.read());
     },
     showSwitchBoxModal: function() {
       this.error = false;
@@ -584,7 +585,7 @@ export default {
     deleteCard: async function(card) {
       // delete card from data store
       await db.delete(card.id, { remote: this.useRemoteStorage });
-      this.cards = await db.read();
+      this.cards = this.shuffle(await db.read());
     },
     deleteRemoteCards: async function(cards) {
       // We will be deleting many remote cards at once and then recreating them locally.
@@ -609,8 +610,8 @@ export default {
       await Promise.all(promDelete);
       await Promise.all(promCreate);
 
-      // Reload the cards from the data store to update the view
-      this.cards = await db.read();
+      // Reload the cards from the data store to update the view and shuffle the cards
+      this.cards = this.shuffle(await db.read());
     },
     createRemoteCards: async function(cards) {
       // We will be deleting many local cards at once and then recreating them
@@ -635,8 +636,8 @@ export default {
       await Promise.all(promCreate);
       await Promise.all(promDelete);
 
-      // Reload the cards from the data store to update the view
-      this.cards = await db.read();
+      // Reload the cards from the data store to update the view and shuffle the cards
+      this.cards = this.shuffle(await db.read());
     },
     editCard: function(card) {
       // Populate the card form with the data from the card you want to edit
@@ -682,8 +683,8 @@ export default {
             },
             { remote: this.useRemoteStorage }
           );
-          // Reload the cards from the data store to update the view
-          this.cards = await db.read();
+          // Reload the cards from the data store to update the view and shuffle them
+          this.cards = this.shuffle(await db.read());
 
           // close the card edit modal
           this.showModal = false;
@@ -699,8 +700,8 @@ export default {
             { question: this.newFront, answer: this.newBack },
             { remote: this.useRemoteStorage }
           );
-          // Reload the cards from the data store to update the view
-          this.cards = await db.read();
+          // Reload the cards from the data store to update the view and shuffle them
+          this.cards = this.shuffle(await db.read());
 
           // close the card edit modal
           this.showModal = false;
@@ -714,7 +715,7 @@ export default {
       }
     },
     restoreData: async function() {
-      this.cards = await db.read({ remote: true });
+      this.cards = this.shuffle(await db.read({ remote: true }));
       localStorage.lastKeepAliveDate = new Date();
     }
   }
