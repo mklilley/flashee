@@ -569,6 +569,7 @@ export default {
     },
     newSeed: function() {
       this.seed = Date.now();
+      this.cards = this.shuffle(this.cards);
     },
     toggleCard: async function(card) {
       // When the card is flipped back from answer to question, we treat the
