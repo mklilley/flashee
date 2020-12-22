@@ -290,6 +290,10 @@ export default {
     loadCards: async function(options = {}) {
       let cards = await db.read(options);
       cards = this.shuffle(cards);
+      // After deck is shuffled, sort the array so that the least seen cards
+      // come to the top of the list. This is to stop you from seeing the same
+      // cards all the time
+      cards = this.sortCards(cards);
       return cards;
     },
     showSendFeedbackModal: function() {
@@ -548,14 +552,12 @@ export default {
         shuffledDeck[i].color = this.randomColor(i);
       }
 
-      // After deck is shuffled, sort the array so that the least seen cards
-      // come to the top of the list. This is to stop you from seeing the same
-      // cards all the time
-      shuffledDeck.sort(function(a, b) {
+      return shuffledDeck;
+    },
+    sortCards: function(cards) {
+      return cards.sort(function(a, b) {
         return parseFloat(a.reads || 0) - parseFloat(b.reads || 0);
       });
-
-      return shuffledDeck;
     },
     toggleMath: function(varName) {
       let data = this[varName].split("$$");
