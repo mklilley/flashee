@@ -287,8 +287,8 @@ export default {
     }
   },
   methods: {
-    loadCards: async function() {
-      let cards = await db.read();
+    loadCards: async function(options = {}) {
+      let cards = await db.read(options);
       cards = this.shuffle(cards);
       return cards;
     },
@@ -721,7 +721,7 @@ export default {
       }
     },
     restoreData: async function() {
-      this.cards = this.shuffle(await db.read({ remote: true }));
+      this.cards = await this.loadCards({ remote: true });
       localStorage.lastKeepAliveDate = new Date();
     }
   }
