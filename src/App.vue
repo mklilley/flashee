@@ -571,15 +571,16 @@ export default {
       this.seed = Date.now();
       this.cards = this.shuffle(this.cards);
     },
-    toggleCard: async function(card) {
+    toggleCard: async function(card, index) {
       // When the card is flipped back from answer to question, we treat the
       // card as being "read". We update the read value in the local data store
       if (card.flipped) {
         await db.update(card.id, {
           reads: card.reads + 1
         });
-        // Reload the cards from the data store to update the view
-        this.cards = await db.read();
+
+        this.cards.splice(index, 1);
+        this.cards.push(card);
       }
       card.flipped = !card.flipped;
     },
