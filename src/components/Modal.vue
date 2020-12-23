@@ -145,7 +145,6 @@ export default {
 .delete-card:hover,
 .error {
   opacity: 1;
-  transform: rotate(360deg);
 }
 .close {
   position: absolute;
@@ -155,8 +154,9 @@ export default {
   opacity: 0.4;
   transition: all 0.5s ease;
 }
-.close:hover {
-  opacity: 1;
-  transform: rotate(360deg);
+@media (hover: hover) and (pointer: fine) {
+  .close:hover {
+    opacity: 1;
+  }
 }
 </style>
