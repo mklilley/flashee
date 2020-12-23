@@ -587,10 +587,10 @@ export default {
     updateDifficulty: async function(cardIndex, difficulty) {
       let card = this.cards[cardIndex];
       //update difficulty of the card
-      this.cards[cardIndex][difficulty] = (card[difficulty] || 0) + 1;
+      card[difficulty] += 1;
       //save the new difficulty in storage
       await db.update(card.id, {
-        [difficulty]: (card[difficulty] || 0) + 1
+        [difficulty]: card[difficulty]
       });
     },
     toggleCard: async function(cardIndex) {
@@ -599,10 +599,11 @@ export default {
       // card as being "read". We update the read value in the local data store
       if (card.flipped) {
         // update read number on cards
-        this.cards[cardIndex].reads = card.reads + 1;
+        card.reads += 1;
+        console.log(card.reads);
         // update reads number in storage
         await db.update(card.id, {
-          reads: card.reads + 1
+          reads: card.reads
         });
 
         this.cards.splice(cardIndex, 1);
