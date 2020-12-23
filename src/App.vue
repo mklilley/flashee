@@ -202,7 +202,7 @@
           <span v-katex:auto v-html="card.answer"></span>
           <span class="delete-card" v-on:click.stop="deleteCard(card)"><i class="gg-trash"></i></span>
           <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
-          <span class="difficulty"><span v-on:click="updateDifficulty(index, 'hard')">hard  </span><span v-on:click="updateDifficulty(index,'easy')">easy</span></span>
+          <span class="difficulty"><span v-on:click="updateDifficulty(index,1)">hard  </span><span v-on:click="updateDifficulty(index,0)">easy</span></span>
         </p>
       </transition>
     </li>
@@ -390,8 +390,7 @@ export default {
               answer: card.answer,
               flipped: false,
               reads: reads,
-              easy: 0,
-              hard: 0
+              difficulty: 0
             },
             { remote: this.useRemoteStorage }
           )
@@ -562,9 +561,15 @@ export default {
       return shuffledDeck;
     },
     sortCards: function(cards) {
-      return cards.sort(function(a, b) {
-        return parseFloat(a.reads || 0) - parseFloat(b.reads || 0);
+      let sortByReads = cards.sort(function(a, b) {
+        return parseFloat(a.reads) - parseFloat(b.reads);
       });
+
+      let sortByDifficulty = sortByReads.sort(function(a, b) {
+        return parseFloat(b.difficulty) - parseFloat(a.difficulty);
+      });
+
+      return sortByDifficulty;
     },
     toggleMath: function(varName) {
       let data = this[varName].split("$$");
@@ -587,10 +592,10 @@ export default {
     updateDifficulty: async function(cardIndex, difficulty) {
       let card = this.cards[cardIndex];
       //update difficulty of the card
-      card[difficulty] += 1;
+      card.difficulty = difficulty;
       //save the new difficulty in storage
       await db.update(card.id, {
-        [difficulty]: card[difficulty]
+        difficulty: difficulty
       });
     },
     toggleCard: async function(cardIndex) {
@@ -631,8 +636,7 @@ export default {
               answer: card.answer,
               flipped: false,
               reads: card.reads,
-              easy: card.easy,
-              hard: card.hard
+              difficulty: card.difficulty
             },
             { remote: false }
           )
@@ -659,8 +663,7 @@ export default {
               answer: card.answer,
               flipped: false,
               reads: card.reads,
-              easy: card.easy,
-              hard: card.hard
+              difficulty: card.difficulty
             },
             { remote: true }
           )
@@ -713,8 +716,7 @@ export default {
               answer: this.newBack,
               flipped: false,
               reads: this.cards[0] ? this.cards[0].reads : 0,
-              easy: 0,
-              hard: 0
+              difficulty: 0
             },
             { remote: this.useRemoteStorage }
           );
