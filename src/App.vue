@@ -1230,12 +1230,10 @@ button.wait::after {
   }
   .edit-card:hover {
     opacity: 1;
-    transform: rotate(360deg);
   }
 
   .delete-card:hover {
     opacity: 1;
-    transform: rotate(360deg);
   }
 
   button:disabled:hover,
