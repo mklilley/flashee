@@ -30,7 +30,7 @@
         <div v-if="showSettingsYourData" class="items">
           Number of cards: <strong>{{cards.length}}</strong> <br><br>
         <button @click.prevent='downloadData()'>Download your data</button><br><br>
-        <button @click.prevent='showConfirmDelete=true'>Delete all your data</button><br><br>
+        <button @click.prevent='showConfirmDeleteAll=true'>Delete all your data</button><br><br>
         <button @click.prevent='showAddFomFileModal()'>Import data from file</button>
       </div>
       </div><br>
@@ -146,15 +146,17 @@
   </Modal>
 
   <!-- confirmDelete modal -->
-  <Modal v-if="showConfirmDelete" v-on:close="showConfirmDelete = false">
+  <Modal v-if="showConfirmDeleteAll" v-on:close="showConfirmDeleteAll = false">
     <div slot="body" class="your-data" >
       <h2>Delete all data</h2>
       <span class="error" v-if="boxStatus==false & useRemoteStorage==true"> Problem with online storage. Only local data will be deleted.</span><br>
       <button v-on:click="deleteAllData($event)">Yes, delete everything</button> <br><br>
-      <button v-on:click="showConfirmDelete=false">No, take me back</button>
+      <button v-on:click="showConfirmDeleteAll=false">No, take me back</button>
 
     </div>
   </Modal>
+
+
 
   <!-- addFromFile modal -->
   <Modal v-if="showAddFromFile" v-on:close="showAddFromFile = false">
@@ -242,7 +244,7 @@ export default {
       useRemoteStorage: true,
       showSwitchBox: false,
       switchBoxID: "",
-      showConfirmDelete: false,
+      showConfirmDeleteAll: false,
       switchApiKey: "",
       switchBoxError: "",
       usCurrentApiKey: true,
@@ -480,7 +482,7 @@ export default {
       // Reload the now empty set of cards from the data store to update the view
       this.cards = await this.loadCards();
       event.target.classList.toggle("wait");
-      this.showConfirmDelete = false;
+      this.showConfirmDeleteAll = false;
     },
     showSwitchBoxModal: function() {
       this.error = false;
