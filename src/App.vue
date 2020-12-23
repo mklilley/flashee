@@ -145,13 +145,24 @@
     </div>
   </Modal>
 
-  <!-- confirmDelete modal -->
+  <!-- confirmDeleteAll modal -->
   <Modal v-if="showConfirmDeleteAll" v-on:close="showConfirmDeleteAll = false">
     <div slot="body" class="your-data" >
       <h2>Delete all data</h2>
       <span class="error" v-if="boxStatus==false & useRemoteStorage==true"> Problem with online storage. Only local data will be deleted.</span><br>
       <button v-on:click="deleteAllData($event)">Yes, delete everything</button> <br><br>
       <button v-on:click="showConfirmDeleteAll=false">No, take me back</button>
+
+    </div>
+  </Modal>
+
+  <!-- confirmDelete modal -->
+  <Modal v-if="showConfirmDelete" v-on:close="showConfirmDelete = false">
+    <div slot="body" class="misc" >
+      <h2>Delete card</h2>
+      <span class="error" v-if="boxStatus==false & useRemoteStorage==true"> Problem with online storage. Only local data will be deleted.</span><br>
+      <button v-on:click="deleteCard(cardToDelete)">Yes, delete card</button> <br><br>
+      <button v-on:click="showConfirmDelete=false">No, take me back</button>
 
     </div>
   </Modal>
@@ -203,7 +214,7 @@
         </p>
         <p class="card" v-else key="back" v-bind:style="{backgroundColor:card.color}">
           <span v-katex:auto v-html="card.answer"></span>
-          <span class="delete-card" v-on:click.stop="deleteCard(card)"><i class="gg-trash"></i></span>
+          <span class="delete-card" v-on:click.stop="confirmDelete(card)"><i class="gg-trash"></i></span>
           <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
           <span class="difficulty"><span v-on:click="updateDifficulty(index,1)">hard  </span><span v-on:click="updateDifficulty(index,0)">easy</span></span>
         </p>
@@ -245,6 +256,7 @@ export default {
       showSwitchBox: false,
       switchBoxID: "",
       showConfirmDeleteAll: false,
+      showConfirmDelete: false,
       switchApiKey: "",
       switchBoxError: "",
       usCurrentApiKey: true,
@@ -257,7 +269,8 @@ export default {
       showFeedback: false,
       recaptchaOK: false,
       feedbackEmail: "",
-      feedbackMessage: ""
+      feedbackMessage: "",
+      cardToDelete: {}
     };
   },
   components: {
@@ -624,10 +637,16 @@ export default {
       }
       card.flipped = !card.flipped;
     },
+    confirmDelete: function(card) {
+      this.cardToDelete = card;
+      this.showConfirmDelete = true;
+    },
     deleteCard: async function(card) {
       // delete card from data store
       await db.delete(card.id, { remote: this.useRemoteStorage });
       this.cards = await this.loadCards();
+      this.cardToDelete = {};
+      this.showConfirmDelete = false;
     },
     deleteRemoteCards: async function(cards) {
       // We will be deleting many remote cards at once and then recreating them locally.
