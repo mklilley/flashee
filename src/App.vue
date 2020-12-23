@@ -149,7 +149,7 @@
     <div slot="body" class="your-data" >
       <h2>Delete all data</h2>
       <span class="error" v-if="boxStatus==false & useRemoteStorage==true"> Problem with online storage. Only local data will be deleted.</span><br>
-      <button v-on:click="deleteAllData();showConfirmDelete=false">Yes, delete everything</button> <br><br>
+      <button v-on:click="deleteAllData($event)">Yes, delete everything</button> <br><br>
       <button v-on:click="showConfirmDelete=false">No, take me back</button>
 
     </div>
@@ -464,17 +464,22 @@ export default {
 
       document.body.removeChild(element);
     },
-    deleteAllData: async function() {
+    deleteAllData: async function(event) {
       // We will be deleting all cards at once. For this we will need to
       //  to create an array of promises and wait for them all to resolve
       let promDelete = [];
       for (let card of this.cards) {
         promDelete.push(db.delete(card.id, { remote: this.useRemoteStorage }));
       }
+
+      event.target.classList.toggle("wait");
+
       await Promise.all(promDelete);
 
       // Reload the now empty set of cards from the data store to update the view
       this.cards = await this.loadCards();
+      event.target.classList.toggle("wait");
+      this.showConfirmDelete = false;
     },
     showSwitchBoxModal: function() {
       this.error = false;
