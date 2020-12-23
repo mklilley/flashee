@@ -47,10 +47,10 @@
         <div v-if="useRemoteStorage">
           <button :disabled="boxStatus==false" @click.prevent='restoreData()'>Restore data from storage box</button><br><br>
           <button :disabled="boxStatus==false" @click.prevent='showSwitchBoxModal()'>Switch to another storage box</button><br><br>
-          <strong>Storage box ID:</strong><br>
-          {{boxID}} <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
-          <strong>Storage box key:</strong><br>
-          {{apiKey}} <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
+          Storage box ID:<br>
+          <strong>{{boxID}}</strong> <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
+          Storage box key:<br>
+          <strong>{{apiKey}}</strong> <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
 
 
         </div>
