@@ -202,7 +202,7 @@
           <span v-katex:auto v-html="card.answer"></span>
           <span class="delete-card" v-on:click.stop="deleteCard(card)"><i class="gg-trash"></i></span>
           <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
-          <span class="difficulty"><span>hard</span><span>easy</span></span>
+          <span class="difficulty"><span v-on:click="updateDifficulty(index, 'hard')">hard  </span><span v-on:click="updateDifficulty(index,'easy')">easy</span></span>
         </p>
       </transition>
     </li>
@@ -577,6 +577,15 @@ export default {
     newSeed: async function() {
       this.seed = Date.now();
       this.cards = await this.loadCards();
+    },
+    updateDifficulty: async function(cardIndex, difficulty) {
+      let card = this.cards[cardIndex];
+      //update difficulty of the card
+      this.cards[cardIndex][difficulty] = (card[difficulty] || 0) + 1;
+      //save the new difficulty in storage
+      await db.update(card.id, {
+        [difficulty]: (card[difficulty] || 0) + 1
+      });
     },
     toggleCard: async function(card, index) {
       // When the card is flipped back from answer to question, we treat the
