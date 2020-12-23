@@ -389,7 +389,9 @@ export default {
               question: card.question,
               answer: card.answer,
               flipped: false,
-              reads: reads
+              reads: reads,
+              easy: 0,
+              hard: 0
             },
             { remote: this.useRemoteStorage }
           )
@@ -623,7 +625,9 @@ export default {
               question: card.question,
               answer: card.answer,
               flipped: false,
-              reads: card.reads
+              reads: card.reads,
+              easy: card.easy,
+              hard: card.hard
             },
             { remote: false }
           )
@@ -649,7 +653,9 @@ export default {
               question: card.question,
               answer: card.answer,
               flipped: false,
-              reads: card.reads
+              reads: card.reads,
+              easy: card.easy,
+              hard: card.hard
             },
             { remote: true }
           )
@@ -701,7 +707,9 @@ export default {
               question: this.newFront,
               answer: this.newBack,
               flipped: false,
-              reads: this.cards[0] ? this.cards[0].reads : 0
+              reads: this.cards[0] ? this.cards[0].reads : 0,
+              easy: 0,
+              hard: 0
             },
             { remote: this.useRemoteStorage }
           );
