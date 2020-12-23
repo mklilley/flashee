@@ -192,7 +192,7 @@
     </p>
   </li>
 
-    <li v-for="(card, index) in cards" v-on:click="toggleCard(card, index)" :key="index">
+    <li v-for="(card, index) in cards" v-on:click="toggleCard(index)" :key="index">
       <transition name="flip">
         <p class="card" v-if="!card.flipped" key="front" v-bind:style="{backgroundColor:card.color}">
           <span v-katex:auto v-html="card.question"></span>
@@ -577,15 +577,19 @@ export default {
       this.seed = Date.now();
       this.cards = await this.loadCards();
     },
-    toggleCard: async function(card, index) {
+    toggleCard: async function(cardIndex) {
+      let card = this.cards[cardIndex];
       // When the card is flipped back from answer to question, we treat the
       // card as being "read". We update the read value in the local data store
       if (card.flipped) {
+        // update read number on cards
+        this.cards[cardIndex].reads = card.reads + 1;
+        // update reads number in storage
         await db.update(card.id, {
           reads: card.reads + 1
         });
 
-        this.cards.splice(index, 1);
+        this.cards.splice(cardIndex, 1);
         this.cards.push(card);
       }
       card.flipped = !card.flipped;
