@@ -28,6 +28,7 @@
         <div class="your-data">
         <h3 v-bind:class="{open: showSettingsYourData}" @click.prevent="toggle('showSettingsYourData')">Your data</h3>
         <div v-if="showSettingsYourData" class="items">
+          Number of cards: <strong>{{cards.length}}</strong> <br><br>
         <button @click.prevent='downloadData()'>Download your data</button><br><br>
         <button @click.prevent='showConfirmDelete=true'>Delete all your data</button><br><br>
         <button @click.prevent='showAddFomFileModal()'>Import data from file</button>
