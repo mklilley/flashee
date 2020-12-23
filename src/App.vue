@@ -202,6 +202,7 @@
           <span v-katex:auto v-html="card.answer"></span>
           <span class="delete-card" v-on:click.stop="deleteCard(card)"><i class="gg-trash"></i></span>
           <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
+          <span class="difficulty"><span>hard</span><span>easy</span></span>
         </p>
       </transition>
     </li>
@@ -869,6 +870,20 @@ li:nth-child(-7n + 7) .card {
   opacity: 0;
 }
 
+.card .difficulty {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  justify-content: space-around;
+  position: absolute;
+  bottom: 0;
+}
+
+.card .difficulty span {
+  opacity: 0.4;
+}
+
 /* Form */
 
 .flashcard-form {
@@ -1255,6 +1270,10 @@ button.wait::after {
 
   .misc button:hover {
     background-color: rgb(161, 125, 233, 0.7);
+  }
+
+  .card .difficulty span:hover {
+    opacity: 1;
   }
 }
 </style>
