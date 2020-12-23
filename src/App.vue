@@ -446,11 +446,15 @@ export default {
     downloadData: function() {
       //  Adapted from https://ourcodeworld.com/articles/read/189/how-to-create-a-file-and-generate-a-download-with-javascript-in-the-browser-without-a-server
 
+      let data = this.cards.map(function(card) {
+        return { question: card.question, answer: card.answer };
+      });
+
       var element = document.createElement("a");
       element.setAttribute(
         "href",
         "data:text/plain;charset=utf-8," +
-          encodeURIComponent(JSON.stringify(this.cards))
+          encodeURIComponent(JSON.stringify(data))
       );
       element.setAttribute("download", "flash.json");
 
