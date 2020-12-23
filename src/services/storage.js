@@ -131,7 +131,7 @@ const db = {
 
     // Only delete data on the remote database if remote flag is true
     if (options.remote === true) {
-      remote.delete(id).then(success => {
+      await remote.delete(id).then(success => {
         // If the remote database fails, we need to log the failure
         if (!success) {
           recordRemoteFail(id, "delete");
