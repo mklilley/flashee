@@ -967,11 +967,16 @@ label {
   margin-right: 10px;
 }
 
+textarea {
+  font-size: 16px;
+}
+
 input {
   border-radius: 5px;
   border: 2px solid #eaeaea;
   padding: 10px;
   outline: none;
+  font-size: 16px;
 }
 
 .feedback input {
