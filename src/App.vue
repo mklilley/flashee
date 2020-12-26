@@ -77,7 +77,6 @@
   <Modal v-if="showModal" v-on:close="showModal = false">
     <div class="flashcard-form misc" slot="body">
 
-      <div class="card-id" style="font-size:10px"><span v-if="currentCardId">ID: {{currentCardId}}</span></div>
       <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question">
       <span class="math" v-katex:auto v-on:click="toggleMath('newFront')" v-bind:class='{mathActive:math.newFront}'>$f(x)$</span>
       <br> <br>
@@ -911,11 +910,6 @@ li:nth-child(-7n + 7) .card {
   padding: 20px 20px;
   opacity: 0.4;
   transition: all 0.5s ease;
-}
-
-.card-id {
-  margin-bottom: 20px;
-  height: 10px;
 }
 
 .edit-card {
