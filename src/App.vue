@@ -96,6 +96,12 @@
       <h2>The free & simple flash card app</h2>
       <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> <br><br>
       <div style="text-align:left">
+        <div v-if="isMobileDevice">
+        <h3 class="open" >Add to home screen</h3>
+        <div class="items">
+          For the best experience, add Flashee to your home screen - you can then view your cards in full screen mode 🙌
+          </div> <br>
+      </div>
         <h3 class="open">Local data storage</h3>
         <div class="items">
         Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/." target="_blank">localStorage</a>.
@@ -270,7 +276,8 @@ export default {
       recaptchaOK: false,
       feedbackEmail: "",
       feedbackMessage: "",
-      cardToDelete: {}
+      cardToDelete: {},
+      isMobileDevice: true
     };
   },
   components: {
@@ -301,6 +308,15 @@ export default {
 
     if (this.useRemoteStorage) {
       this.keepDataAlive();
+    }
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      this.isMobileDevice = true;
+    } else {
+      this.isMobileDevice = false;
     }
   },
   methods: {
