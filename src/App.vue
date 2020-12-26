@@ -979,6 +979,10 @@ input {
   font-size: 16px;
 }
 
+.flashcard-form input {
+  width: 50%;
+}
+
 .feedback input {
   width: 80%;
 }
