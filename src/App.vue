@@ -817,11 +817,12 @@ export default {
 /* Flash cards */
 
 .card {
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 280px;
-  max-width: 80%;
+  max-width: 80vw;
   height: 400px;
   padding: 0px 10%;
   background-color: #51aae5;
@@ -841,11 +842,12 @@ export default {
 }
 
 .no-card {
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 280px;
-  max-width: 80%;
+  max-width: 80vw;
   height: 400px;
   padding: 0px 10%;
   background-color: #fff;
@@ -871,12 +873,16 @@ ul {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+  position: relative;
+  box-sizing: border-box;
 }
 
 li {
   list-style-type: none;
+  position: relative;
   padding: 10px 10px;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 li:nth-child(-n + 3) .card {
