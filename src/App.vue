@@ -77,10 +77,10 @@
   <Modal v-if="showModal" v-on:close="showModal = false">
     <div class="flashcard-form misc" slot="body">
 
-      <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question">
+      <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question" autocomplete="off">
       <span class="math" v-katex:auto v-on:click="toggleMath('newFront')" v-bind:class='{mathActive:math.newFront}'>$f(x)$</span>
       <br> <br>
-      <input v-on:keypress.enter="saveCard()" v-model.trim="newBack" type="text" id="back" placeholder="Answer"> <span class="math" v-katex:auto v-on:click="toggleMath('newBack')" v-bind:class='{mathActive:math.newBack}'> $f(x)$</span>
+      <input v-on:keypress.enter="saveCard()" v-model.trim="newBack" type="text" id="back" placeholder="Answer" autocomplete="off"> <span class="math" v-katex:auto v-on:click="toggleMath('newBack')" v-bind:class='{mathActive:math.newBack}'> $f(x)$</span>
       <br> <br>
       <button v-on:click="saveCard()">Save Card</button>
       <span class="error" v-show="error">Oops! Flashcards need a front and a back.</span>
