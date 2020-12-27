@@ -57,12 +57,14 @@
         </div>
         </div><br>
           <div class="misc ">
-            <h3 v-bind:class="{open: showSettingsMisc}" @click.prevent="toggle('showSettingsMisc')">Miscellaneous</h3>
+            <h3 v-bind:class="{open: showSettingsMisc}" @click.prevent="toggle('showSettingsMisc')">Help</h3>
             <div v-if="showSettingsMisc" class="items">
 
-            <button @click.prevent='showWelcome=true'>Show welcome screen</button><br><br>
+            <button @click.prevent='showSendFeedbackModal()'>Send Feedback</button><br><br>
 
-              <button @click.prevent='showSendFeedbackModal()'>Send Feedback</button><br><br>
+            <button @click.prevent='showWelcome=true'>Show welcome screen again</button><br><br>
+
+
           </div>
           </div>
 
