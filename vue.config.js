@@ -1,6 +1,9 @@
 module.exports = {
   publicPath: "",
   pwa: {
+    workboxOptions: {
+      skipWaiting: true
+    },
     themeColor: "#feca34",
     msTileColor: "#000000",
     appleMobileWebAppCapable: "yes",
