@@ -76,14 +76,15 @@
   <!-- Card edit modal -->
   <Modal v-if="showModal" v-on:close="showModal = false">
     <div class="flashcard-form misc" slot="body">
-
+      <span class="math-help" v-if="math.newFront || math.newBack"><strong>Math mode on </strong><br> Try e.g. $$\pi r^2$$<br> <a href="https://katex.org/docs/supported.html" target="_blank">List of math</a> </span><br>
       <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question" autocomplete="off">
-      <span class="math" v-katex:auto v-on:click="toggleMath('newFront')" v-bind:class='{mathActive:math.newFront}'>$f(x)$</span>
+      <span class="math" v-katex:auto v-on:click="toggleMath('newFront')" v-bind:class='{mathActive:math.newFront}'>f(x)</span>
       <br> <br>
-      <input v-on:keypress.enter="saveCard()" v-model.trim="newBack" type="text" id="back" placeholder="Answer" autocomplete="off"> <span class="math" v-katex:auto v-on:click="toggleMath('newBack')" v-bind:class='{mathActive:math.newBack}'> $f(x)$</span>
+      <input v-on:keypress.enter="saveCard()" v-model.trim="newBack" type="text" id="back" placeholder="Answer" autocomplete="off"> <span class="math" v-katex:auto v-on:click="toggleMath('newBack')" v-bind:class='{mathActive:math.newBack}'> f(x)</span>
       <br> <br>
       <button v-on:click="saveCard()">Save Card</button>
       <span class="error" v-show="error">Oops! Flashcards need a front and a back.</span>
+
     </div>
   </Modal>
 
@@ -1031,6 +1032,14 @@ button.wait::after {
   display: block;
   color: #e44e42;
   font-weight: 600;
+}
+
+.math-help {
+  margin: 5px auto;
+  display: block;
+  font-size: 14px;
+  color: grey;
+  width: 80%;
 }
 
 .gg-add {
