@@ -870,6 +870,7 @@ export default {
 
 ul {
   padding-left: 0;
+  padding-top: 10px;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -1110,10 +1111,10 @@ button.wait::after {
 .gg-menu::before {
   content: "";
   position: absolute;
-  top: 6px;
+  top: -6px;
 }
 .gg-menu::after {
-  top: 12px;
+  top: 6px;
 }
 
 .gg-trash {
@@ -1203,9 +1204,16 @@ button.wait::after {
 }
 
 .top-bar {
+  position: fixed;
   display: flex;
   justify-content: space-around;
-  height: 20px;
+  align-items: center;
+  height: 70px;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 1000;
 }
 
 ::-webkit-input-placeholder {
@@ -1321,7 +1329,7 @@ button.wait::after {
 
 @media (hover: hover) and (pointer: fine) {
   li:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
   .edit-card:hover {
     opacity: 1;
