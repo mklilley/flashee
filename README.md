@@ -25,6 +25,16 @@ Then, only at the end, did I decided I wanted to turn the app into a [Progressiv
 
 I consulted the [Vue PWA documentation](https://cli.vuejs.org/core-plugins/pwa.html#configuration) to help me with the config and used the [Vue PWA asset generator](https://github.com/jcalixte/vue-pwa-asset-generator) to generate all the necessary icons.
 
+In order for Flashee to update on iOS when it's installed on the home screen, I needed to add:
+
+```
+workboxOptions: {
+  skipWaiting: true
+}
+```
+
+to the pwa setting in `vue.config.js`
+
 I used [vue-katex](https://github.com/lucpotage/vue-katex) for equation rendering and I used [vue-recaptcha](https://github.com/DanSnow/vue-recaptcha) to protect my feedback form from spam.
 
 ### Back end
