@@ -11,7 +11,9 @@
 
     <div @click.prevent='newSeed()' v-if="cards.length!=0"><i class="gg-dice-5"></i></div>
 
-    <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0"> <i class="gg-add" v-if="!readOnlyBox" readOnlyBox></i></div>
+    <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0 && !readOnlyBox"> <i class="gg-add" readOnlyBox></i></div>
+
+    <div class= "misc" v-if="readOnlyBox" > View only mode. <br> Edit you own cards <button @click.prevent='switchBox({ my: true })'>here </button></div>
 
     <div v-on:click="showSettings = true"><i class="gg-menu-boxed"></i></div>
 
