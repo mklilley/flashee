@@ -69,6 +69,8 @@
 
             <button @click.prevent='showWelcome=true'>Show welcome screen again</button><br><br>
 
+              <button v-on:click="showConfirmReset = true">Reset App</button> <br><br>
+
 
           </div>
           </div>
@@ -176,6 +178,17 @@
       <span class="error" v-if="boxStatus==false & useRemoteStorage==true"> Problem with online storage. Only local data will be deleted.</span><br>
       <button v-on:click="deleteCard(cardToDelete)">Yes, delete card</button> <br><br>
       <button v-on:click="showConfirmDelete=false">No, take me back</button>
+
+    </div>
+  </Modal>
+
+  <!-- confirmReset modal -->
+  <Modal v-if="showConfirmReset" v-on:close="showConfirmReset = false">
+    <div slot="body" class="misc" >
+      <h2>Reset App</h2>
+      Resetting the app will delete all local data and give you new online storage credentials. Your online data will persist, but you will lose access to it unless you have taken note of your storage ID and key. <br><br>
+      <button v-on:click="resetApp()">Yes, reset app</button> <br><br>
+      <button v-on:click="showConfirmReset=false">No, take me back</button>
 
     </div>
   </Modal>
@@ -299,7 +312,8 @@ export default {
       isMobileDevice: true,
       showSync: false,
       syncInfo: "",
-      showSyncWarnings: true
+      showSyncWarnings: true,
+      showConfirmReset: false
     };
   },
   components: {
@@ -349,6 +363,10 @@ export default {
     }
   },
   methods: {
+    resetApp: function() {
+      localStorage.clear();
+      location.reload();
+    },
     toggleSyncWarnings: function() {
       localStorage.showSyncWarnings = this.showSyncWarnings;
     },
