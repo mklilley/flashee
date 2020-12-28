@@ -11,7 +11,7 @@
 
     <div @click.prevent='newSeed()' v-if="cards.length!=0"><i class="gg-dice-5"></i></div>
 
-    <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0"> <i class="gg-add"></i></div>
+    <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0"> <i class="gg-add" v-if="!readOnlyBox" readOnlyBox></i></div>
 
     <div v-on:click="showSettings = true"><i class="gg-menu-boxed"></i></div>
 
@@ -30,8 +30,12 @@
         <div v-if="showSettingsYourData" class="items">
           Number of cards: <strong>{{cards.length}}</strong> <br><br>
         <button @click.prevent='downloadData()'>Download your data</button><br><br>
-        <button @click.prevent='showConfirmDeleteAll=true'>Delete all your data</button><br><br>
+        <div v-if="!readOnlyBox">
+        <button  @click.prevent='showConfirmDeleteAll=true'>Delete all your data</button><br><br>
+      </div>
+      <div v-if="!readOnlyBox">
         <button @click.prevent='showAddFomFileModal()'>Import data from file</button>
+        </div>
       </div>
       </div><br>
       <div class="online-storage ">
@@ -39,10 +43,12 @@
         <div v-if="showSettingsOnlineStorage" class="items">
           <span class="error" v-if="boxStatus==false"> Problem with online storage</span><br>
 
+          <div v-if="!readOnlyBox">
         <label class="switch"> Toggle online storage
           <input :disabled="boxStatus==false" type="checkbox" v-model="useRemoteStorage" @change="toggleRemoteStorage()">
           <span class="slider round"></span>
         </label><br><br>
+      </div>
 
         <label v-if="useRemoteStorage" class="switch"> Toggle sync warnings
           <input :disabled="boxStatus==false" type="checkbox" v-model="showSyncWarnings" @change="toggleSyncWarnings()">
@@ -252,12 +258,12 @@
       <transition name="flip">
         <p class="card" v-if="!card.flipped" key="front" v-bind:style="{backgroundColor:card.color}">
           <span v-katex:auto v-html="card.question"></span>
-          <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
+          <span v-if="!readOnlyBox" class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
         </p>
         <p class="card" v-else key="back" v-bind:style="{backgroundColor:card.color}">
           <span v-katex:auto v-html="card.answer"></span>
-          <span class="delete-card" v-on:click.stop="confirmDelete(card)"><i class="gg-trash"></i></span>
-          <span class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
+          <span v-if="!readOnlyBox" class="delete-card" v-on:click.stop="confirmDelete(card)"><i class="gg-trash"></i></span>
+          <span v-if="!readOnlyBox" class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
           <span class="difficulty"><span v-on:click="updateDifficulty(index,1)">hard  </span><span v-on:click="updateDifficulty(index,0)">easy</span></span>
         </p>
       </transition>
@@ -318,7 +324,8 @@ export default {
       syncInfo: "",
       showSyncWarnings: true,
       showConfirmReset: false,
-      usingMyBox: true
+      usingMyBox: true,
+      readOnlyBox: false
     };
   },
   components: {
@@ -350,6 +357,7 @@ export default {
     this.boxID = await db.id({ my: true });
     this.apiKey = await db.apiKey({ my: true });
     this.usingMyBox = this.boxID === (await db.id());
+    this.readOnlyBox = (await db.apiKey()) === "";
     this.boxStatus = await db.status();
 
     if (this.useRemoteStorage) {
@@ -611,10 +619,19 @@ export default {
         this.switchApiKey = this.switchApiKey.toLowerCase();
 
         let switchApiKey;
+        // if user not selected to have edit access then use empty apiKey
         if (!this.canEdit) {
           switchApiKey = "";
         } else {
-          switchApiKey = this.switchApiKey;
+          // If user wants edit access then they must supply a non empty apiKey.
+          // Further validation is done inside of jsonbox.js
+          if (this.switchApiKey) {
+            switchApiKey = this.switchApiKey;
+          } else {
+            this.switchBoxError = "Error: Storage key must be a valid UUID.";
+            this.error = true;
+            return;
+          }
         }
 
         // Try to switch to new box. If the boxID isn't valid then we give user error message
@@ -636,6 +653,7 @@ export default {
       }
 
       this.usingMyBox = this.boxID === (await db.id());
+      this.readOnlyBox = (await db.apiKey()) === "";
     },
     toggleRemoteStorage: function() {
       // if useRemoteStorage has been turned off, we need to remove any
