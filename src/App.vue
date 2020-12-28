@@ -207,7 +207,7 @@
 
   <!-- addFromFile modal -->
   <Modal v-if="showAddFromFile" v-on:close="showAddFromFile = false">
-    <div slot="body">
+    <div slot="body" class="your-data">
       <h2>Add data from file</h2>
       <input type="file" @change="readFile"><br><br>
       <span class="error" v-show="error">{{addFromFileError}}</span>
