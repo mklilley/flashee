@@ -13,7 +13,7 @@
 
     <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0 && !readOnlyBox"> <i class="gg-add" readOnlyBox></i></div>
 
-    <div class= "misc" v-if="readOnlyBox" > View only mode. <br> Edit your own cards <button @click.prevent='switchBox({ my: true })'>here </button></div>
+    <div class="misc" v-if="readOnlyBox"> View only mode. <br> Edit your own cards <button @click.prevent='switchBox({ my: true })'>here </button></div>
 
     <div v-on:click="showSettings = true"><i class="gg-menu-boxed"></i></div>
 
@@ -26,74 +26,74 @@
   <Modal v-if="showSettings" v-on:close="showSettings = false">
     <div slot="body" class="settings">
       <h2> Settings </h2>
-      <div style="text-align:left" >
+      <div style="text-align:left">
         <div class="your-data">
-        <h3 v-bind:class="{open: showSettingsYourData}" @click.prevent="toggle('showSettingsYourData')">Your data</h3>
-        <div v-if="showSettingsYourData" class="items">
-          Number of cards: <strong>{{cards.length}}</strong> <br><br>
-        <button @click.prevent='downloadData()'>Download your data</button><br><br>
-        <div v-if="!readOnlyBox">
-        <button  @click.prevent='showConfirmDeleteAll=true'>Delete all your data</button><br><br>
-      </div>
-      <div v-if="!readOnlyBox">
-        <button @click.prevent='showAddFomFileModal()'>Import data from file</button>
-        </div>
-      </div>
-      </div><br>
-      <div class="online-storage ">
-        <h3 v-bind:class="{open: showSettingsOnlineStorage}" @click.prevent="toggle('showSettingsOnlineStorage')">Online storage</h3>
-        <div v-if="showSettingsOnlineStorage" class="items">
-          <span class="error" v-if="boxStatus==false"> Problem with online storage</span><br>
-
-          <div v-if="!readOnlyBox">
-        <label class="switch"> Toggle online storage
-          <input :disabled="boxStatus==false" type="checkbox" v-model="useRemoteStorage" @change="toggleRemoteStorage()">
-          <span class="slider round"></span>
-        </label><br><br>
-      </div>
-
-        <label v-if="useRemoteStorage" class="switch"> Toggle sync warnings
-          <input :disabled="boxStatus==false" type="checkbox" v-model="showSyncWarnings" @change="toggleSyncWarnings()">
-          <span class="slider round"></span><br><br>
-        </label>
-
-        <div v-if="useRemoteStorage">
-          My storage box ID:<br>
-          <strong>{{boxID}}</strong> <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
-          My storage box key:<br>
-          <strong>{{apiKey}}</strong> <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
-          <!-- <button :disabled="boxStatus==false" @click.prevent='restoreData()'>Restore data from storage box</button><br><br> -->
-          <button :disabled="boxStatus==false" @click.prevent='showSwitchBoxModal()'>Switch to another storage box</button><br><br>
-          <div v-if="!usingMyBox">
-          <button  :disabled="boxStatus==false" @click.prevent='switchBox({ my: true })'>Switch back to my storage box</button><br><br>
+          <h3 v-bind:class="{open: showSettingsYourData}" @click.prevent="toggle('showSettingsYourData')">Your data</h3>
+          <div v-if="showSettingsYourData" class="items">
+            Number of cards: <strong>{{cards.length}}</strong> <br><br>
+            <button @click.prevent='downloadData()'>Download your data</button><br><br>
+            <div v-if="!readOnlyBox">
+              <button @click.prevent='showConfirmDeleteAll=true'>Delete all your data</button><br><br>
+            </div>
+            <div v-if="!readOnlyBox">
+              <button @click.prevent='showAddFomFileModal()'>Import data from file</button>
+            </div>
           </div>
-
-
-
-        </div>
-        </div>
         </div><br>
-          <div class="misc ">
-            <h3 v-bind:class="{open: showSettingsMisc}" @click.prevent="toggle('showSettingsMisc')">Help</h3>
-            <div v-if="showSettingsMisc" class="items">
+        <div class="online-storage ">
+          <h3 v-bind:class="{open: showSettingsOnlineStorage}" @click.prevent="toggle('showSettingsOnlineStorage')">Online storage</h3>
+          <div v-if="showSettingsOnlineStorage" class="items">
+            <span class="error" v-if="boxStatus==false"> Problem with online storage</span><br>
+
+            <div v-if="!readOnlyBox">
+              <label class="switch"> Toggle online storage
+                <input :disabled="boxStatus==false" type="checkbox" v-model="useRemoteStorage" @change="toggleRemoteStorage()">
+                <span class="slider round"></span>
+              </label><br><br>
+            </div>
+
+            <label v-if="useRemoteStorage" class="switch"> Toggle sync warnings
+              <input :disabled="boxStatus==false" type="checkbox" v-model="showSyncWarnings" @change="toggleSyncWarnings()">
+              <span class="slider round"></span><br><br>
+            </label>
+
+            <div v-if="useRemoteStorage">
+              My storage box ID:<br>
+              <strong>{{boxID}}</strong> <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
+              My storage box key:<br>
+              <strong>{{apiKey}}</strong> <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
+              <!-- <button :disabled="boxStatus==false" @click.prevent='restoreData()'>Restore data from storage box</button><br><br> -->
+              <button :disabled="boxStatus==false" @click.prevent='showSwitchBoxModal()'>Switch to another storage box</button><br><br>
+              <div v-if="!usingMyBox">
+                <button :disabled="boxStatus==false" @click.prevent='switchBox({ my: true })'>Switch back to my storage box</button><br><br>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div><br>
+        <div class="misc ">
+          <h3 v-bind:class="{open: showSettingsMisc}" @click.prevent="toggle('showSettingsMisc')">Help</h3>
+          <div v-if="showSettingsMisc" class="items">
 
             <button @click.prevent='showSendFeedbackModal()'>Send Feedback</button><br><br>
 
             <button @click.prevent='showWelcome=true'>Show welcome screen again</button><br><br>
 
-              <div v-if="useRemoteStorage">
-            <button @click.prevent='showShare=true'>Share my cards</button><br><br>
-          </div>
+            <div v-if="useRemoteStorage">
+              <button @click.prevent='showShare=true'>Share my cards</button><br><br>
+            </div>
 
-              <button v-on:click="showConfirmReset = true">Reset App</button> <br><br>
+            <button v-on:click="showConfirmReset = true">Reset App</button> <br><br>
 
 
           </div>
-          </div>
+        </div>
 
       </div>
       <br>
-            <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> <br><br>
+      <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"></a> <br><br>
     </div>
   </Modal>
 
@@ -101,7 +101,7 @@
   <!-- Card edit modal -->
   <Modal v-if="showModal" v-on:close="showModal = false">
     <div class="flashcard-form misc" slot="body">
-      <span class="math-help" v-if="math.newFront || math.newBack"><strong>Math mode on </strong><br> Try e.g. $$\pi r^2$$<br> <a href="https://katex.org/docs/supported.html" target="_blank">List of math</a> </span><br>
+      <span class="math-help" v-if="math.newFront || math.newBack"><strong>Math mode on </strong><br> Try e.g. $\pi r^2$<br> <a href="https://katex.org/docs/supported.html" target="_blank">List of math</a> </span><br>
       <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question" autocomplete="off">
       <span class="math" v-katex:auto v-on:click="toggleMath('newFront')" v-bind:class='{mathActive:math.newFront}'>f(x)</span>
       <br> <br>
@@ -119,42 +119,44 @@
     <div slot="body" class="misc">
       <h1><img src="@/assets/logo.svg"><br>Flashee</h1>
       <h2>The free & simple flash card app</h2>
-      <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> <br><br>
+      <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"></a> <br><br>
       <div style="text-align:left">
         <div v-if="isMobileDevice">
-        <h3 class="open" >Add to home screen</h3>
-        <div class="items">
-          For the best experience, add Flashee to your home screen - you can then view your cards in full screen mode 🙌
+          <h3 class="open">Add to home screen</h3>
+          <div class="items">
+            For the best experience, add Flashee to your home screen - you can then view your cards in full screen mode 🙌
           </div> <br>
-      </div>
+        </div>
         <h3 class="open">Local data storage</h3>
         <div class="items">
-        Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/." target="_blank">localStorage</a>.
-      </div> <br>
+          Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/." target="_blank">localStorage</a>.
+        </div> <br>
         <h3 class="open">Online data storage</h3>
-          <div class="items">
-        <span v-if="useRemoteStorage">
-          Your flash cards will also be backed up in an online storage "box" for free (you can turn this off in settings).<br><br>
-          If you don't use the app for a year, however, your data will be deleted. <br><br>
-          Here is your storage box ID:<br><br>
-          <strong>{{boxID}}</strong> <br><br>
-          Here is your personal storage key:<br><br>
-          <strong>{{apiKey}}</strong> <br><br>
-          <button @click.prevent="copyToClipboard('boxID: '+boxID+'\nstorageKey: '+apiKey, $event)">Copy your box ID and key</button> and keep them safe - anyone with your box ID can view your data and anyone with your key can edit and delete your
-          data. <br><br>
+        <div class="items">
+          <span v-if="useRemoteStorage">
+            Your flash cards will also be backed up in an online storage "box" for free (you can turn this off in settings).<br><br>
+            If you don't use the app for a year, however, your data will be deleted. <br><br>
+            Here is your storage box ID:<br><br>
+            <strong>{{boxID}}</strong> <br><br>
+            Here is your personal storage key:<br><br>
+            <strong>{{apiKey}}</strong> <br><br>
+            <button @click.prevent="copyToClipboard('boxID: '+boxID+'\nstorageKey: '+apiKey, $event)">Copy your box ID and key</button> and keep them safe - anyone with your box ID can view your data and anyone with your key can edit and delete your
+            data. <br><br>
 
-          There is no backup of the online data, so if your data is lost due to some technical issues, it's lost forever.<br><br>
+            There is no backup of the online data, so if your data is lost due to some technical issues, it's lost forever.<br><br>
 
-          Please don't use this app to store sensitive information - it's not been stress tested for data security bugs.<br><br>
-        </span>
-        <span v-else>
-          Currently disabled in settings
-        </span>
+            Please don't use this app to store sensitive information - it's not been stress tested for data security bugs.<br><br>
+          </span>
+          <span v-else>
+            Currently disabled in settings
+          </span>
         </div>
         <br>
         <h3 class="open">The story</h3>
         <div class="items">
-          I built a basic version of Flashee in the Christmas holidays of 2018. The idea was to help me remember physics facts. Since then, I've enjoyed using it every day as part of my casual physics morning routine 🤓 . I thought other people might also find it useful so I decided to clean it up and make it available to everyone for free. You can find the code on <a target="_blank" href="https://github.com/mklilley/flashee">GitHub <img src="@/assets/github.png" height=20></a>.  Enjoy!
+          I built a basic version of Flashee in the Christmas holidays of 2018. The idea was to help me remember physics facts. Since then, I've enjoyed using it every day as part of my casual physics morning routine 🤓 . I thought other people
+          might also find it useful so I decided to clean it up and make it available to everyone for free. You can find the code on <a target="_blank" href="https://github.com/mklilley/flashee">GitHub <img src="@/assets/github.png" height=20></a>.
+          Enjoy!
         </div>
       </div>
       <br>
@@ -178,7 +180,7 @@
 
   <!-- confirmDeleteAll modal -->
   <Modal v-if="showConfirmDeleteAll" v-on:close="showConfirmDeleteAll = false">
-    <div slot="body" class="your-data" >
+    <div slot="body" class="your-data">
       <h2>Delete all data</h2>
       <span class="error" v-if="boxStatus==false & useRemoteStorage==true"> Problem with online storage. Only local data will be deleted.</span><br>
       <button v-on:click="deleteAllData($event)">Yes, delete everything</button> <br><br>
@@ -189,7 +191,7 @@
 
   <!-- confirmDelete modal -->
   <Modal v-if="showConfirmDelete" v-on:close="showConfirmDelete = false">
-    <div slot="body" class="misc" >
+    <div slot="body" class="misc">
       <h2>Delete card</h2>
       <span class="error" v-if="boxStatus==false & useRemoteStorage==true"> Problem with online storage. Only local data will be deleted.</span><br>
       <button v-on:click="deleteCard(cardToDelete)">Yes, delete card</button> <br><br>
@@ -200,7 +202,7 @@
 
   <!-- confirmReset modal -->
   <Modal v-if="showConfirmReset" v-on:close="showConfirmReset = false">
-    <div slot="body" class="misc" >
+    <div slot="body" class="misc">
       <h2>Reset App</h2>
       Resetting the app will delete all local data and give you new online storage credentials. Your online data will persist, but you will lose access to it unless you have taken note of your storage ID and key. <br><br>
       <button v-on:click="resetApp()">Yes, reset app</button> <br><br>
@@ -228,8 +230,8 @@
       <!-- modify this form HTML and place wherever you want your form -->
 
       <form v-on:submit.prevent="sendFeedback($event)">
-          <input maxlength="10000" required v-model="feedbackEmail" type="email" name="email" placeholder="Your email"><br><br>
-          <textarea maxlength="10000" required v-model="feedbackMessage" name="message" placeholder="Your message"></textarea> <br><br>
+        <input maxlength="10000" required v-model="feedbackEmail" type="email" name="email" placeholder="Your email"><br><br>
+        <textarea maxlength="10000" required v-model="feedbackMessage" name="message" placeholder="Your message"></textarea> <br><br>
 
         <vue-recaptcha ref="recaptcha" sitekey="6LfgCwoaAAAAAN6cSEf1nORFFicjw6STUtV3U4Em" :loadRecaptchaScript="true" @verify="recaptchaOK=true"></vue-recaptcha>
         <span class="error" v-show="error">Problem sending your feedback. Please check your internet connection and try again.</span>
@@ -243,7 +245,7 @@
 
   <!-- sync modal -->
   <Modal v-if="showSync" v-on:close="showSync = false">
-    <div slot="body" class="misc" >
+    <div slot="body" class="misc">
       <h2>Warning</h2>
       Local storage is out of sync with online storage. {{syncInfo}} <br><br>
       <button v-on:click="restoreData();showSync=false">Restore data from online storage</button> <br><br>
@@ -262,7 +264,7 @@
       Alternatively, anyone can see your cards via this link: <br> <br>
       <strong>https://flashee.lilley.io?box={{boxID}}</strong> <button @click.prevent="copyToClipboard(`https://flashee.lilley.io?box=${boxID}`,$event)">copy</button><br><br>
 
-    <button v-on:click="showShare=false">OK</button>
+      <button v-on:click="showShare=false">OK</button>
 
 
 
@@ -273,11 +275,11 @@
 
 
   <ul class="flashcard-list">
-  <li v-if="cards.length==0">
-    <p  class="no-card" v-on:click.stop="createCard()">
-      <span>No cards, tap to create one</span>
-    </p>
-  </li>
+    <li v-if="cards.length==0">
+      <p class="no-card" v-on:click.stop="createCard()">
+        <span>No cards, tap to create one</span>
+      </p>
+    </li>
 
     <li v-for="(card, index) in cards" v-on:click="toggleCard(index)" :key="index">
       <transition name="flip">
@@ -289,7 +291,7 @@
           <span v-katex:auto v-html="card.answer"></span>
           <span v-if="!readOnlyBox" class="delete-card" v-on:click.stop="confirmDelete(card)"><i class="gg-trash"></i></span>
           <span v-if="!readOnlyBox" class="edit-card" v-on:click.stop="editCard(card)"><i class="gg-pen"></i></span>
-          <span class="difficulty"><span v-on:click="updateDifficulty(index,1)">hard  </span><span v-on:click="updateDifficulty(index,0)">easy</span></span>
+          <span class="difficulty"><span v-on:click="updateDifficulty(index,1)">hard </span><span v-on:click="updateDifficulty(index,0)">easy</span></span>
         </p>
       </transition>
     </li>
