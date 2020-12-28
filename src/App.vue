@@ -157,8 +157,8 @@
       <h2>Switch box</h2>
       <input v-on:keypress.enter="switchBox()" v-model.trim="switchBoxID" type="text" placeholder="New box ID"><br><br>
       Use current storage key
-      <input type="checkbox" v-model="useCurrentApiKey">
-      <input v-if="!useCurrentApiKey" v-on:keypress.enter="switchBox()" v-model.trim="switchApiKey" type="text" placeholder="New storage key"><br><br>
+      <input type="checkbox" v-model="useMyApiKey">
+      <input v-if="!useMyApiKey" v-on:keypress.enter="switchBox()" v-model.trim="switchApiKey" type="text" placeholder="New storage key"><br><br>
       <button v-on:click="switchBox()">Switch to new box</button>
       <span class="error" v-show="error">{{switchBoxError}}</span>
     </div>
@@ -301,7 +301,7 @@ export default {
       showConfirmDelete: false,
       switchApiKey: "",
       switchBoxError: "",
-      useCurrentApiKey: true,
+      useMyApiKey: true,
       showAddFromFile: false,
       addFromFileError: "",
       fileOK: false,
@@ -594,7 +594,7 @@ export default {
     },
     showSwitchBoxModal: function() {
       this.error = false;
-      this.useCurrentApiKey = true;
+      this.useMyApiKey = true;
       this.switchBoxError = "";
       this.switchBoxID = "";
       this.showSwitchBox = true;
@@ -611,7 +611,7 @@ export default {
         this.switchApiKey = this.switchApiKey.toLowerCase();
 
         let switchApiKey;
-        if (this.useCurrentApiKey) {
+        if (this.useMyApiKey) {
           switchApiKey = this.apiKey;
         } else {
           switchApiKey = this.switchApiKey;
