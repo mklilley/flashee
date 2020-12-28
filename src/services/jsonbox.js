@@ -119,7 +119,7 @@ const box = {
     // 20 character HEX string
     let isHex20 = newBoxID.match("^[0-9a-f]{20}$");
     // If user entered a newApiKey for this box, then check it is a valid UUID
-    let isUUID = null; // setting = null rather than leaving undefined will stop blank apiKeys until I am ready to implement publicly editable boxes
+    let isUUID;
     if (newApiKey) {
       isUUID = newApiKey.match(
         "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
