@@ -54,7 +54,7 @@
           <strong>{{boxID}}</strong> <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
           My storage box key:<br>
           <strong>{{apiKey}}</strong> <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
-          <button :disabled="boxStatus==false" @click.prevent='restoreData()'>Restore data from storage box</button><br><br>
+          <!-- <button :disabled="boxStatus==false" @click.prevent='restoreData()'>Restore data from storage box</button><br><br> -->
           <button :disabled="boxStatus==false" @click.prevent='showSwitchBoxModal()'>Switch to another storage box</button><br><br>
           <div v-if="!usingMyBox">
           <button  :disabled="boxStatus==false" @click.prevent='switchBox({ my: true })'>Switch back to my storage box</button><br><br>
@@ -156,9 +156,9 @@
     <div slot="body" class="online-storage">
       <h2>Switch box</h2>
       <input v-on:keypress.enter="switchBox()" v-model.trim="switchBoxID" type="text" placeholder="New box ID"><br><br>
-      Use current storage key
-      <input type="checkbox" v-model="useMyApiKey">
-      <input v-if="!useMyApiKey" v-on:keypress.enter="switchBox()" v-model.trim="switchApiKey" type="text" placeholder="New storage key"><br><br>
+      Do you want to edit the cards?
+      <input type="checkbox" v-model="canEdit">
+      <input v-if="canEdit" v-on:keypress.enter="switchBox()" v-model.trim="switchApiKey" type="text" placeholder="New storage key"><br><br>
       <button v-on:click="switchBox()">Switch to new box</button>
       <span class="error" v-show="error">{{switchBoxError}}</span>
     </div>
@@ -301,7 +301,7 @@ export default {
       showConfirmDelete: false,
       switchApiKey: "",
       switchBoxError: "",
-      useMyApiKey: true,
+      canEdit: false,
       showAddFromFile: false,
       addFromFileError: "",
       fileOK: false,
@@ -594,7 +594,7 @@ export default {
     },
     showSwitchBoxModal: function() {
       this.error = false;
-      this.useMyApiKey = true;
+      this.canEdit = false;
       this.switchBoxError = "";
       this.switchBoxID = "";
       this.showSwitchBox = true;
@@ -611,8 +611,8 @@ export default {
         this.switchApiKey = this.switchApiKey.toLowerCase();
 
         let switchApiKey;
-        if (this.useMyApiKey) {
-          switchApiKey = this.apiKey;
+        if (!this.canEdit) {
+          switchApiKey = "";
         } else {
           switchApiKey = this.switchApiKey;
         }
