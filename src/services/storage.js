@@ -87,6 +87,12 @@ const db = {
       if (cards) {
         // Save the cards to the localStorage
         localStorage.setItem(key, JSON.stringify(cards));
+        // If there are cards in the remote storage then add the last update time
+        // to local storage
+        if (Object.keys(cards).length !== 0) {
+          let status = await this.status();
+          localStorage.setItem("remoteUpdatedOn", status.remoteUpdatedOn);
+        }
       }
       //
       else {
