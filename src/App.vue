@@ -234,7 +234,7 @@
     <div slot="body" class="misc" >
       <h2>Warning</h2>
       Local storage is out of sync with online storage. {{syncInfo}} <br><br>
-      <button v-on:click="restoreData()">Restore data from online storage</button> <br><br>
+      <button v-on:click="restoreData();showSync=false">Restore data from online storage</button> <br><br>
       <button v-on:click="ignoreSyncWarnings()">Ignore sync warnings</button>
 
     </div>
