@@ -348,7 +348,7 @@ export default {
 
     if (this.useRemoteStorage) {
       this.keepDataAlive();
-      if (this.showSyncWarnings) {
+      if (this.showSyncWarnings && this.boxStatus) {
         this.checkForRemoteCardChanges();
       }
     }
