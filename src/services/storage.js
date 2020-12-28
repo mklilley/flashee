@@ -100,13 +100,19 @@ const db = {
     return Object.values(cards);
   },
   update: async function(id, newData, options = {}) {
+    // Get all the cards
+    let allCards = JSON.parse(localStorage.getItem(key)) || {};
+
+    // Update the specific card with the new data
+    allCards[id] = { ...allCards[id], ...newData };
+
     // Only update data on the remote database if remote flag is true
     if (options.remote === true) {
       let result = await remote.update(id, allCards[id]);
 
       // The call to the remote is successful
       if (result) {
-        newData["_updatedOn"] = result["_updatedOn"];
+        allCards[id]["_updatedOn"] = result["_updatedOn"];
       }
       // The call to the remote is unsuccessful
       else {
@@ -114,12 +120,6 @@ const db = {
         recordRemoteFail(id, "update");
       }
     }
-
-    // Get all the cards
-    let allCards = JSON.parse(localStorage.getItem(key)) || {};
-
-    // Update the specific card with the new data
-    allCards[id] = { ...allCards[id], ...newData };
 
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
