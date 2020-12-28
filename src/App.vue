@@ -81,6 +81,10 @@
 
             <button @click.prevent='showWelcome=true'>Show welcome screen again</button><br><br>
 
+              <div v-if="useRemoteStorage">
+            <button @click.prevent='showShare=true'>Share my cards</button><br><br>
+          </div>
+
               <button v-on:click="showConfirmReset = true">Reset App</button> <br><br>
 
 
@@ -248,6 +252,25 @@
     </div>
   </Modal>
 
+  <!-- share modal -->
+  <Modal v-if="showShare" v-on:close="showShare = false">
+    <div slot="body" class="misc">
+      <h2>Sharing</h2>
+      To share your cards with others, give them your storage box ID: <br><br>
+      <strong>{{boxID}}</strong> <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
+      They can then use the "Switch to another storage box" button in the "Online Storage" settings. This is best for those who already have Flashee installed.<br> <br>
+      Alternatively, anyone can see your cards via this link: <br> <br>
+      <strong>https://flashee.lilley.io?box={{boxID}}</strong> <button @click.prevent="copyToClipboard(`https://flashee.lilley.io?box=${boxID}`,$event)">copy</button><br><br>
+
+    <button v-on:click="showShare=false">OK</button>
+
+
+
+    </div>
+  </Modal>
+
+
+
 
   <ul class="flashcard-list">
   <li v-if="cards.length==0">
@@ -327,7 +350,8 @@ export default {
       showSyncWarnings: true,
       showConfirmReset: false,
       usingMyBox: true,
-      readOnlyBox: false
+      readOnlyBox: false,
+      showShare: false
     };
   },
   components: {
