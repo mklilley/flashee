@@ -726,7 +726,6 @@ export default {
       if (card.flipped) {
         // update read number on cards
         card.reads += 1;
-        console.log(card.reads);
         // update reads number in storage
         await db.update(card.id, {
           reads: card.reads
