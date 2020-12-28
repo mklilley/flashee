@@ -144,11 +144,13 @@ const box = {
     });
 
     if ((response || {}).ok) {
-      // if response is ok then echo back the original data including the
-      // jsonbox id for the document
+      // if response is ok then return the response with some modifications
+      //  the response echos back the data with _id, and _createdOn. We will rename
+      // the _id for convenience in referencing in the app.
       let json = await response.json();
-      data.id = json["_id"];
-      return data;
+      json.id = json["_id"];
+      delete json["_id"];
+      return json;
     } else {
       return false;
     }
