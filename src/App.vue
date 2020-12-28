@@ -248,7 +248,7 @@ export default {
     return {
       boxID: "",
       apiKey: "",
-      boxStatus: true,
+      boxStatus: {},
       cards: [],
       newFront: "",
       newBack: "",

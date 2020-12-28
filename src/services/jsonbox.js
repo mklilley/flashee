@@ -80,7 +80,8 @@ const box = {
     });
 
     if ((response || {}).ok) {
-      return true;
+      let json = await response.json();
+      return json;
     } else {
       return false;
     }
