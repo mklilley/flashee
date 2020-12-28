@@ -205,7 +205,8 @@ const box = {
     });
 
     if ((response || {}).ok) {
-      return response.json();
+      let json = await response.json();
+      return json;
     } else {
       return false;
     }
@@ -224,7 +225,8 @@ const box = {
     });
 
     if ((response || {}).ok) {
-      return response.json();
+      let json = await response.json();
+      return json;
     } else {
       return false;
     }
