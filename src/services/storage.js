@@ -22,11 +22,11 @@ function recordRemoteFail(id, typeOfFail) {
 const key = "cards";
 
 const db = {
-  id: async function() {
-    return await remote.id();
+  id: async function(options = {}) {
+    return await remote.id(options);
   },
-  apiKey: async function() {
-    return await remote.apiKey();
+  apiKey: async function(options = {}) {
+    return await remote.apiKey(options);
   },
   status: async function() {
     return await remote.status();

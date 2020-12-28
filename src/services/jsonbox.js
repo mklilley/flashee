@@ -36,17 +36,19 @@ let boxID = localStorage.getItem("jsonbox");
 if (boxID === null) {
   boxID = createUniqueID();
   localStorage.setItem("jsonbox", boxID);
+  // Set another storage key for the purpose of identifying the users personal
+  // jsonbox which might be different from the current box
+  localStorage.setItem("myJsonbox", boxID);
 }
 
-// Check to see if the app has any apiKeys set and if not then attach one
-// to the current jsonbox
-let apiKey;
-let apiKeys = JSON.parse(localStorage.getItem("apiKeys"));
-if (apiKeys === null) {
+// Check to see if the app has an apiKey set and if not then create one.
+let apiKey = localStorage.getItem("apiKey");
+if (apiKey === null) {
   apiKey = createUUID();
-  localStorage.setItem("apiKeys", JSON.stringify({ [boxID]: apiKey }));
-} else {
-  apiKey = apiKeys[boxID];
+  localStorage.setItem("apiKey", apiKey);
+  // Set another storage key for the purpose of identifying the users personal
+  // apiKey which might be different from the current apiKey
+  localStorage.setItem("myApiKey", apiKey);
 }
 
 let API_URL = API_BASE + boxID;
@@ -63,11 +65,23 @@ let API_META_URL = API_BASE_META + boxID;
 // update : Function to update the data for a specific "document" from the jsonbox
 // delete : Function to delete a specific "document" from the jsonbox
 const box = {
-  id: async function() {
-    let boxID = localStorage.getItem("jsonbox");
+  id: async function(options = {}) {
+    let boxID;
+    if (options.my === true) {
+      boxID = localStorage.getItem("myJsonbox");
+    } else {
+      boxID = localStorage.getItem("jsonbox");
+    }
     return boxID;
   },
-  apiKey: async function() {
+  apiKey: async function(options = {}) {
+    let apiKey;
+    if (options.my === true) {
+      apiKey = localStorage.getItem("myApiKey");
+    } else {
+      apiKey = localStorage.getItem("apiKey");
+    }
+
     return apiKey;
   },
   status: async function() {
@@ -133,10 +147,8 @@ const box = {
 
     // if no apiKey is supplied then store blank apiKey (this will evetually be)
     // treated as a publicly editable box TODO
-    let apiKeys = JSON.parse(localStorage.getItem("apiKeys"));
-    apiKeys[newBoxID] = newApiKey ? newApiKey : "";
-    localStorage.setItem("apiKeys", JSON.stringify(apiKeys));
-    apiKey = apiKeys[newBoxID];
+    apiKey = newApiKey ? newApiKey : "";
+    localStorage.setItem("apiKey", apiKey);
 
     return true;
   },
