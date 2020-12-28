@@ -44,6 +44,11 @@
           <span class="slider round"></span>
         </label><br><br>
 
+        <label v-if="useRemoteStorage" class="switch"> Toggle sync warnings
+          <input :disabled="boxStatus==false" type="checkbox" v-model="showSyncWarnings" @change="toggleSyncWarnings()">
+          <span class="slider round"></span><br><br>
+        </label>
+
         <div v-if="useRemoteStorage">
           <button :disabled="boxStatus==false" @click.prevent='restoreData()'>Restore data from storage box</button><br><br>
           <button :disabled="boxStatus==false" @click.prevent='showSwitchBoxModal()'>Switch to another storage box</button><br><br>
@@ -203,6 +208,18 @@
         <br>
         <button v-if="recaptchaOK" type="submit">Send</button>
       </form>
+    </div>
+  </Modal>
+
+
+  <!-- sync modal -->
+  <Modal v-if="showSync" v-on:close="showSync = false">
+    <div slot="body" class="misc" >
+      <h2>Warning</h2>
+      Local storage is out of sync with online storage. {{syncInfo}} <br><br>
+      <button v-on:click="restoreData()">Restore data from online storage</button> <br><br>
+      <button v-on:click="ignoreSyncWarnings()">Ignore sync warnings</button>
+
     </div>
   </Modal>
 
