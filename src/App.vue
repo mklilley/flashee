@@ -50,12 +50,16 @@
         </label>
 
         <div v-if="useRemoteStorage">
-          <button :disabled="boxStatus==false" @click.prevent='restoreData()'>Restore data from storage box</button><br><br>
-          <button :disabled="boxStatus==false" @click.prevent='showSwitchBoxModal()'>Switch to another storage box</button><br><br>
           My storage box ID:<br>
           <strong>{{boxID}}</strong> <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
           My storage box key:<br>
           <strong>{{apiKey}}</strong> <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
+          <button :disabled="boxStatus==false" @click.prevent='restoreData()'>Restore data from storage box</button><br><br>
+          <button :disabled="boxStatus==false" @click.prevent='showSwitchBoxModal()'>Switch to another storage box</button><br><br>
+          <div v-if="!usingMyBox">
+          <button  :disabled="boxStatus==false" @click.prevent='switchBox({ my: true })'>Switch back to my storage box</button><br><br>
+          </div>
+
 
 
         </div>
@@ -313,7 +317,8 @@ export default {
       showSync: false,
       syncInfo: "",
       showSyncWarnings: true,
-      showConfirmReset: false
+      showConfirmReset: false,
+      usingMyBox: true
     };
   },
   components: {
@@ -344,6 +349,7 @@ export default {
     this.showSyncWarnings = JSON.parse(localStorage.showSyncWarnings);
     this.boxID = await db.id({ my: true });
     this.apiKey = await db.apiKey({ my: true });
+    this.usingMyBox = this.boxID === (await db.id());
     this.boxStatus = await db.status();
 
     if (this.useRemoteStorage) {
@@ -593,35 +599,43 @@ export default {
       this.switchBoxID = "";
       this.showSwitchBox = true;
     },
-    switchBox: async function() {
-      this.error = false;
-      // lowercase the data before trying to swtich
-      this.switchBoxID = this.switchBoxID.toLowerCase();
-      this.switchApiKey = this.switchApiKey.toLowerCase();
-
-      let switchApiKey;
-      if (this.useCurrentApiKey) {
-        switchApiKey = this.apiKey;
-      } else {
-        switchApiKey = this.switchApiKey;
-      }
-
-      // Try to switch to new box. If the boxID isn't valid then we give user error message
-
-      let switchedOK = await db
-        .switch(this.switchBoxID, switchApiKey)
-        .catch(error => {
-          this.switchBoxError = error;
-          this.error = true;
-        });
-      if (switchedOK) {
-        this.showSwitchBox = false;
-        this.switchBoxID = "";
-        this.switchApiKey = "";
-        // After switching we need to restore the data from the remote source. This
-        // can be done asynchronously so no need to add await
+    switchBox: async function(options = {}) {
+      if (options.my === true) {
+        // switch back to pesonal storage box
+        await db.switch(this.boxID, this.apiKey);
         this.restoreData();
+      } else {
+        this.error = false;
+        // lowercase the data before trying to swtich
+        this.switchBoxID = this.switchBoxID.toLowerCase();
+        this.switchApiKey = this.switchApiKey.toLowerCase();
+
+        let switchApiKey;
+        if (this.useCurrentApiKey) {
+          switchApiKey = this.apiKey;
+        } else {
+          switchApiKey = this.switchApiKey;
+        }
+
+        // Try to switch to new box. If the boxID isn't valid then we give user error message
+
+        let switchedOK = await db
+          .switch(this.switchBoxID, switchApiKey)
+          .catch(error => {
+            this.switchBoxError = error;
+            this.error = true;
+          });
+        if (switchedOK) {
+          this.showSwitchBox = false;
+          this.switchBoxID = "";
+          this.switchApiKey = "";
+          // After switching we need to restore the data from the remote source. This
+          // can be done asynchronously so no need to add await
+          this.restoreData();
+        }
       }
+
+      this.usingMyBox = this.boxID === (await db.id());
     },
     toggleRemoteStorage: function() {
       // if useRemoteStorage has been turned off, we need to remove any
