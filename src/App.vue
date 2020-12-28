@@ -296,7 +296,10 @@ export default {
       feedbackEmail: "",
       feedbackMessage: "",
       cardToDelete: {},
-      isMobileDevice: true
+      isMobileDevice: true,
+      showSync: false,
+      syncInfo: "",
+      showSyncWarnings: true
     };
   },
   components: {
@@ -317,16 +320,23 @@ export default {
     if (localStorage.lastKeepAliveDate === undefined) {
       localStorage.lastKeepAliveDate = new Date();
     }
+    if (localStorage.showSyncWarnings === undefined) {
+      localStorage.showSyncWarnings = true;
+    }
 
     // need to JSON prase in order for true/false to be boolean rather than string
     this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
     this.showWelcome = !JSON.parse(localStorage.haveSeenWelcome);
+    this.showSyncWarnings = JSON.parse(localStorage.showSyncWarnings);
     this.boxID = await db.id();
     this.apiKey = await db.apiKey();
     this.boxStatus = await db.status();
 
     if (this.useRemoteStorage) {
       this.keepDataAlive();
+      if (this.showSyncWarnings) {
+        this.checkForRemoteCardChanges();
+      }
     }
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -339,6 +349,32 @@ export default {
     }
   },
   methods: {
+    toggleSyncWarnings: function() {
+      localStorage.showSyncWarnings = this.showSyncWarnings;
+    },
+    ignoreSyncWarnings: function() {
+      this.showSyncWarnings = false;
+      localStorage.showSyncWarnings = false;
+      this.showSync = false;
+    },
+    checkForRemoteCardChanges: async function() {
+      this.syncInfo = "";
+      //First check if local card number is different to what's on remote
+      if (this.boxStatus.numCards !== this.cards.length) {
+        // Show sync warning to user
+        this.syncInfo = `Local cards: ${this.cards.length}, Remote cards: ${this.boxStatus.numCards}.`;
+        this.showSync = true;
+      } else if (this.boxStatus.remoteUpdatedOn) {
+        // Next check if the online storage has been updated since the user last did
+        // an update from this device. If so then show sync warning screen
+        if (
+          new Date(this.boxStatus.remoteUpdatedOn) >
+          new Date(localStorage.remoteUpdatedOn)
+        ) {
+          this.showSync = true;
+        }
+      }
+    },
     loadCards: async function(options = {}) {
       let cards = await db.read(options);
       cards = this.shuffle(cards);
