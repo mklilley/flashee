@@ -47,6 +47,9 @@ const db = {
         // The output from remote.create() should be to echo back the card data
         // with an extra key "id" which is provided by the remote database
         newCard = result;
+        // Store last update time in local storage so we can check when local storage
+        // is out of sync with server
+        localStorage.setItem("remoteUpdatedOn", result["_createdOn"]);
       }
       // The call to the remote is unsuccessful
       if (!result) {
@@ -113,6 +116,9 @@ const db = {
       // The call to the remote is successful
       if (result) {
         allCards[id]["_updatedOn"] = result["_updatedOn"];
+        // Store last update time in local storage so we can check when local storage
+        // is out of sync with server
+        localStorage.setItem("remoteUpdatedOn", result["_updatedOn"]);
       }
       // The call to the remote is unsuccessful
       else {
