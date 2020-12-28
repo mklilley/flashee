@@ -13,7 +13,7 @@
 
     <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0 && !readOnlyBox"> <i class="gg-add" readOnlyBox></i></div>
 
-    <div class= "misc" v-if="readOnlyBox" > View only mode. <br> Edit you own cards <button @click.prevent='switchBox({ my: true })'>here </button></div>
+    <div class= "misc" v-if="readOnlyBox" > View only mode. <br> Edit your own cards <button @click.prevent='switchBox({ my: true })'>here </button></div>
 
     <div v-on:click="showSettings = true"><i class="gg-menu-boxed"></i></div>
 
