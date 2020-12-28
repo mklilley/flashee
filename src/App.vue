@@ -335,16 +335,6 @@ export default {
     VueRecaptcha
   },
   async mounted() {
-    // Check URL for box parameter. If it exists then load cards from the Online
-    // storage box with the corresponding ID.
-    const params = new URLSearchParams(window.location.search);
-    if (params.has("box")) {
-      this.canEdit = false;
-      this.switchBoxID = params.get("box");
-      await this.switchBox();
-    }
-
-    this.cards = await this.loadCards();
     // If first time using the app, we need to set up some localStorage variables
     // for keeping track of the welcome screen, users choice on remote storage and
     // keeping the remote data alive if remote storage is being used (it expires after a year)
@@ -365,6 +355,19 @@ export default {
     this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
     this.showWelcome = !JSON.parse(localStorage.haveSeenWelcome);
     this.showSyncWarnings = JSON.parse(localStorage.showSyncWarnings);
+
+    // Check URL for box parameter. If it exists then load cards from the Online
+    // storage box with the corresponding ID.
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("box")) {
+      this.canEdit = false;
+      this.switchBoxID = params.get("box");
+      await this.switchBox();
+      window.history.replaceState(null, null, window.location.pathname);
+    }
+
+    this.cards = await this.loadCards();
+
     this.boxID = await db.id({ my: true });
     this.apiKey = await db.apiKey({ my: true });
     this.usingMyBox = this.boxID === (await db.id());
@@ -623,7 +626,6 @@ export default {
         // switch back to pesonal storage box
         await db.switch(this.boxID, this.apiKey);
         await this.restoreData();
-        window.history.replaceState(null, null, window.location.pathname);
       } else {
         this.error = false;
         // lowercase the data before trying to swtich
