@@ -9,11 +9,11 @@
 
   <div class="top-bar">
 
-    <div @click.prevent='newSeed()' v-if="cards.length!=0"><i class="gg-dice-6"></i></div>
+    <div @click.prevent='newSeed()' v-if="cards.length!=0"><i class="gg-dice-5"></i></div>
 
     <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0"> <i class="gg-add"></i></div>
 
-    <div v-on:click="showSettings = true"><i class="gg-menu"></i></div>
+    <div v-on:click="showSettings = true"><i class="gg-menu-boxed"></i></div>
 
   </div>
 
@@ -1129,7 +1129,7 @@ button.wait::after {
   left: 8px;
 }
 
-.gg-dice-6 {
+.gg-dice-5 {
   --ggs: 1.5;
   display: block;
   transform: scale(var(--ggs, 1));
@@ -1141,7 +1141,8 @@ button.wait::after {
   border-radius: 3px;
   color: rgb(161, 125, 233);
 }
-.gg-dice-6::before {
+
+.gg-dice-5::before {
   content: "";
   display: block;
   box-sizing: border-box;
@@ -1152,33 +1153,34 @@ button.wait::after {
   border-radius: 4px;
   left: 2px;
   top: 2px;
-  box-shadow: 0 5px 0, 0 10px 0, 10px 0 0, 10px 5px 0, 10px 10px 0;
+  box-shadow: 0 10px 0, 10px 0 0, 10px 10px 0, 5px 5px 0;
 }
 
-.gg-menu {
-  --ggs: 1.5;
-  transform: scale(var(--ggs, 1));
-  color: rgb(161, 125, 233);
-}
-.gg-menu,
-.gg-menu::after,
-.gg-menu::before {
+.gg-menu-boxed {
+  --ggs: 1.8;
   box-sizing: border-box;
   position: relative;
   display: block;
-  width: 20px;
-  height: 2px;
+  transform: scale(var(--ggs, 1));
+  width: 18px;
+  height: 18px;
   border-radius: 3px;
-  background: currentColor;
+  border: 2px solid;
+  color: rgb(161, 125, 233);
 }
-.gg-menu::after,
-.gg-menu::before {
+
+.gg-menu-boxed::before {
   content: "";
+  display: block;
+  box-sizing: border-box;
   position: absolute;
-  top: -6px;
-}
-.gg-menu::after {
-  top: 6px;
+  width: 10px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 3px;
+  top: 2px;
+  left: 2px;
+  box-shadow: 0 4px 0, 0 8px 0;
 }
 
 .gg-trash {
