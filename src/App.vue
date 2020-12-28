@@ -52,9 +52,9 @@
         <div v-if="useRemoteStorage">
           <button :disabled="boxStatus==false" @click.prevent='restoreData()'>Restore data from storage box</button><br><br>
           <button :disabled="boxStatus==false" @click.prevent='showSwitchBoxModal()'>Switch to another storage box</button><br><br>
-          Storage box ID:<br>
+          My storage box ID:<br>
           <strong>{{boxID}}</strong> <button @click.prevent="copyToClipboard(boxID,$event)">copy</button><br><br>
-          Storage box key:<br>
+          My storage box key:<br>
           <strong>{{apiKey}}</strong> <button @click.prevent="copyToClipboard(apiKey,$event)">copy</button><br><br>
 
 
@@ -342,8 +342,8 @@ export default {
     this.useRemoteStorage = JSON.parse(localStorage.useRemoteStorage);
     this.showWelcome = !JSON.parse(localStorage.haveSeenWelcome);
     this.showSyncWarnings = JSON.parse(localStorage.showSyncWarnings);
-    this.boxID = await db.id();
-    this.apiKey = await db.apiKey();
+    this.boxID = await db.id({ my: true });
+    this.apiKey = await db.apiKey({ my: true });
     this.boxStatus = await db.status();
 
     if (this.useRemoteStorage) {
@@ -615,9 +615,6 @@ export default {
           this.error = true;
         });
       if (switchedOK) {
-        // Switch went ok. Now update the boxID and apiKey, close modal and reset switchBoxID
-        this.boxID = await db.id();
-        this.apiKey = await db.apiKey();
         this.showSwitchBox = false;
         this.switchBoxID = "";
         this.switchApiKey = "";
