@@ -101,7 +101,7 @@
   <!-- Card edit modal -->
   <Modal v-if="showModal" v-on:close="showModal = false">
     <div class="flashcard-form misc" slot="body">
-      <span class="math-help" v-if="math.newFront || math.newBack"><strong>Math mode on </strong><br> Try e.g. $\pi r^2$<br> <a href="https://katex.org/docs/supported.html" target="_blank">List of math</a> </span><br>
+      <span class="math-help" v-if="math.newFront || math.newBack"><strong>Math mode on </strong><br> Try e.g. $$\pi r^2$$<br> <a href="https://katex.org/docs/supported.html" target="_blank">List of math</a> </span><br>
       <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question" autocomplete="off">
       <span class="math" v-katex:auto v-on:click="toggleMath('newFront')" v-bind:class='{mathActive:math.newFront}'>f(x)</span>
       <br> <br>
