@@ -93,7 +93,7 @@
 
       </div>
       <br>
-      <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"></a> <br><br>
+      <a href="https://www.buymeacoffee.com/mklilley" target="_blank" rel="noopener"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"></a> <br><br>
     </div>
   </Modal>
 
@@ -101,7 +101,7 @@
   <!-- Card edit modal -->
   <Modal v-if="showModal" v-on:close="showModal = false">
     <div class="flashcard-form misc" slot="body">
-      <span class="math-help" v-if="math.newFront || math.newBack"><strong>Math mode on </strong><br> Try e.g. $$\pi r^2$$<br> <a href="https://katex.org/docs/supported.html" target="_blank">List of math</a> </span><br>
+      <span class="math-help" v-if="math.newFront || math.newBack"><strong>Math mode on </strong><br> Try e.g. $$\pi r^2$$<br> <a href="https://katex.org/docs/supported.html" target="_blank" rel="noopener">List of math</a> </span><br>
       <input v-on:keypress.enter="saveCard()" v-model.trim="newFront" type="text" id="front" placeholder="Question" autocomplete="off">
       <span class="math" v-katex:auto v-on:click="toggleMath('newFront')" v-bind:class='{mathActive:math.newFront}'>f(x)</span>
       <br> <br>
@@ -119,7 +119,7 @@
     <div slot="body" class="misc">
       <h1><img src="@/assets/logo.svg"><br>Flashee</h1>
       <h2>The free & simple flash card app</h2>
-      <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"></a> <br><br>
+      <a href="https://www.buymeacoffee.com/mklilley" target="_blank" rel="noopener"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"></a> <br><br>
       <div style="text-align:left">
         <div v-if="isMobileDevice">
           <h3 class="open">Add to home screen</h3>
@@ -129,7 +129,7 @@
         </div>
         <h3 class="open">Local data storage</h3>
         <div class="items">
-          Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/." target="_blank">localStorage</a>.
+          Your flash cards are stored on your device using your browser's <a href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/." target="_blank" rel="noopener">localStorage</a>.
         </div> <br>
         <h3 class="open">Online data storage</h3>
         <div class="items">
@@ -155,7 +155,7 @@
         <h3 class="open">The story</h3>
         <div class="items">
           I built a basic version of Flashee in the Christmas holidays of 2018. The idea was to help me remember physics facts. Since then, I've enjoyed using it every day as part of my casual physics morning routine 🤓 . I thought other people
-          might also find it useful so I decided to clean it up and make it available to everyone for free. You can find the code on <a target="_blank" href="https://github.com/mklilley/flashee">GitHub <img src="@/assets/github.png" height=20></a>.
+          might also find it useful so I decided to clean it up and make it available to everyone for free. You can find the code on <a target="_blank" href="https://github.com/mklilley/flashee" rel="noopener">GitHub <img src="@/assets/github.png" height=20></a>.
           Enjoy!
         </div>
       </div>
