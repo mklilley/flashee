@@ -117,7 +117,7 @@
   <!-- Welcome modal -->
   <Modal v-if="showWelcome" v-on:close="closeWelcome()">
     <div slot="body" class="misc">
-      <h1><img src="@/assets/logo.svg"><br>Flashee</h1>
+      <h1><img src="@/assets/logo.svg" alt="Flashee logo"><br>Flashee</h1>
       <h2>The free & simple flash card app</h2>
       <a href="https://www.buymeacoffee.com/mklilley" target="_blank" rel="noopener"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"></a> <br><br>
       <div style="text-align:left">
@@ -155,7 +155,7 @@
         <h3 class="open">The story</h3>
         <div class="items">
           I built a basic version of Flashee in the Christmas holidays of 2018. The idea was to help me remember physics facts. Since then, I've enjoyed using it every day as part of my casual physics morning routine 🤓 . I thought other people
-          might also find it useful so I decided to clean it up and make it available to everyone for free. You can find the code on <a target="_blank" href="https://github.com/mklilley/flashee" rel="noopener">GitHub <img src="@/assets/github.png" height=20></a>.
+          might also find it useful so I decided to clean it up and make it available to everyone for free. You can find the code on <a target="_blank" href="https://github.com/mklilley/flashee" rel="noopener">GitHub <img src="@/assets/github.png" height=20 alt="GitHub logo"></a>.
           Enjoy!
         </div>
       </div>
