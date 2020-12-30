@@ -37,6 +37,12 @@ to the pwa setting in `vue.config.js`
 
 I used [vue-katex](https://github.com/lucpotage/vue-katex) for equation rendering and I used [vue-recaptcha](https://github.com/DanSnow/vue-recaptcha) to protect my feedback form from spam.
 
+To speed up the download time of the app, I followed this [performance optimisation article](https://medium.com/@aetherus.zhou/vue-cli-3-performance-optimization-55316dcd491c) and opted for "lazy loading" of routes and also compression of the build files. Because Vue2 uses webpack version 4, I needed to use a less up to date version of the `compression-webpack-plugin` to avoid build errors. Specifically:
+
+```
+npm install --save-dev compression-webpack-plugin@6.1.1
+```
+
 ### Back end
 
 The app doesn't require a backend to function - the flash card data is stored on the devices [localStorage](https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/). I did, however, create an online storage option in case the localStorage gets wiped (this can sometimes happen on mobile devices). I am using an an open-source json storage system ([jsonbox](https://jsonbox.io/)) for the online storage. I [slightly adapted it](https://github.com/mklilley/jsonbox/) and deployed it on my server using the [instructions](https://github.com/mklilley/jsonbox#how-to-run-locally) that jsonbox provides.
