@@ -131,7 +131,7 @@
         <div v-if="isMobileDevice">
           <h3 class="open">Add to home screen</h3>
           <div class="items">
-            For the best experience, add Flashee to your home screen - you can then view your cards in full screen mode 🙌
+            For the best experience, add Flashee to your home screen - you can then view your cards in full screen mode 🙌. <a vue-if="addToHomeScreenURL" target="_blank" rel="noopener" :href="addToHomeScreenURL">Here's help on how to do that.</a>
           </div> <br>
         </div>
         <h3 class="open">Local data storage</h3>
@@ -353,7 +353,8 @@ export default {
       showConfirmReset: false,
       usingMyBox: true,
       readOnlyBox: false,
-      showShare: false
+      showShare: false,
+      addToHomeScreenURL: ""
     };
   },
   components: {
@@ -412,6 +413,14 @@ export default {
       )
     ) {
       this.isMobileDevice = true;
+      if (/Android/i.test(navigator.userAgent)) {
+        this.addToHomeScreenURL =
+          "https://browserhow.com/how-to-add-to-home-screen-shortcut-links-with-chrome-android/";
+      }
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        this.addToHomeScreenURL =
+          "https://www.macrumors.com/how-to/add-a-web-link-to-home-screen-iphone-ipad/";
+      }
     } else {
       this.isMobileDevice = false;
     }
