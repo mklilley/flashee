@@ -26,7 +26,7 @@
   <Modal v-if="showSettings" v-on:close="showSettings = false">
     <div slot="body" class="settings">
       <h2> Settings </h2>
-      <div style="text-align:left">
+      <div class="left">
         <div class="your-data">
           <h3 v-bind:class="{open: showSettingsYourData}" @click.prevent="toggle('showSettingsYourData')">Your data</h3>
           <div v-if="showSettingsYourData" class="items">
@@ -93,7 +93,7 @@
 
       </div>
       <br>
-      <a href="https://www.buymeacoffee.com/mklilley" target="_blank" rel="noopener"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"></a> <br><br>
+      <a href="https://www.buymeacoffee.com/mklilley" target="_blank" rel="noopener"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" class="coffee"></a> <br><br>
     </div>
   </Modal>
 
@@ -119,8 +119,8 @@
     <div slot="body" class="misc">
       <h1><img src="@/assets/logo.svg" alt="Flashee logo"><br>Flashee</h1>
       <h2>The free & simple flash card app</h2>
-      <a href="https://www.buymeacoffee.com/mklilley" target="_blank" rel="noopener"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"></a> <br><br>
-      <div style="text-align:left">
+      <a href="https://www.buymeacoffee.com/mklilley" target="_blank" rel="noopener"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" class="coffee"></a> <br><br>
+      <div class="left">
         <h3 class="open">The story</h3>
         <div class="items">
           I built a basic version of Flashee in the Christmas holidays of 2018. The idea was to help me remember physics facts. Since then, I've enjoyed using it every day as part of my casual physics morning routine 🤓 . I thought other people
@@ -1374,6 +1374,15 @@ button.wait::after {
   right: 0;
   background-color: white;
   z-index: 1000;
+}
+
+.left {
+  text-align: left;
+}
+
+.coffee {
+  height: 60px !important;
+  width: 217px !important;
 }
 
 ::-webkit-input-placeholder {
