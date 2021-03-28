@@ -623,7 +623,7 @@ export default {
         "data:text/plain;charset=utf-8," +
           encodeURIComponent(JSON.stringify(data))
       );
-      element.setAttribute("download", "flash.json");
+      element.setAttribute("download", "flashee.json");
 
       element.style.display = "none";
       document.body.appendChild(element);
