@@ -309,6 +309,8 @@ import Modal from "./components/Modal.vue";
 
 import VueRecaptcha from "vue-recaptcha";
 
+import lunr from "lunr";
+
 export default {
   name: "App",
   data() {
@@ -424,8 +426,21 @@ export default {
     } else {
       this.isMobileDevice = false;
     }
+
+    this.createSearchIndex(this.cards);
   },
   methods: {
+    createSearchIndex: function(cards) {
+      this.searchIdx = lunr(function() {
+        this.ref("id");
+        this.field("question");
+
+        cards.forEach(function(doc) {
+          this.add(doc);
+        }, this);
+      });
+      return;
+    },
     resetApp: function() {
       localStorage.clear();
       location.reload();
@@ -747,6 +762,17 @@ export default {
 
       return shuffledDeck;
     },
+    searchDeck: function(query) {
+      let searchResults = this.searchIdx.search(query);
+
+      searchResults = searchResults.map(function(result) {
+        return result.ref;
+      });
+
+      this.cards = this.cards.filter((card) => {
+        return searchResults.indexOf(card.id) > -1;
+      });
+    },
     sortCards: function(cards) {
       let sortByReads = cards.sort(function(a, b) {
         return parseFloat(a.reads) - parseFloat(b.reads);
@@ -810,6 +836,10 @@ export default {
       // delete card from data store
       await db.delete(card.id, { remote: this.useRemoteStorage });
       this.cards = await this.loadCards();
+
+      // Recreate the search index
+      this.createSearchIndex(this.cards);
+
       this.cardToDelete = {};
       this.showConfirmDelete = false;
     },
@@ -915,6 +945,9 @@ export default {
           // Reload the cards from the data store to update the view
           this.cards = await this.loadCards();
 
+          // Recreate the search index
+          this.createSearchIndex(this.cards);
+
           // close the card edit modal
           this.showModal = false;
         }
@@ -931,6 +964,9 @@ export default {
           );
           // Reload the cards from the data store to update the view
           this.cards = await this.loadCards();
+
+          // Recreate the search index
+          this.createSearchIndex(this.cards);
 
           // close the card edit modal
           this.showModal = false;
