@@ -784,8 +784,13 @@ export default {
 
       return shuffledDeck;
     },
-    searchDeck: function(query) {
-      let searchResults = this.searchIdx.search(query);
+    searchDeck: async function() {
+      if (this.deckModified) {
+        this.createSearchIndex(this.cards);
+        this.deckModified = false;
+      }
+      this.cards = await this.loadCards();
+      let searchResults = this.searchIdx.search(this.searchQuery);
 
       searchResults = searchResults.map(function(result) {
         return result.ref;
@@ -857,10 +862,17 @@ export default {
     deleteCard: async function(card) {
       // delete card from data store
       await db.delete(card.id, { remote: this.useRemoteStorage });
+
+      // This tells the searchDeck function whether it should re-index next time it's run
+      this.deckModified = true;
+
+      // Reload the cards from the data store to update the view
       this.cards = await this.loadCards();
 
-      // Recreate the search index
-      this.createSearchIndex(this.cards);
+      if (this.searchVisible) {
+        // If search is open then keep the search results as they were before deleting the card
+        this.searchDeck();
+      }
 
       this.cardToDelete = {};
       this.showConfirmDelete = false;
@@ -964,11 +976,17 @@ export default {
             },
             { remote: this.useRemoteStorage }
           );
+
+          // This tells the searchDeck function whether it should re-index next time it's run
+          this.deckModified = true;
+
           // Reload the cards from the data store to update the view
           this.cards = await this.loadCards();
 
-          // Recreate the search index
-          this.createSearchIndex(this.cards);
+          if (this.searchVisible) {
+            // If search is open then keep the search results as they were before creating the card
+            this.searchDeck();
+          }
 
           // close the card edit modal
           this.showModal = false;
@@ -984,11 +1002,17 @@ export default {
             { question: this.newFront, answer: this.newBack },
             { remote: this.useRemoteStorage }
           );
+
+          // This tells the searchDeck function whether it should re-index next time it's run
+          this.deckModified = true;
+
           // Reload the cards from the data store to update the view
           this.cards = await this.loadCards();
 
-          // Recreate the search index
-          this.createSearchIndex(this.cards);
+          if (this.searchVisible) {
+            // If search is open then keep the search results as they were before updating the card
+            this.searchDeck();
+          }
 
           // close the card edit modal
           this.showModal = false;
