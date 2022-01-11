@@ -356,12 +356,12 @@ export default {
       usingMyBox: true,
       readOnlyBox: false,
       showShare: false,
-      addToHomeScreenURL: ""
+      addToHomeScreenURL: "",
     };
   },
   components: {
     Modal,
-    VueRecaptcha
+    VueRecaptcha,
   },
   async mounted() {
     // If first time using the app, we need to set up some localStorage variables
@@ -509,7 +509,7 @@ export default {
       let options = {
         body: JSON.stringify(jsonForm),
         headers: { "Content-Type": "application/json" },
-        method: "POST"
+        method: "POST",
       };
 
       event.submitter.classList.toggle("wait");
@@ -517,7 +517,7 @@ export default {
       const response = await fetch(
         "https://formspree.io/f/xeqprbgl",
         options
-      ).catch(err => {
+      ).catch((err) => {
         this.error = true;
         console.log(err);
         this.$refs.recaptcha.reset();
@@ -573,7 +573,7 @@ export default {
               answer: card.answer,
               flipped: false,
               reads: reads,
-              difficulty: 0
+              difficulty: 0,
             },
             { remote: this.useRemoteStorage }
           )
@@ -702,7 +702,7 @@ export default {
 
         let switchedOK = await db
           .switch(this.switchBoxID, switchApiKey)
-          .catch(error => {
+          .catch((error) => {
             this.switchBoxError = error;
             this.error = true;
           });
@@ -808,7 +808,7 @@ export default {
       card.difficulty = difficulty;
       //save the new difficulty in storage
       await db.update(card.id, {
-        difficulty: difficulty
+        difficulty: difficulty,
       });
     },
     toggleCard: async function(cardIndex) {
@@ -820,7 +820,7 @@ export default {
         card.reads += 1;
         // update reads number in storage
         await db.update(card.id, {
-          reads: card.reads
+          reads: card.reads,
         });
 
         this.cards.splice(cardIndex, 1);
@@ -858,7 +858,7 @@ export default {
               answer: card.answer,
               flipped: false,
               reads: card.reads,
-              difficulty: card.difficulty
+              difficulty: card.difficulty,
             },
             { remote: false }
           )
@@ -885,7 +885,7 @@ export default {
               answer: card.answer,
               flipped: false,
               reads: card.reads,
-              difficulty: card.difficulty
+              difficulty: card.difficulty,
             },
             { remote: true }
           )
@@ -938,7 +938,7 @@ export default {
               answer: this.newBack,
               flipped: false,
               reads: this.cards[0] ? this.cards[0].reads : 0,
-              difficulty: 0
+              difficulty: 0,
             },
             { remote: this.useRemoteStorage }
           );
@@ -982,8 +982,8 @@ export default {
     restoreData: async function() {
       this.cards = await this.loadCards({ remote: true });
       localStorage.lastKeepAliveDate = new Date();
-    }
-  }
+    },
+  },
 };
 </script>
 
