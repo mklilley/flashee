@@ -314,6 +314,8 @@ import VueRecaptcha from "vue-recaptcha";
 
 import lunr from "lunr";
 
+import debounce from "lodash.debounce";
+
 export default {
   name: "App",
   data() {
@@ -360,11 +362,19 @@ export default {
       readOnlyBox: false,
       showShare: false,
       addToHomeScreenURL: "",
+      searchVisible: false,
+      searchQuery: "",
+      deckModified: false,
     };
   },
   components: {
     Modal,
     VueRecaptcha,
+  },
+  watch: {
+    searchQuery: debounce(function() {
+      this.searchDeck();
+    }, 600),
   },
   async mounted() {
     // If first time using the app, we need to set up some localStorage variables
