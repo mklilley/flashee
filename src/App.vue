@@ -9,7 +9,7 @@
 
   <div class="top-bar">
 
-    <div @click.prevent='newSeed()' v-if="cards.length!=0"><i class="gg-dice-5"></i></div>
+    <div @click.prevent='toggleSearchBar()' v-if="cards.length!=0"><i class="gg-dice-5"></i></div>
 
     <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0 && !readOnlyBox"> <i class="gg-add" readOnlyBox></i></div>
 
@@ -277,7 +277,7 @@
 
 
 
-  <ul class="flashcard-list">
+  <ul class="flashcard-list" :class="{'search-bar-visible':searchVisible==true}">
     <li v-if="cards.length==0">
       <p class="no-card" v-on:click.stop="createCard()">
         <span>No cards, tap to create one</span>
@@ -433,6 +433,15 @@ export default {
     this.createSearchIndex(this.cards);
   },
   methods: {
+    toggleSearchBar: async function() {
+      if (this.searchVisible) {
+        this.searchVisible = false;
+        this.cards = await this.loadCards();
+      } else {
+        this.searchVisible = true;
+        this.searchQuery = "";
+      }
+    },
     createSearchIndex: function(cards) {
       this.searchIdx = lunr(function() {
         this.ref("id");
@@ -1065,6 +1074,10 @@ ul {
   justify-content: center;
   position: relative;
   box-sizing: border-box;
+}
+
+ul.search-bar-visible {
+  padding-top: 80px;
 }
 
 li {
