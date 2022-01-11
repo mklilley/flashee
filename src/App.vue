@@ -16,7 +16,10 @@
     <div class="misc" v-if="readOnlyBox"> View only mode. <br> Edit your own cards <button @click.prevent='switchBox({ my: true })'>here </button></div>
 
     <div v-on:click="showSettings = true"><i class="gg-menu-boxed"></i></div>
+  </div>
 
+  <div class="search-bar" v-if="searchVisible">
+    <input type="text" placeholder="Search" v-model="searchQuery" />
   </div>
 
 
@@ -1406,6 +1409,19 @@ button.wait::after {
   align-items: center;
   height: 70px;
   top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 1000;
+}
+
+.search-bar {
+  position: fixed;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 70px;
+  top: 70px;
   left: 0;
   right: 0;
   background-color: white;
