@@ -19,7 +19,7 @@
   </div>
 
   <div class="search-bar" v-if="searchVisible">
-    <input type="text" placeholder="Search" v-model="searchQuery" />
+    <input type="search" placeholder="Search" v-model="searchQuery" />
   </div>
 
 
@@ -1604,6 +1604,28 @@ button.wait::after {
 
 .misc h3.open {
   border-radius: 5px 5px 0px 0px;
+}
+/* 
+input[type="search"] {
+  border: 1px solid gray;
+  padding: 0.2em 0.4em;
+  border-radius: 0.2em;
+} */
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 1em;
+  width: 1em;
+  border-radius: 50em;
+  background: url("~@/assets/times-circle.svg") no-repeat 50% 50%;
+  background-size: contain;
+  opacity: 0;
+  pointer-events: none;
+}
+
+input[type="search"]:focus::-webkit-search-cancel-button {
+  opacity: 0.3;
+  pointer-events: all;
 }
 
 @media (hover: hover) and (pointer: fine) {
