@@ -9,7 +9,7 @@
 
   <div class="top-bar">
 
-    <div @click.prevent='toggleSearchBar()' v-if="cards.length!=0 || searchVisible"><i class="gg-dice-5"></i></div>
+    <div @click.prevent='toggleSearchBar()' v-if="cards.length!=0 || searchVisible"><i class="gg-search"></i></div>
 
     <div id="show-modal" v-on:click="createCard()" v-if="(cards.length!=0 || searchVisible) && !readOnlyBox"> <i class="gg-add" readOnlyBox></i></div>
 
@@ -1319,31 +1319,32 @@ button.wait::after {
   left: 8px;
 }
 
-.gg-dice-5 {
+.gg-search {
   --ggs: 1.5;
+  box-sizing: border-box;
+  position: relative;
   display: block;
   transform: scale(var(--ggs, 1));
-  position: relative;
-  box-sizing: border-box;
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
   border: 2px solid;
-  border-radius: 3px;
+  border-radius: 100%;
+  margin-left: -4px;
+  margin-top: -4px;
   color: rgb(161, 125, 233);
 }
-
-.gg-dice-5::before {
+.gg-search::after {
   content: "";
   display: block;
   box-sizing: border-box;
-  background: currentColor;
   position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 4px;
-  left: 2px;
-  top: 2px;
-  box-shadow: 0 10px 0, 10px 0 0, 10px 10px 0, 5px 5px 0;
+  border-radius: 3px;
+  width: 2px;
+  height: 8px;
+  background: currentColor;
+  transform: rotate(-45deg);
+  top: 10px;
+  left: 12px;
 }
 
 .gg-menu-boxed {
