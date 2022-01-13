@@ -9,9 +9,9 @@
 
   <div class="top-bar">
 
-    <div @click.prevent='toggleSearchBar()' v-if="cards.length!=0"><i class="gg-dice-5"></i></div>
+    <div @click.prevent='toggleSearchBar()' v-if="cards.length!=0 || searchVisible"><i class="gg-dice-5"></i></div>
 
-    <div id="show-modal" v-on:click="createCard()" v-if="cards.length!=0 && !readOnlyBox"> <i class="gg-add" readOnlyBox></i></div>
+    <div id="show-modal" v-on:click="createCard()" v-if="(cards.length!=0 || searchVisible) && !readOnlyBox"> <i class="gg-add" readOnlyBox></i></div>
 
     <div class="misc" v-if="readOnlyBox"> View only mode. <br> Edit your own cards <button @click.prevent='switchBox({ my: true })'>here </button></div>
 
@@ -278,9 +278,15 @@
 
 
   <ul class="flashcard-list" :class="{'search-bar-visible':searchVisible==true}">
-    <li v-if="cards.length==0">
+    <li v-if="cards.length==0 && !searchVisible">
       <p class="no-card" v-on:click.stop="createCard()">
         <span>No cards, tap to create one</span>
+      </p>
+    </li>
+
+    <li v-if="cards.length==0 && searchVisible">
+      <p class="no-card">
+        <span>Nothing, sorry 😢</span>
       </p>
     </li>
 
@@ -372,9 +378,9 @@ export default {
     VueRecaptcha,
   },
   watch: {
-    searchQuery: debounce(function() {
-      this.searchDeck();
-    }, 600),
+    searchQuery: function() {
+      this.debounce();
+    },
   },
   async mounted() {
     // If first time using the app, we need to set up some localStorage variables
@@ -443,10 +449,14 @@ export default {
     this.createSearchIndex(this.cards);
   },
   methods: {
+    debounce: debounce(function() {
+      this.searchDeck();
+    }, 600),
     toggleSearchBar: async function() {
       if (this.searchVisible) {
         this.searchVisible = false;
         this.cards = await this.loadCards();
+        this.searchQuery = "";
       } else {
         this.searchVisible = true;
         this.searchQuery = "";
