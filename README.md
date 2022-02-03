@@ -37,6 +37,8 @@ to the pwa setting in `vue.config.js`
 
 I used [vue-katex](https://github.com/lucpotage/vue-katex) for equation rendering and I used [vue-recaptcha](https://github.com/DanSnow/vue-recaptcha) to protect my feedback form from spam.
 
+I used [lunrjs](https://lunrjs.com/) to create searchable flashcards and used [Lodash debounce](https://lodash.com/docs/4.17.15#debounce) to replace the [removed VueJS debounce](https://vuejs.org/v2/guide/migration.html#debounce-Param-Attribute-for-v-model-removed) function on the search box.
+
 To speed up the download time of the app, I followed this [performance optimisation article](https://medium.com/@aetherus.zhou/vue-cli-3-performance-optimization-55316dcd491c) and opted for "lazy loading" of routes and also compression of the build files. Because Vue2 uses webpack version 4, I needed to use a less up to date version of the `compression-webpack-plugin` to avoid build errors. Specifically:
 
 ```
