@@ -171,8 +171,14 @@ const box = {
       //  the response echos back the data with _id, and _createdOn. We will rename
       // the _id for convenience in referencing in the app.
       let json = await response.json();
-      json.id = json["_id"];
-      delete json["_id"];
+
+      json.forEach((el, idx) => {
+        el.id = el["_id"];
+        delete el["_id"];
+        json[idx] = el;
+      });
+      
+
       return json;
     } else {
       return false;
