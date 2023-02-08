@@ -148,23 +148,42 @@ const db = {
     localStorage.setItem(key, JSON.stringify(allCards));
   },
   delete: async function(id, options = {}) {
-    // Get all the cards
-    let allCards = JSON.parse(localStorage.getItem(key)) || {};
+    if(id){ 
+      // deleting a specific card
 
-    // delete the card from the cards collection
-    delete allCards[id];
+      // Get all the cards
+      let allCards = JSON.parse(localStorage.getItem(key)) || {};
 
-    // Save the updated cards collection
-    localStorage.setItem(key, JSON.stringify(allCards));
+      // delete the card from the cards collection
+      delete allCards[id];
 
-    // Only delete data on the remote database if remote flag is true
-    if (options.remote === true) {
-      await remote.delete(id).then(success => {
-        // If the remote database fails, we need to log the failure
-        if (!success) {
-          recordRemoteFail(id, "delete");
-        }
-      });
+      // Save the updated cards collection
+      localStorage.setItem(key, JSON.stringify(allCards));
+
+      // Only delete data on the remote database if remote flag is true
+      if (options.remote === true) {
+        await remote.delete(id).then(success => {
+          // If the remote database fails, we need to log the failure
+          if (!success) {
+            recordRemoteFail(id, "delete");
+          }
+        });
+      }
+    }
+    else{
+      // deleting all cards
+
+      localStorage.setItem(key, JSON.stringify({}));
+
+      if (options.remote === true) {
+        await remote.delete().then(success => {
+          // If the remote database fails, we need to log the failure
+          if (!success) {
+            recordRemoteFail("all", "delete");
+          }
+        });
+      }
+
     }
   }
 };
