@@ -249,7 +249,9 @@ const box = {
     }
     let response;
 
-    response = await fetch(API_URL + "/" + id, options).catch(err => {
+    // can delete a single record or all of the records
+    const URL = id ? API_URL + "/" + id : API_URL;
+    response = await fetch(URL, options).catch(err => {
       console.log(err);
     });
 
