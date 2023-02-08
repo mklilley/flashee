@@ -976,14 +976,15 @@ export default {
         // If no currentCardId, then we are creating a new card
         if (this.currentCardId === "") {
           // Create a card in the data store usinf data from the form
-          await db.create(
+          await db.create([
             {
               question: this.newFront,
               answer: this.newBack,
               flipped: false,
               reads: this.cards[0] ? this.cards[0].reads : 0,
               difficulty: 0,
-            },
+            }
+            ],
             { remote: this.useRemoteStorage }
           );
 
