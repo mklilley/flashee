@@ -171,8 +171,14 @@ const box = {
       //  the response echos back the data with _id, and _createdOn. We will rename
       // the _id for convenience in referencing in the app.
       let json = await response.json();
-      json.id = json["_id"];
-      delete json["_id"];
+
+      json.forEach((el, idx) => {
+        el.id = el["_id"];
+        delete el["_id"];
+        json[idx] = el;
+      });
+      
+
       return json;
     } else {
       return false;
@@ -243,7 +249,9 @@ const box = {
     }
     let response;
 
-    response = await fetch(API_URL + "/" + id, options).catch(err => {
+    // can delete a single record or all of the records
+    const URL = id ? API_URL + "/" + id : API_URL;
+    response = await fetch(URL, options).catch(err => {
       console.log(err);
     });
 

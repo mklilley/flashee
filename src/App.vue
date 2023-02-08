@@ -595,25 +595,23 @@ export default {
       }
     },
     addDataFromFile: async function(cards, event) {
-      let promCreate = [];
+      let cardsToCreate = [];
       let reads = this.cards[0] ? this.cards[0].reads : 0;
       for (let card of cards) {
-        promCreate.push(
-          db.create(
+        cardsToCreate.push(
             {
               question: card.question,
               answer: card.answer,
               flipped: false,
               reads: reads,
               difficulty: 0,
-            },
-            { remote: this.useRemoteStorage }
-          )
+            }
         );
       }
 
+
       event.target.classList.toggle("wait");
-      await Promise.all(promCreate);
+      await db.create(cardsToCreate, { remote: this.useRemoteStorage });
       // Reload the cards from the data store to update the view and shuffle
       this.cards = await this.loadCards();
       event.target.classList.toggle("wait");
@@ -680,16 +678,9 @@ export default {
       document.body.removeChild(element);
     },
     deleteAllData: async function(event) {
-      // We will be deleting all cards at once. For this we will need to
-      //  to create an array of promises and wait for them all to resolve
-      let promDelete = [];
-      for (let card of this.cards) {
-        promDelete.push(db.delete(card.id, { remote: this.useRemoteStorage }));
-      }
-
       event.target.classList.toggle("wait");
 
-      await Promise.all(promDelete);
+      await db.delete(null, { remote: this.useRemoteStorage });
 
       // Reload the now empty set of cards from the data store to update the view
       this.cards = await this.loadCards();
@@ -888,55 +879,44 @@ export default {
       this.showConfirmDelete = false;
     },
     deleteRemoteCards: async function(cards) {
-      // We will be deleting many remote cards at once and then recreating them locally.
-      // For this we will need to create an array of promises and wait for them all
-      // to resolve
-      let promDelete = [];
-      let promCreate = [];
+      // We will be deleting all remote cards at once and then recreating them locally.
+      let cardsToCreate = [];
       for (let card of cards) {
-        promDelete.push(db.delete(card.id, { remote: true }));
-        promCreate.push(
-          db.create(
+        cardsToCreate.push(
             {
               question: card.question,
               answer: card.answer,
               flipped: false,
               reads: card.reads,
               difficulty: card.difficulty,
-            },
-            { remote: false }
-          )
+            }
         );
       }
-      await Promise.all(promDelete);
-      await Promise.all(promCreate);
+      await db.delete(null, { remote: true });
+      await db.create(cardsToCreate, { remote: false });
 
       // Reload the cards from the data store to update the view
       this.cards = await this.loadCards();
     },
     createRemoteCards: async function(cards) {
-      // We will be deleting many local cards at once and then recreating them
-      // remotely. For this we will need to create an array of promises and wait for
-      // them allto resolve
-      let promDelete = [];
-      let promCreate = [];
+      // We will be deleting all local cards at once and then recreating them
+      // remotely. 
+      let cardsToCreate = [];
       for (let card of cards) {
-        promDelete.push(db.delete(card.id, { remote: false }));
-        promCreate.push(
-          db.create(
+        cardsToCreate.push(
             {
               question: card.question,
               answer: card.answer,
               flipped: false,
               reads: card.reads,
               difficulty: card.difficulty,
-            },
-            { remote: true }
-          )
+            }
         );
       }
-      await Promise.all(promCreate);
-      await Promise.all(promDelete);
+
+      await db.delete(null, { remote: false })
+      await db.create(cardsToCreate, { remote: true });
+     
 
       // Reload the cards from the data store to update the view
       this.cards = await this.loadCards();
@@ -976,14 +956,15 @@ export default {
         // If no currentCardId, then we are creating a new card
         if (this.currentCardId === "") {
           // Create a card in the data store usinf data from the form
-          await db.create(
+          await db.create([
             {
               question: this.newFront,
               answer: this.newBack,
               flipped: false,
               reads: this.cards[0] ? this.cards[0].reads : 0,
               difficulty: 0,
-            },
+            }
+            ],
             { remote: this.useRemoteStorage }
           );
 
