@@ -1,0 +1,458 @@
+/* Taking most of this CSS from https://github.com/trezp/flashcards-vue thanks :-) */
+
+#root {
+  font-family: "Montserrat", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  max-width: 100%;
+  padding: 2em;
+}
+
+/* Form */
+
+.flashcard-form {
+  position: relative;
+}
+
+label {
+  font-weight: 400;
+  color: #333;
+  margin-right: 10px;
+}
+
+textarea {
+  font-size: 16px;
+}
+
+input {
+  border-radius: 5px;
+  border: 2px solid #eaeaea;
+  padding: 10px;
+  outline: none;
+  font-size: 16px;
+}
+
+.flashcard-form input {
+  width: 50%;
+}
+
+.feedback input {
+  width: 80%;
+}
+
+.feedback textarea {
+  border-radius: 5px;
+  border: 2px solid #eaeaea;
+  padding: 10px;
+  outline: none;
+  width: 80%;
+  font-family: "Montserrat", sans-serif;
+  height: 200px;
+}
+
+button {
+  border-radius: 5px;
+  border: 1px solid #87cb84;
+  background-color: #87cb84;
+  padding: 8px 15px;
+  outline: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
+  color: #666666 !important;
+}
+
+button.copied::after {
+  content: " 👍";
+}
+
+button.wait::after {
+  content: " ⌛";
+}
+
+.error {
+  margin-top: 10px;
+  display: block;
+  color: #e44e42;
+  font-weight: 600;
+}
+
+.math-help {
+  margin: 5px auto;
+  display: block;
+  font-size: 14px;
+  color: grey;
+  width: 80%;
+}
+
+.gg-add {
+  --ggs: 1.5;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 2px solid;
+  transform: scale(var(--ggs, 1));
+  border-radius: 22px;
+  color: rgb(161, 125, 233);
+}
+.gg-add::after,
+.gg-add::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 5px;
+  top: 8px;
+  left: 4px;
+}
+.gg-add::after {
+  width: 2px;
+  height: 10px;
+  top: 4px;
+  left: 8px;
+}
+
+.gg-search {
+  --ggs: 1.5;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 16px;
+  height: 16px;
+  border: 2px solid;
+  border-radius: 100%;
+  margin-left: -4px;
+  margin-top: -4px;
+  color: rgb(161, 125, 233);
+}
+.gg-search::after {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  border-radius: 3px;
+  width: 2px;
+  height: 8px;
+  background: currentColor;
+  transform: rotate(-45deg);
+  top: 10px;
+  left: 12px;
+}
+
+.gg-menu-boxed {
+  --ggs: 1.8;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 2px solid;
+  color: rgb(161, 125, 233);
+}
+
+.gg-menu-boxed::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 3px;
+  top: 2px;
+  left: 2px;
+  box-shadow: 0 4px 0, 0 8px 0;
+}
+
+.gg-trash {
+  --ggs: 1.5;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 10px;
+  height: 12px;
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 2px, inset -2px 0 0, inset 2px 0 0;
+  border-bottom-left-radius: 1px;
+  border-bottom-right-radius: 1px;
+  margin-top: 4px;
+}
+
+.gg-trash::after,
+.gg-trash::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+}
+
+.gg-trash::after {
+  background: currentColor;
+  border-radius: 3px;
+  width: 16px;
+  height: 2px;
+  top: -4px;
+  left: -5px;
+}
+
+.gg-trash::before {
+  width: 10px;
+  height: 4px;
+  border: 2px solid;
+  border-bottom: transparent;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  top: -7px;
+  left: -2px;
+}
+
+.gg-pen {
+  --ggs: 1.5;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: rotate(-45deg) scale(var(--ggs, 1));
+  width: 14px;
+  height: 4px;
+  border-right: 2px solid transparent;
+  box-shadow: 0 0 0 2px, inset -2px 0 0;
+  border-top-right-radius: 1px;
+  border-bottom-right-radius: 1px;
+  margin-right: -2px;
+}
+
+.gg-pen::after,
+.gg-pen::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+}
+
+.gg-pen::before {
+  background: currentColor;
+  border-left: 0;
+  right: -6px;
+  width: 3px;
+  height: 4px;
+  border-radius: 1px;
+  top: 0;
+}
+
+.gg-pen::after {
+  width: 8px;
+  height: 7px;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 7px solid;
+  left: -11px;
+  top: -2px;
+}
+
+.top-bar {
+  position: fixed;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 70px;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 1000;
+}
+
+.search-bar {
+  position: fixed;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 70px;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 1000;
+}
+
+.left {
+  text-align: left;
+}
+
+.coffee {
+  height: 60px !important;
+  width: 217px !important;
+}
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: grey;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: grey;
+}
+:-ms-input-placeholder {
+  /* IE 10+ */
+  color: grey;
+}
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: grey;
+}
+
+.math {
+  /* position: absolute;
+  right: 0; */
+  padding: 5px;
+  color: #eaeaea;
+}
+
+.mathActive {
+  color: rgb(161, 125, 233);
+}
+
+.settings {
+  color: black;
+}
+
+.settings h3 {
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin: 0;
+  width: 100%;
+  color: white;
+  padding: 10px;
+}
+
+.settings h3.open {
+  border-radius: 5px 5px 0px 0px;
+}
+
+.settings .items {
+  box-sizing: border-box;
+  border-radius: 0px 0px 5px 5px;
+  width: 100%;
+  padding: 10px;
+}
+
+.your-data button {
+  background-color: rgb(254, 202, 52);
+  border-color: rgb(254, 202, 52);
+}
+
+.your-data .items {
+  background-color: rgb(254, 202, 52, 0.1);
+}
+
+.your-data h3 {
+  background-color: rgb(254, 202, 52);
+}
+
+.online-storage button {
+  background-color: rgb(81, 170, 229);
+  border-color: rgb(81, 170, 229);
+}
+
+.online-storage .items {
+  background-color: rgb(81, 170, 229, 0.1);
+}
+
+.online-storage h3 {
+  background-color: rgb(81, 170, 229);
+}
+
+.misc button {
+  background-color: rgb(161, 125, 233);
+  border-color: rgb(161, 125, 233);
+}
+
+.misc .items {
+  background-color: rgb(161, 125, 233, 0.1);
+}
+
+.misc .items {
+  box-sizing: border-box;
+  border-radius: 0px 0px 5px 5px;
+  width: 100%;
+  padding: 10px;
+}
+
+.misc h3 {
+  background-color: rgb(161, 125, 233);
+}
+
+.misc h3 {
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin: 0;
+  width: 100%;
+  color: white;
+  padding: 10px;
+}
+
+.misc h3.open {
+  border-radius: 5px 5px 0px 0px;
+}
+/* 
+input[type="search"] {
+  border: 1px solid gray;
+  padding: 0.2em 0.4em;
+  border-radius: 0.2em;
+} */
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 1em;
+  width: 1em;
+  border-radius: 50em;
+  background: url("~@/assets/times-circle.svg") no-repeat 50% 50%;
+  background-size: contain;
+  opacity: 0;
+  pointer-events: none;
+}
+
+input[type="search"]:focus::-webkit-search-cancel-button {
+  opacity: 0.3;
+  pointer-events: all;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button:disabled:hover,
+  button[disabled][hover] {
+    border: 1px solid #999999 !important;
+    background-color: #cccccc !important;
+    color: #666666 !important;
+  }
+
+  .your-data button:hover {
+    background-color: rgb(254, 202, 52, 0.7);
+  }
+
+  .online-storage button:hover {
+    background-color: rgb(81, 170, 229, 0.7);
+  }
+
+  .misc button:hover {
+    background-color: rgb(161, 125, 233, 0.7);
+  }
+}
