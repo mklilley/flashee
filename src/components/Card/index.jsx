@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { db } from "../../services/storage";
 
-const Card = ({ card, handleEdit, handleDelete, handleFlip }) => {
+const Card = ({ card, handleEdit, handleDelete, handleRead }) => {
   const cardColor = { backgroundColor: card.color };
 
   const [flipped, setFlipped] = useState(false);
@@ -26,7 +26,7 @@ const Card = ({ card, handleEdit, handleDelete, handleFlip }) => {
           reads: card.reads + 1,
         });
 
-        handleFlip(card);
+        handleRead(card);
       }, 500);
     }
   }
