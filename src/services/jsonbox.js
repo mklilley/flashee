@@ -5,7 +5,7 @@
 // the index.html code of https://jsonbox.io/
 function createUniqueID() {
   var dt = new Date().getTime();
-  var uuid = "xxyxxxxxxyxxxxxyxxxx".replace(/[xy]/g, function(c) {
+  var uuid = "xxyxxxxxxyxxxxxyxxxx".replace(/[xy]/g, function (c) {
     var r = (dt + Math.random() * 16) % 16 | 0;
     dt = Math.floor(dt / 16);
     return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
@@ -16,7 +16,7 @@ function createUniqueID() {
 // from https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
 // Used to create a valid api-key
 function createUUID() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     var r = (Math.random() * 16) | 0,
       v = c == "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
@@ -65,7 +65,7 @@ let API_META_URL = API_BASE_META + boxID;
 // update : Function to update the data for a specific "document" from the jsonbox
 // delete : Function to delete a specific "document" from the jsonbox
 const box = {
-  id: async function(options = {}) {
+  id: async function (options = {}) {
     let boxID;
     if (options.my === true) {
       boxID = localStorage.getItem("myJsonbox");
@@ -74,7 +74,7 @@ const box = {
     }
     return boxID;
   },
-  apiKey: async function(options = {}) {
+  apiKey: async function (options = {}) {
     let apiKey;
     if (options.my === true) {
       apiKey = localStorage.getItem("myApiKey");
@@ -84,12 +84,12 @@ const box = {
 
     return apiKey;
   },
-  status: async function() {
+  status: async function () {
     const options = {
-      method: "GET"
+      method: "GET",
     };
 
-    const response = await fetch(API_META_URL, options).catch(err => {
+    const response = await fetch(API_META_URL, options).catch((err) => {
       console.log(err);
     });
 
@@ -110,7 +110,7 @@ const box = {
       return false;
     }
   },
-  switch: async function(newBoxID, newApiKey) {
+  switch: async function (newBoxID, newApiKey) {
     // In case the HTML code doesn't work as expected, lower case and trim user input
     newBoxID = newBoxID.toLowerCase().trim();
     newApiKey = newApiKey.toLowerCase().trim();
@@ -152,17 +152,17 @@ const box = {
 
     return true;
   },
-  create: async function(data) {
+  create: async function (data) {
     const options = {
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
-      method: "POST"
+      method: "POST",
     };
     if (apiKey) {
       options.headers["X-API-KEY"] = apiKey;
     }
 
-    const response = await fetch(API_URL, options).catch(err => {
+    const response = await fetch(API_URL, options).catch((err) => {
       console.log(err);
     });
 
@@ -177,26 +177,25 @@ const box = {
         delete el["_id"];
         json[idx] = el;
       });
-      
 
       return json;
     } else {
       return false;
     }
   },
-  read: async function(id) {
+  read: async function (id) {
     const options = {
-      method: "GET"
+      method: "GET",
     };
     let response;
 
     if (id === undefined) {
       options;
-      response = await fetch(API_URL + "?limit=1000", options).catch(err => {
+      response = await fetch(API_URL + "?limit=1000", options).catch((err) => {
         console.log(err);
       });
     } else {
-      response = await fetch(API_URL + "/" + id, options).catch(err => {
+      response = await fetch(API_URL + "/" + id, options).catch((err) => {
         console.log(err);
       });
     }
@@ -207,7 +206,7 @@ const box = {
       let allItems = {};
 
       // Rename the json data "_id" keys to "id"
-      json.forEach(item => {
+      json.forEach((item) => {
         item.id = item["_id"];
         delete item["_id"];
         // Add the update item to allItems
@@ -219,17 +218,17 @@ const box = {
       return false;
     }
   },
-  update: async function(id, data) {
+  update: async function (id, data) {
     const options = {
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
-      method: "PUT"
+      method: "PUT",
     };
     if (apiKey) {
       options.headers["X-API-KEY"] = apiKey;
     }
 
-    const response = await fetch(API_URL + "/" + id, options).catch(err => {
+    const response = await fetch(API_URL + "/" + id, options).catch((err) => {
       console.log(err);
     });
 
@@ -240,9 +239,9 @@ const box = {
       return false;
     }
   },
-  delete: async function(id) {
+  delete: async function (id) {
     const options = {
-      method: "DELETE"
+      method: "DELETE",
     };
     if (apiKey) {
       options.headers = { "X-API-KEY": apiKey };
@@ -251,7 +250,7 @@ const box = {
 
     // can delete a single record or all of the records
     const URL = id ? API_URL + "/" + id : API_URL;
-    response = await fetch(URL, options).catch(err => {
+    response = await fetch(URL, options).catch((err) => {
       console.log(err);
     });
 
@@ -261,7 +260,7 @@ const box = {
     } else {
       return false;
     }
-  }
+  },
 };
 
 export { box };
