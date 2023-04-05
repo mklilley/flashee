@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "shuffle-seed": "github:mklilley/shuffle-seed"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
