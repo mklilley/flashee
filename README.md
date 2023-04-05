@@ -10,7 +10,7 @@ I built a basic version of Flashee in the Christmas holidays of 2018. The idea w
 
 ## How I made Flashee
 
-I originally built Flashee using [Vue.js version 2](https://v2.vuejs.org/) and you can check out how I did that by going to the vue2 branch of this repository.
+I originally built Flashee using [Vue.js version 2](https://v2.vuejs.org/) and you can check out how I did that by going to the [vue2 branch](https://github.com/mklilley/flashee/tree/vue2) of this repository.
 
 In early 2023, I decided to rebuild the app using React. I'd recently finished teaching at a coding bootcamp and wanted to consolidate my React knowledge into a real project.
 
