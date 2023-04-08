@@ -111,6 +111,8 @@ const Cards = () => {
 
     return sortByDifficulty;
   }
+
+  /////// Rendering logic ////////
   if (cards === undefined) {
     // Cards haven't yet loaded so don't render anything
     return null;
