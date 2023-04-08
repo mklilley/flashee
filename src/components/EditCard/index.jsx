@@ -50,8 +50,16 @@ function EditCard({ close, card }) {
   return (
     <Modal close={close}>
       <form className="flashcard-form misc" onSubmit={saveCard}>
-        <input value={question} onChange={handleQuestionChange}></input>
-        <input value={answer} onChange={handleAnswerChange}></input>
+        <input
+          placeholder="Question"
+          value={question}
+          onChange={handleQuestionChange}
+          required></input>
+        <input
+          placeholder="Answer"
+          value={answer}
+          onChange={handleAnswerChange}
+          required></input>
         <br />
         <br />
         <button type="submit">Save Card</button>

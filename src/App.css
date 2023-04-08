@@ -34,6 +34,12 @@ input {
   font-size: 16px;
 }
 
+/* Dim and disable the button while the form is invalid */
+form:invalid button {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
 .flashcard-form input {
   width: 50%;
 }
