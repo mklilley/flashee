@@ -38,7 +38,7 @@ const Cards = () => {
     setCards(cards);
   }
 
-  async function createCard() {
+  function createCard() {
     setCardToEdit({ question: "", answer: "" });
     setShowEditModal((prev) => !prev);
   }
