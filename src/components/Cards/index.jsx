@@ -10,7 +10,7 @@ import { db } from "../../services/storage";
 import styles from "./styles.module.css";
 
 const Cards = () => {
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState();
 
   // This is for the edit card modal
   const [showEditModal, setShowEditModal] = useState(false);
@@ -111,68 +111,76 @@ const Cards = () => {
 
     return sortByDifficulty;
   }
-
-  if (cards.length === 0) {
-    if (searchBarVisible) {
-      // No cards and search box visible just means there are no search results.
-      // Don't give user option to tap to create a new card.
+  if (cards === undefined) {
+    // Cards haven't yet loaded so don't render anything
+    return null;
+  } else {
+    if (cards.length === 0) {
+      if (searchBarVisible) {
+        // No cards and search box visible just means there are no search results.
+        // Don't give user option to tap to create a new card.
+        return (
+          <>
+            <ul>
+              <li>
+                <p className={styles["no-card"]}>
+                  <span>Nothing, sorry 😢</span>
+                </p>
+              </li>
+            </ul>
+            {showEditModal && (
+              <EditCard
+                card={cardToEdit}
+                close={handleCloseCardEdit}></EditCard>
+            )}
+          </>
+        );
+      } else {
+        // No cards with no search box visible means there are really no cards
+        // Give user the option to tap to create a new one
+        return (
+          <>
+            <ul>
+              <li>
+                <p className={styles["no-card"]} onClick={createCard}>
+                  <span>No cards, tap to create one</span>
+                </p>
+              </li>
+            </ul>
+            {showEditModal && (
+              <EditCard
+                card={cardToEdit}
+                close={handleCloseCardEdit}></EditCard>
+            )}
+          </>
+        );
+      }
+    } else {
+      // If there are cards then show them to the user
       return (
         <>
+          <button onClick={createCard}>Create</button>
           <ul>
-            <li>
-              <p className={styles["no-card"]}>
-                <span>Nothing, sorry 😢</span>
-              </p>
-            </li>
+            {cards.map((card) => (
+              <Card
+                key={card.id}
+                card={card}
+                handleDelete={handleCardDelete}
+                handleEdit={handleCardEdit}
+                handleRead={handleCardRead}></Card>
+            ))}
           </ul>
           {showEditModal && (
             <EditCard card={cardToEdit} close={handleCloseCardEdit}></EditCard>
           )}
-        </>
-      );
-    } else {
-      // No cards with no search box visible means there are really no cards
-      // Give user the option to tap to create a new one
-      return (
-        <>
-          <ul>
-            <li>
-              <p className={styles["no-card"]} onClick={createCard}>
-                <span>No cards, tap to create one</span>
-              </p>
-            </li>
-          </ul>
-          {showEditModal && (
-            <EditCard card={cardToEdit} close={handleCloseCardEdit}></EditCard>
+          {showDeleteModal && (
+            <DeleteCard
+              card={cardToDelete}
+              close={handleCloseCardDelete}></DeleteCard>
           )}
         </>
       );
     }
-  } else {
-    // If there are cards then show them to the user
-    return (
-      <>
-        <button onClick={createCard}>Create</button>
-        <ul>
-          {cards.map((card) => (
-            <Card
-              key={card.id}
-              card={card}
-              handleDelete={handleCardDelete}
-              handleEdit={handleCardEdit}
-              handleRead={handleCardRead}></Card>
-          ))}
-        </ul>
-        {showEditModal && (
-          <EditCard card={cardToEdit} close={handleCloseCardEdit}></EditCard>
-        )}
-        {showDeleteModal && (
-          <DeleteCard
-            card={cardToDelete}
-            close={handleCloseCardDelete}></DeleteCard>
-        )}
-      </>
-    );
   }
 };
 
