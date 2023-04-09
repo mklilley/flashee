@@ -5,7 +5,7 @@ import Modal from "../Modal";
 import { db } from "../../services/storage";
 
 // This component can be used to update an existing card of create a new card
-function EditCard({ close, card }) {
+function EditCard({ close, card, setReloadCards }) {
   const [question, setQuestion] = useState(card.question);
   const [answer, setAnswer] = useState(card.answer);
 
@@ -45,6 +45,7 @@ function EditCard({ close, card }) {
         { remote: false }
       );
     }
+    setReloadCards((prev) => prev + 1);
     close();
   }
   return (

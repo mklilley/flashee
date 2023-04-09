@@ -2,30 +2,27 @@ import { useState, useEffect, useCallback } from "react";
 import * as shuffleSeed from "shuffle-seed";
 
 import Card from "../Card";
-import EditCard from "../EditCard";
-import DeleteCard from "../DeleteCard";
 
 import { db } from "../../services/storage";
 
 import styles from "./styles.module.css";
 
-const Cards = () => {
+const Cards = ({
+  setShowEditModal,
+  setCardToEdit,
+  setShowDeleteModal,
+  setCardToDelete,
+  reloadCards,
+  setNumberOfCards,
+}) => {
   const [cards, setCards] = useState();
-
-  // This is for the edit card modal
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [cardToEdit, setCardToEdit] = useState({});
-
-  // This is for the delete card modal
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [cardToDelete, setCardToDelete] = useState({});
 
   // seed allows us to reshuffle cards if we want to
   const [seed, setSeed] = useState(Date.now());
 
   useEffect(() => {
     loadCards();
-  }, [seed]);
+  }, [seed, reloadCards]);
 
   let searchBarVisible = false;
 
@@ -36,6 +33,7 @@ const Cards = () => {
     // cards all the time
     cards = sortCards(shuffleCards(cards));
     setCards(cards);
+    setNumberOfCards(cards.length);
   }
 
   function createCard() {
@@ -45,22 +43,12 @@ const Cards = () => {
 
   const handleCardEdit = useCallback((card) => {
     setCardToEdit(card);
-    setShowEditModal((prev) => !prev);
-  }, []);
-
-  const handleCloseCardEdit = useCallback(() => {
-    setShowEditModal((prev) => !prev);
-    loadCards();
+    setShowEditModal(true);
   }, []);
 
   const handleCardDelete = useCallback((card) => {
     setCardToDelete(card);
-    setShowDeleteModal((prev) => !prev);
-  }, []);
-
-  const handleCloseCardDelete = useCallback((card) => {
-    setShowDeleteModal((prev) => !prev);
-    loadCards();
+    setShowDeleteModal(true);
   }, []);
 
   const handleCardRead = useCallback(async (card) => {
@@ -130,11 +118,6 @@ const Cards = () => {
                 </p>
               </li>
             </ul>
-            {showEditModal && (
-              <EditCard
-                card={cardToEdit}
-                close={handleCloseCardEdit}></EditCard>
-            )}
           </>
         );
       } else {
@@ -149,11 +132,6 @@ const Cards = () => {
                 </p>
               </li>
             </ul>
-            {showEditModal && (
-              <EditCard
-                card={cardToEdit}
-                close={handleCloseCardEdit}></EditCard>
-            )}
           </>
         );
       }
@@ -161,7 +139,6 @@ const Cards = () => {
       // If there are cards then show them to the user
       return (
         <>
-          <button onClick={createCard}>Create</button>
           <ul>
             {cards.map((card) => (
               <Card
@@ -172,14 +149,6 @@ const Cards = () => {
                 handleRead={handleCardRead}></Card>
             ))}
           </ul>
-          {showEditModal && (
-            <EditCard card={cardToEdit} close={handleCloseCardEdit}></EditCard>
-          )}
-          {showDeleteModal && (
-            <DeleteCard
-              card={cardToDelete}
-              close={handleCloseCardDelete}></DeleteCard>
-          )}
         </>
       );
     }

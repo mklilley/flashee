@@ -2,9 +2,10 @@ import Modal from "../Modal";
 
 import { db } from "../../services/storage";
 
-function DeleteCard({ close, card }) {
+function DeleteCard({ close, card, setReloadCards }) {
   async function deleteCard() {
     await db.delete(card.id, { remote: false });
+    setReloadCards((prev) => prev + 1);
     close();
   }
 
