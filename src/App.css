@@ -7,7 +7,11 @@
   text-align: center;
   color: #2c3e50;
   max-width: 100%;
-  padding: 2em;
+  /* padding: 2em; */
+}
+
+body {
+  margin: 0;
 }
 
 /* Form */
