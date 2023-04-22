@@ -35,7 +35,6 @@ function SearchBar({ reloadCards, setSearchResults }) {
       searchResults = searchResults.map(function (result) {
         return result.ref;
       });
-      console.log(searchResults);
 
       setSearchResults(searchResults);
     }, 600),
