@@ -14,6 +14,8 @@ const Cards = ({
   setCardToDelete,
   reloadCards,
   setNumberOfCards,
+  numberOfCards,
+  searchResults,
 }) => {
   const [cards, setCards] = useState();
 
@@ -22,7 +24,7 @@ const Cards = ({
 
   useEffect(() => {
     loadCards();
-  }, [seed, reloadCards]);
+  }, [seed, reloadCards, searchResults]);
 
   let searchBarVisible = false;
 
@@ -32,8 +34,18 @@ const Cards = ({
     // come to the top of the list. This is to stop you from seeing the same
     // cards all the time
     cards = sortCards(shuffleCards(cards));
-    setCards(cards);
+
+    // This is to give the TopBar awareness of the number of cards so that it can adjust its UI
     setNumberOfCards(cards.length);
+
+    // If we have searched for a card we need to filter the cards based on the results
+    if (searchResults !== undefined) {
+      cards = cards.filter((card) => {
+        return searchResults.indexOf(card.id) > -1;
+      });
+    }
+
+    setCards(cards);
   }
 
   function createCard() {
@@ -105,36 +117,34 @@ const Cards = ({
     // Cards haven't yet loaded so don't render anything
     return null;
   } else {
-    if (cards.length === 0) {
-      if (searchBarVisible) {
-        // No cards and search box visible just means there are no search results.
-        // Don't give user option to tap to create a new card.
-        return (
-          <>
-            <ul>
-              <li>
-                <p className={styles["no-card"]}>
-                  <span>Nothing, sorry 😢</span>
-                </p>
-              </li>
-            </ul>
-          </>
-        );
-      } else {
-        // No cards with no search box visible means there are really no cards
-        // Give user the option to tap to create a new one
-        return (
-          <>
-            <ul>
-              <li>
-                <p className={styles["no-card"]} onClick={createCard}>
-                  <span>No cards, tap to create one</span>
-                </p>
-              </li>
-            </ul>
-          </>
-        );
-      }
+    if (numberOfCards === 0) {
+      // No cards - Give user the option to tap to create a new one
+      return (
+        <>
+          <ul>
+            <li>
+              <p className={styles["no-card"]} onClick={createCard}>
+                <span>No cards, tap to create one</span>
+              </p>
+            </li>
+          </ul>
+        </>
+      );
+    } else if (cards.length === 0) {
+      // There are a non zero number of cards, but nothing in the cards array
+      // This means there are no search results.
+      // Don't give user option to tap to create a new card.
+      return (
+        <>
+          <ul>
+            <li>
+              <p className={styles["no-card"]}>
+                <span>Nothing, sorry 😢</span>
+              </p>
+            </li>
+          </ul>
+        </>
+      );
     } else {
       // If there are cards then show them to the user
       return (
