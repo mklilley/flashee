@@ -44,7 +44,7 @@
 }
 
 .gg-search {
-  --ggs: 1.5;
+  --ggs: 1.8;
   box-sizing: border-box;
   position: relative;
   display: block;
@@ -96,4 +96,34 @@
   top: 2px;
   left: 2px;
   box-shadow: 0 4px 0, 0 8px 0;
+}
+
+.gg-close {
+  --ggs: 0.6;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 22px;
+  height: 22px;
+  border: 2px solid transparent;
+  border-radius: 40px;
+  color: rgb(161, 125, 233);
+}
+.gg-close::after,
+.gg-close::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(45deg);
+  border-radius: 5px;
+  top: 0px;
+  left: -7px;
+}
+.gg-close::after {
+  transform: rotate(-45deg);
 }

@@ -31,7 +31,9 @@ function TopBar({
         <div className={styles["top-bar"]}>
           {numberOfCards !== 0 && (
             <div>
-              <i className={styles["gg-search"]} onClick={toggleSearch}></i>
+              <i className={styles["gg-search"]} onClick={toggleSearch}>
+                {searchVisible && <i className={styles["gg-close"]}></i>}
+              </i>
             </div>
           )}
           {numberOfCards !== 0 && (
