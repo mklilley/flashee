@@ -47,7 +47,12 @@ function SearchBar({ reloadCards, setSearchResults }) {
 
   return (
     <div className={styles["search-bar"]}>
-      <input type="search" placeholder="Search" onChange={handleQuery} />
+      <input
+        type="search"
+        placeholder="Search"
+        onChange={handleQuery}
+        autoFocus
+      />
     </div>
   );
 }
