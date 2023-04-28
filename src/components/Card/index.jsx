@@ -1,10 +1,18 @@
 import styles from "./styles.module.css";
-import { useState } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 
 import { db } from "../../services/storage";
 
+import { renderMathInElement } from "mathlive";
+
 const Card = ({ card, handleEdit, handleDelete, handleRead }) => {
   const cardColor = { backgroundColor: card.color };
+
+  const cardRef = useRef(null);
+
+  useLayoutEffect(() => {
+    renderMathInElement(cardRef.current);
+  }, [card]);
 
   const [flipped, setFlipped] = useState(false);
 
@@ -45,7 +53,7 @@ const Card = ({ card, handleEdit, handleDelete, handleRead }) => {
   }
 
   return (
-    <li onClick={flipCard} className={`${styles.card}`}>
+    <li onClick={flipCard} className={`${styles.card}`} ref={cardRef}>
       <div
         className={`${styles["flip-card-inner"]} ${
           flipped ? styles["flipped"] : ""
