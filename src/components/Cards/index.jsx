@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import * as shuffleSeed from "shuffle-seed";
+
+import { seedFunc as randomSeedFunc, sequence as randomSequence } from 'aimless.js'
 
 import Card from "../Card";
 
@@ -86,12 +87,12 @@ const Cards = ({
       "#feca34",
       "#e46055",
     ];
-    const colors = shuffleSeed.shuffle(availableColors, seed);
+    const colors = randomSequence(availableColors,randomSeedFunc(seed));
     return colors[i % availableColors.length];
   }
 
   function shuffleCards(cards) {
-    const shuffledDeck = shuffleSeed.shuffle(cards, seed);
+    const shuffledDeck = randomSequence(cards,randomSeedFunc(seed));
 
     for (let i = 0; i < shuffledDeck.length; i++) {
       shuffledDeck[i].color = randomColor(i);
