@@ -65,10 +65,6 @@ const Cards = ({
   }, []);
 
   const handleCardRead = useCallback(async (card) => {
-    // A card that's been flipped back from answer to question gets its "read" property updated in local storage.
-    // This means we need to load the cards from storage into the component again
-    await loadCards();
-
     // We want to make sure that the card that was just flipped back ends up at the end of the pile of cards
     setCards((prevCards) => {
       let cards = [...prevCards];
