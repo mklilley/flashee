@@ -24,30 +24,34 @@ const Cards = ({
   const [seed, setSeed] = useState(Date.now());
 
   useEffect(() => {
+
+    async function loadCards(options = {}) {
+      let cards = await db.read(options);
+      // After deck is shuffled, sort the array so that the least seen cards
+      // come to the top of the list. This is to stop you from seeing the same
+      // cards all the time
+      cards = sortCards(shuffleCards(cards));
+  
+      // This is to give the TopBar awareness of the number of cards so that it can adjust its UI
+      setNumberOfCards(cards.length);
+  
+      // If we have searched for a card we need to filter the cards based on the results
+      if (searchResults !== undefined) {
+        cards = cards.filter((card) => {
+          return searchResults.indexOf(card.id) > -1;
+        });
+      }
+  
+      setCards(cards);
+    }
+
     loadCards();
+    
   }, [seed, reloadCards, searchResults]);
 
   let searchBarVisible = false;
 
-  async function loadCards(options = {}) {
-    let cards = await db.read(options);
-    // After deck is shuffled, sort the array so that the least seen cards
-    // come to the top of the list. This is to stop you from seeing the same
-    // cards all the time
-    cards = sortCards(shuffleCards(cards));
 
-    // This is to give the TopBar awareness of the number of cards so that it can adjust its UI
-    setNumberOfCards(cards.length);
-
-    // If we have searched for a card we need to filter the cards based on the results
-    if (searchResults !== undefined) {
-      cards = cards.filter((card) => {
-        return searchResults.indexOf(card.id) > -1;
-      });
-    }
-
-    setCards(cards);
-  }
 
   function createCard() {
     setCardToEdit({ question: "", answer: "" });
