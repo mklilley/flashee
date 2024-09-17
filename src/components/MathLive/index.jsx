@@ -25,8 +25,8 @@ function MathLive({ latex, saveMath, close }) {
         style={{
           display: "block",
           width: "80%",
-          "max-width": "500px",
-          "font-size": "32px",
+          maxWidth: "500px",
+          fontSize: "32px",
         }}
         ref={mathfieldRef}
         math-virtual-keyboard-policy="auto">
