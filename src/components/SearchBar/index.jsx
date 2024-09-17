@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import debounce from "lodash.debounce";
 import lunr from "lunr";
 
@@ -8,6 +8,7 @@ import { db } from "../../services/storage";
 function SearchBar({ reloadCards, setSearchResults }) {
   const [searchIdx, setSearchIdx] = useState(null);
   const [isIndexBuilding, setIsIndexBuilding] = useState(true);
+  const inputRef = useRef(null)
 
 
   useEffect(() => {
@@ -38,6 +39,15 @@ function SearchBar({ reloadCards, setSearchResults }) {
     buildIndex();
   }, [reloadCards]);
 
+    // Focus the input field when the component is rendered
+    useEffect(() => {
+      if (inputRef.current) {
+        setTimeout(() => {
+          inputRef.current.focus();
+        }, 0); // Delay the focus until the next tick otherwise focus doesn't work for reasons I don't fully understand.
+      }
+    }, []);
+
 
  const searchDeck = useCallback(
   debounce(function (query) {
@@ -62,9 +72,9 @@ function SearchBar({ reloadCards, setSearchResults }) {
     <div className={styles["search-bar"]}>
       <input
         type="search"
+        ref={inputRef} // Required for autofocus on load
         placeholder={isIndexBuilding ? "Building search index..." : "Search"}
         onChange={handleQuery}
-        autoFocus
         disabled={isIndexBuilding} // Disable input until index is ready
       />
     </div>
