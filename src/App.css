@@ -134,10 +134,17 @@ button.wait::after {
 .math {
   padding: 5px;
   opacity: 0.4;
+  transition: opacity 0.5s ease;
 }
 
 .math svg {
   vertical-align: middle; /* or try baseline or top */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .math:hover {
+    opacity: 1;
+  }
 }
 
 .mathActive {
