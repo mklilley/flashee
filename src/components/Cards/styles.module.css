@@ -1,6 +1,7 @@
 /* Flash cards */
 
 .no-card {
+  -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
