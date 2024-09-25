@@ -19,7 +19,8 @@ function App() {
   const [reloadCards, setReloadCards] = useState(0);
 
   // This is to ensure the top-bar has awareness of the number of cards in order to present different UI for zero cards vs non-zero
-  const [numberOfCards, setNumberOfCards] = useState();
+  // The totalNumberOfCards is set in the cards component after the cards have been rendered
+  const [totalNumberOfCards, setTotalNumberOfCards] = useState();
 
   // This is to ensure that SearchBar (inside of TopBar) can set the search results and the Cards component can read the search results
   // in order to display a filtered view
@@ -30,7 +31,7 @@ function App() {
       <TopBar
         setShowEditModal={setShowEditModal}
         setCardToEdit={setCardToEdit}
-        numberOfCards={numberOfCards}
+        totalNumberOfCards={totalNumberOfCards}
         reloadCards={reloadCards}
         setSearchResults={setSearchResults}
       />
@@ -40,8 +41,8 @@ function App() {
         setCardToDelete={setCardToDelete}
         setShowDeleteModal={setShowDeleteModal}
         reloadCards={reloadCards}
-        setNumberOfCards={setNumberOfCards}
-        numberOfCards={numberOfCards}
+        setTotalNumberOfCards={setTotalNumberOfCards}
+        totalNumberOfCards={totalNumberOfCards}
         searchResults={searchResults}
       />
       {showEditModal && (
