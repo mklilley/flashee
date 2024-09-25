@@ -14,8 +14,8 @@ const Cards = ({
   setShowDeleteModal,
   setCardToDelete,
   reloadCards,
-  setNumberOfCards,
-  numberOfCards,
+  setTotalNumberOfCards,
+  totalNumberOfCards,
   searchResults,
 }) => {
   const [cards, setCards] = useState();
@@ -33,7 +33,7 @@ const Cards = ({
       cards = sortCards(shuffleCards(cards));
   
       // This is to give the TopBar awareness of the number of cards so that it can adjust its UI
-      setNumberOfCards(cards.length);
+      setTotalNumberOfCards(cards.length);
   
       // If we have searched for a card we need to filter the cards based on the results
       if (searchResults !== undefined) {
@@ -118,8 +118,8 @@ const Cards = ({
     // Cards haven't yet loaded so don't render anything
     return null;
   } else {
-    if (numberOfCards === 0) {
-      // No cards - Give user the option to tap to create a new one
+    if (totalNumberOfCards === 0) {
+      // No cards exist - Give user the option to tap to create a new one
       return (
         <>
           <ul>

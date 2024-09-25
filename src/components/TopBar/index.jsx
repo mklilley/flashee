@@ -6,7 +6,7 @@ import SearchBar from "../SearchBar";
 function TopBar({
   setCardToEdit,
   setShowEditModal,
-  numberOfCards,
+  totalNumberOfCards,
   reloadCards,
   setSearchResults,
 }) {
@@ -22,21 +22,21 @@ function TopBar({
     setShowEditModal(true);
   }
 
-  if (numberOfCards === undefined) {
+  if (totalNumberOfCards === undefined) {
     // Cards haven't been loaded yet so don't render anything
     return null;
   } else {
     return (
       <>
         <div className={styles["top-bar"]}>
-          {numberOfCards !== 0 && (
+          {totalNumberOfCards !== 0 && (
             <div>
               <i className={styles["gg-search"]} onClick={toggleSearch}>
                 {searchVisible && <i className={styles["gg-close"]}></i>}
               </i>
             </div>
           )}
-          {numberOfCards !== 0 && (
+          {totalNumberOfCards !== 0 && (
             <div>
               <i className={styles["gg-add"]} onClick={createCard}></i>
             </div>
@@ -46,7 +46,7 @@ function TopBar({
             <i className={styles["gg-menu-boxed"]}></i>
           </div>
         </div>
-        {searchVisible && numberOfCards !== 0 && (
+        {searchVisible && totalNumberOfCards !== 0 && (
           <SearchBar
             rebuildSearchIndex={reloadCards}
             setSearchResults={setSearchResults}></SearchBar>
