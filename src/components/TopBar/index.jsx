@@ -48,7 +48,7 @@ function TopBar({
         </div>
         {searchVisible && numberOfCards !== 0 && (
           <SearchBar
-            reloadCards={reloadCards}
+            rebuildSearchIndex={reloadCards}
             setSearchResults={setSearchResults}></SearchBar>
         )}
       </>

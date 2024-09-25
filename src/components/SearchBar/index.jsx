@@ -5,7 +5,7 @@ import lunr from "lunr";
 
 import { db } from "../../services/storage";
 
-function SearchBar({ reloadCards, setSearchResults }) {
+function SearchBar({ rebuildSearchIndex, setSearchResults }) {
   const [searchIdx, setSearchIdx] = useState(null);
   const [isIndexBuilding, setIsIndexBuilding] = useState(true);
   const inputRef = useRef(null)
@@ -37,7 +37,7 @@ function SearchBar({ reloadCards, setSearchResults }) {
     }
 
     buildIndex();
-  }, [reloadCards]);
+  }, [rebuildSearchIndex]);
 
     // Focus the input field when the component is rendered
     useEffect(() => {
