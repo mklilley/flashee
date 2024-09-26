@@ -4,6 +4,7 @@ import styles from "./styles.module.css";
 import SearchBar from "../SearchBar";
 
 function TopBar({
+  setShowSettingsModal,
   setCardToEdit,
   setShowEditModal,
   totalNumberOfCards,
@@ -11,6 +12,10 @@ function TopBar({
   setSearchResults,
 }) {
   const [searchVisible, setSearchVisible] = useState(false);
+
+  function showSettings() {
+    setShowSettingsModal(true);
+  }
 
   function toggleSearch() {
     setSearchVisible((prev) => !prev);
@@ -43,7 +48,7 @@ function TopBar({
           )}
 
           <div>
-            <i className={styles["gg-menu-boxed"]}></i>
+            <i className={styles["gg-menu-boxed"]} onClick={showSettings}></i>
           </div>
         </div>
         {searchVisible && totalNumberOfCards !== 0 && (
