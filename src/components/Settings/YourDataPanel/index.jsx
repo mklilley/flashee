@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 import Panel from "../../Panel"
+import Modal from "../../Modal";
+
+import { db } from "../../../services/storage";
 
 function YourDataPanel({ totalNumberOfCards }) {
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
