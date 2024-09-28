@@ -5,7 +5,6 @@ function MathLive({ latex, saveMath, close }) {
   const mathfieldRef = useRef(null);
 
   function saveAndClose() {
-    console.log(`$$${mathfieldRef.current.getValue()}$$`);
     if (mathfieldRef.current.getValue() !== "") {
       saveMath(`$$${mathfieldRef.current.getValue()}$$`);
     } else {
