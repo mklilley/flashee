@@ -7,6 +7,11 @@ import { db } from "../../../services/storage";
 
 function YourDataPanel({ totalNumberOfCards }) {
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
+  const [showImportDataModal, setShowImportDataModal] = useState(false);
+  const [fileError, setFileError] = useState(false);
+  const [fileOK, setFileOK] = useState(false);
+  const [file, setFile] = useState();
+
   function handleDeleteAllData(){
     setShowDeleteAllModal(true);
   }
@@ -44,6 +49,24 @@ function YourDataPanel({ totalNumberOfCards }) {
     document.body.removeChild(element);
   }
 
+  function handleImportData(){
+    setFileError(false);
+    setFileOK(false);
+    setShowImportDataModal(true);
+  }
+
+  function readFile(){
+    // TODO: Check file is in correct format
+    setFileOK(true);
+  }
+
+  function importData(){
+    // TODO: Add the cards from the file data to the existing stack
+    // Let user know that this will replace all cards
+    setShowImportDataModal(false);
+  }
+
+
 
   return (
       <Panel heading="Your data" color="yellow">
@@ -60,7 +83,7 @@ function YourDataPanel({ totalNumberOfCards }) {
             <br />
           </div>
           <div>
-            <button>Import data from file</button>
+            <button onClick={handleImportData}>Import data from file</button>
           </div>
           {showDeleteAllModal && (
             <Modal close={() => setShowDeleteAllModal(false)}>
@@ -69,6 +92,16 @@ function YourDataPanel({ totalNumberOfCards }) {
                 <span className="error"> Problem with online storage. Only local data will be deleted.</span><br/>
                 <button onClick={deleteAllData}>Yes, delete everything</button> <br/><br/>
                 <button onClick={() => setShowDeleteAllModal(false)}>No, take me back</button>
+              </div>
+            </Modal>
+           )}
+          {showImportDataModal && (
+            <Modal close={() => setShowImportDataModal(false)}>
+              <div className="center">
+                <h2>Add data from file</h2>
+                <input type="file" onChange={readFile}/> <br/><br/>
+                {fileError && (<span className="error">{fileError}</span>)}
+                {fileOK && (<button onClick={importData}>Add data</button>)}
               </div>
             </Modal>
            )}
