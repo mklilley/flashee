@@ -1,6 +1,15 @@
 import Panel from "../../Panel"
 
 function YourDataPanel({ totalNumberOfCards }) {
+  const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
+  function handleDeleteAllData(){
+    setShowDeleteAllModal(true);
+  }
+
+  function deleteAllData(){
+    console.log("deleting data");
+    setShowDeleteAllModal(false);
+  }
 
   async function downloadData(){
     //  Adapted from https://ourcodeworld.com/articles/read/189/how-to-create-a-file-and-generate-a-download-with-javascript-in-the-browser-without-a-server
@@ -41,13 +50,23 @@ function YourDataPanel({ totalNumberOfCards }) {
             <br />
           </div>
           <div>
-            <button>Delete all your data</button>
+            <button onClick={handleDeleteAllData}>Delete all your data</button>
             <br />
             <br />
           </div>
           <div>
             <button>Import data from file</button>
           </div>
+          {showDeleteAllModal && (
+            <Modal close={() => setShowDeleteAllModal(false)}>
+              <div className="center">
+                <h2>Delete all data</h2>
+                <span className="error"> Problem with online storage. Only local data will be deleted.</span><br/>
+                <button onClick={deleteAllData}>Yes, delete everything</button> <br/><br/>
+                <button onClick={() => setShowDeleteAllModal(false)}>No, take me back</button>
+              </div>
+            </Modal>
+           )}
       </Panel>
   );
 }
