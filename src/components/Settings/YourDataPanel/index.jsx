@@ -5,20 +5,33 @@ import Modal from "../../Modal";
 
 import { db } from "../../../services/storage";
 
-function YourDataPanel({ totalNumberOfCards }) {
+function YourDataPanel({ totalNumberOfCards, setReloadCards }) {
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [showImportDataModal, setShowImportDataModal] = useState(false);
   const [fileError, setFileError] = useState(false);
   const [fileOK, setFileOK] = useState(false);
   const [file, setFile] = useState();
+  const [deletingAll, setDeletingAll] = useState(false);
 
   function handleDeleteAllData(){
     setShowDeleteAllModal(true);
   }
 
-  function deleteAllData(){
-    console.log("deleting data");
-    setShowDeleteAllModal(false);
+  async function deleteAllData(){
+    // Delete button shows wait icon while delete all is happening
+    setDeletingAll(true);
+
+    // Actually do the delete all
+    await db.delete(null, { remote: false });
+
+    // Trigger the app to reload the cards (which should now be empty)
+    setReloadCards((prev) => prev + 1);
+
+    // Remove the waiting icon
+    setDeletingAll(false);
+
+    // Hide the delete all modal
+    setShowDeleteAllModal(false)
   }
 
   async function downloadData(){
@@ -90,7 +103,7 @@ function YourDataPanel({ totalNumberOfCards }) {
               <div className="center">
                 <h2>Delete all data</h2>
                 <span className="error"> Problem with online storage. Only local data will be deleted.</span><br/>
-                <button onClick={deleteAllData}>Yes, delete everything</button> <br/><br/>
+                <button onClick={deleteAllData} className={deletingAll ? 'wait' : ''}>Yes, delete everything</button> <br/><br/>
                 <button onClick={() => setShowDeleteAllModal(false)}>No, take me back</button>
               </div>
             </Modal>

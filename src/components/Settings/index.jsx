@@ -7,12 +7,12 @@ import HelpPanel from "./HelpPanel";
 // import { db } from "../../services/storage";
 
 
-function Settings({ close, totalNumberOfCards }) {
+function Settings({ close, totalNumberOfCards, setReloadCards }) {
   return (
     <Modal close={close}>
         <h2> Settings </h2>
         <div className="left">
-          <YourDataPanel totalNumberOfCards={totalNumberOfCards}></YourDataPanel>
+          <YourDataPanel totalNumberOfCards={totalNumberOfCards} setReloadCards={setReloadCards}></YourDataPanel>
           <br />
           <OnlineStoragePanel></OnlineStoragePanel>
           <br />
