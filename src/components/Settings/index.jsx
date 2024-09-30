@@ -10,7 +10,6 @@ import HelpPanel from "./HelpPanel";
 function Settings({ close, totalNumberOfCards }) {
   return (
     <Modal close={close}>
-      <div>
         <h2> Settings </h2>
         <div className="left">
           <YourDataPanel totalNumberOfCards={totalNumberOfCards}></YourDataPanel>
@@ -33,7 +32,6 @@ function Settings({ close, totalNumberOfCards }) {
         </a>{" "}
         <br />
         <br />
-      </div>
     </Modal>
   );
 }
