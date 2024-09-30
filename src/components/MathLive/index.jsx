@@ -19,7 +19,7 @@ function MathLive({ latex, saveMath, close }) {
   }, []);
 
   return (
-    <div className={styles["mathlive-container"] + " misc"}>
+    <div className={styles["mathlive-container"] + " purple"}>
       <math-field
         style={{
           display: "block",

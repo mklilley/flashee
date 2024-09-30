@@ -11,8 +11,8 @@ function DeleteCard({ close, card, setReloadCards }) {
 
   return (
     <Modal close={close}>
-      <div className="misc">
-        <h2>Delete card</h2>
+      <h2>Delete card</h2>
+      <div className="purple">
         <button onClick={deleteCard}>Yes, delete card</button>
         <br />
         <br />
