@@ -12,6 +12,7 @@ function YourDataPanel({ totalNumberOfCards, setReloadCards }) {
   const [fileOK, setFileOK] = useState(false);
   const [file, setFile] = useState(null);
   const [deletingAll, setDeletingAll] = useState(false);
+  const [importingData, setImportingData] = useState(false);
 
   function handleDeleteAllData(){
     setShowDeleteAllModal(true);
@@ -101,9 +102,35 @@ function YourDataPanel({ totalNumberOfCards, setReloadCards }) {
     }
   }
 
-  function importData(){
-    // TODO: Add the cards from the file data to the existing stack
-    // Let user know that this will replace all cards
+  async function importData(){
+    let cardsToCreate = [];
+    // let reads = this.cards[0] ? this.cards[0].reads : 0;
+    for (let card of file) {
+      cardsToCreate.push(
+          {
+            question: card.question,
+            answer: card.answer,
+            flipped: false,
+            reads: 0,
+            difficulty: 0,
+          }
+      );
+    }
+    console.log(cardsToCreate)
+
+    // Show the waiting icon on the add data button while we wait for data to be added
+    setImportingData(true);
+
+    // Add the cards to the database
+    await db.create(cardsToCreate, { remote: false });
+
+    // Trigger the app to reload the cards which should now included the newly imported ones
+    setReloadCards((prev) => prev + 1);
+
+    // Stop showing the waiting icon on the add data button
+    setImportingData(false);
+
+    // Close the Import data modal
     setShowImportDataModal(false);
   }
 
@@ -142,7 +169,7 @@ function YourDataPanel({ totalNumberOfCards, setReloadCards }) {
                 <h2>Add data from file</h2>
                 <input type="file" onChange={readFile}/> <br/><br/>
                 {fileError && (<span className="error">{fileError}</span>)}
-                {fileOK && (<button onClick={importData}>Add data</button>)}
+                {fileOK && (<button onClick={importData} className={importingData ? 'wait' : ''}>Add data</button>)}
               </div>
             </Modal>
            )}
