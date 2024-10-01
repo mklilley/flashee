@@ -8,9 +8,9 @@ import { db } from "../../../services/storage";
 function YourDataPanel({ totalNumberOfCards, setReloadCards }) {
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [showImportDataModal, setShowImportDataModal] = useState(false);
-  const [fileError, setFileError] = useState(false);
+  const [fileError, setFileError] = useState("");
   const [fileOK, setFileOK] = useState(false);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState(null);
   const [deletingAll, setDeletingAll] = useState(false);
 
   function handleDeleteAllData(){
@@ -68,9 +68,37 @@ function YourDataPanel({ totalNumberOfCards, setReloadCards }) {
     setShowImportDataModal(true);
   }
 
-  function readFile(){
-    // TODO: Check file is in correct format
-    setFileOK(true);
+  function readFile(event) {
+    setFileOK(false);
+    setFileError("");
+  
+    let file = event.target.files[0];
+    if (file) {
+      let reader = new FileReader();
+  
+      reader.readAsText(file);
+  
+      reader.onload = () => {
+        try {
+          const parsedFile = JSON.parse(reader.result);
+          if (!Array.isArray(parsedFile)) {
+            throw new Error("Data not in array format");
+          }
+          setFile(parsedFile); // Set the parsed file state
+          setFileOK(true); // Indicate successful file read
+        } catch (error) {
+          setFileError(
+            'Error: File must contain a list of questions and answers in the form [{"question":"2x2", "answer":"4"},{...},...]'
+          );
+          setFileOK(false); // Reset fileOK if parsing fails
+        }
+      };
+  
+      reader.onerror = () => {
+        setFileError(reader.error);
+        setFileOK(false); // Reset fileOK on read error
+      };
+    }
   }
 
   function importData(){
