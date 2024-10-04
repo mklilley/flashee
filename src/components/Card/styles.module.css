@@ -83,10 +83,12 @@ li {
 
 .flip-card-front,
 .flip-card-back {
+  box-sizing: border-box;
   border-radius: inherit;
   position: absolute;
   width: 100%;
   height: 100%;
+  padding: 0px 10px;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   display: flex;
