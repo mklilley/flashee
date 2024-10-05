@@ -229,6 +229,10 @@ input[type="search"] {
   border-radius: 0.2em;
 } */
 
+.ML__mathlive {
+  font-weight: normal;
+}
+
 @media (hover: hover) and (pointer: fine) {
   button:disabled:hover,
   button[disabled][hover] {
