@@ -229,8 +229,21 @@ input[type="search"] {
   border-radius: 0.2em;
 } */
 
+/* Adapted from https://github.com/arnog/mathlive/issues/598#issuecomment-2299515507 */
 .ML__mathlive {
+  font-size: 1.21em;
   font-weight: normal;
+  width: auto !important;
+  display:flex !important;
+}
+
+.ML__base {
+  flex:1;
+  display:flex !important;
+  flex-wrap:wrap;
+  gap: 10px 0px ;
+  width: auto !important;
+  justify-content: center;
 }
 
 @media (hover: hover) and (pointer: fine) {
