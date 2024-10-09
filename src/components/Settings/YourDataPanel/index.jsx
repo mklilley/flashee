@@ -93,31 +93,31 @@ function YourDataPanel({ totalNumberOfCards, setReloadCards }) {
     setFileOK(false);
     setFileError("");
   
-    let file = event.target.files[0];
+    const file = event.target.files[0];
     if (file) {
-      let reader = new FileReader();
-  
+      const reader = new FileReader();
       reader.readAsText(file);
-  
+
       reader.onload = () => {
         try {
           const parsedFile = JSON.parse(reader.result);
-          if (!Array.isArray(parsedFile)) {
-            throw new Error("Data not in array format");
+          const validationError = validateFileContent(parsedFile);
+          if (validationError) {
+            throw new Error(validationError);
           }
-          setFile(parsedFile); // Set the parsed file state
-          setFileOK(true); // Indicate successful file read
+          setFile(parsedFile);
+          setFileOK(true);
         } catch (error) {
           setFileError(
             'Error: File must contain a list of questions and answers in the form [{"question":"2x2", "answer":"4"},{...},...]'
           );
-          setFileOK(false); // Reset fileOK if parsing fails
+          setFileOK(false);
         }
       };
-  
+
       reader.onerror = () => {
         setFileError(reader.error);
-        setFileOK(false); // Reset fileOK on read error
+        setFileOK(false);
       };
     }
   }
