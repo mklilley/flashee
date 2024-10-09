@@ -230,7 +230,7 @@ input[type="search"] {
 } */
 
 /* Adapted from https://github.com/arnog/mathlive/issues/598#issuecomment-2299515507 */
-.ML__mathlive {
+.ML__latex {
   font-size: 1.21em;
   font-weight: normal;
   width: auto !important;

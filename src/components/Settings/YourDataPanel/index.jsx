@@ -69,6 +69,26 @@ function YourDataPanel({ totalNumberOfCards, setReloadCards }) {
     setShowImportDataModal(true);
   }
 
+  function validateFileContent(parsedFile) {
+    if (!Array.isArray(parsedFile)) {
+      return "Error: File must contain a list of questions and answers in the form [{\"question\":\"2x2\", \"answer\":\"4\"},{...},...]";
+    }
+
+    for (const item of parsedFile) {
+      if (typeof item !== "object" || item === null) {
+        return "Error: Each item in the list must be in the form {\"question\":\"2x2\", \"answer\":\"4\"}.";
+      }
+      if (!item.hasOwnProperty("question") || !item.hasOwnProperty("answer")) {
+        return 'Error: Each item must contain a "question" and and "answer".';
+      }
+      if (typeof item.question !== "string" || typeof item.answer !== "string") {
+        return 'Error: "question" and "answer" must be strings, i.e. things wrapped in quotes.';
+      }
+    }
+
+    return ""; // No errors
+  }
+
   function readFile(event) {
     setFileOK(false);
     setFileError("");
