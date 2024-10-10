@@ -1,11 +1,11 @@
 import styles from "./styles.module.css";
-import { useState, useRef, useLayoutEffect } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 
 import { db } from "../../services/storage";
 
 import { renderMathInElement } from "mathlive";
 
-const Card = ({ card, handleEdit, handleDelete, handleRead }) => {
+const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
   const cardColor = { backgroundColor: card.color };
 
   const cardRef = useRef(null);
@@ -30,6 +30,8 @@ const Card = ({ card, handleEdit, handleDelete, handleRead }) => {
     if (flipped) {
       setTimeout(async () => {
         // update read number on cards in storage
+        console.log("hi")
+        console.log(card.reads)
         await db.update(card.id, {
           reads: card.reads + 1,
         });
@@ -77,6 +79,6 @@ const Card = ({ card, handleEdit, handleDelete, handleRead }) => {
       </div>
     </li>
   );
-};
+});
 
 export default Card;
