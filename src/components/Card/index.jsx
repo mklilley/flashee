@@ -6,6 +6,9 @@ import { db } from "../../services/storage";
 import { renderMathInElement } from "mathlive";
 
 const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
+  const [flipped, setFlipped] = useState(false);
+
+  
   const cardColor = { backgroundColor: card.color };
 
   const cardRef = useRef(null);
@@ -13,8 +16,6 @@ const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
   useLayoutEffect(() => {
     renderMathInElement(cardRef.current);
   }, [card]);
-
-  const [flipped, setFlipped] = useState(false);
 
   function editCard(e) {
     // Need to stop propagation to prevent the card from flipping as soon as we hit the edit button
