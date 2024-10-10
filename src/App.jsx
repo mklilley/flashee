@@ -68,6 +68,7 @@ function App() {
         <Settings
           close={() => setShowSettingsModal(false)}
           totalNumberOfCards={totalNumberOfCards}
+          setReloadCards={setReloadCards}
         />
       )}
     </>
