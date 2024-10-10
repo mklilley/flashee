@@ -5,7 +5,7 @@ import Modal from "../../Modal";
 
 import { db } from "../../../services/storage";
 
-function YourDataPanel({ totalNumberOfCards, setReloadCards }) {
+function YourDataPanel({ totalNumberOfCards, setReloadCards, minReads }) {
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [showImportDataModal, setShowImportDataModal] = useState(false);
   const [fileError, setFileError] = useState("");
@@ -131,7 +131,7 @@ function YourDataPanel({ totalNumberOfCards, setReloadCards }) {
             question: card.question,
             answer: card.answer,
             flipped: false,
-            reads: 0,
+            reads: minReads,
             difficulty: 0,
           }
       );

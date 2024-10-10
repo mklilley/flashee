@@ -7,7 +7,7 @@ import { db } from "../../services/storage";
 import MathLive from "../MathLive";
 
 // This component can be used to update an existing card of create a new card
-function EditCard({ close, card, setReloadCards }) {
+function EditCard({ close, card, setReloadCards, minReads }) {
   const [question, setQuestion] = useState(card.question);
   const [answer, setAnswer] = useState(card.answer);
   const [showMathQuestion, setShowMathQuestion] = useState(false);
@@ -42,7 +42,7 @@ function EditCard({ close, card, setReloadCards }) {
             question: question,
             answer: answer,
             flipped: false,
-            reads: 0,
+            reads: minReads,
             difficulty: 0,
           },
         ],

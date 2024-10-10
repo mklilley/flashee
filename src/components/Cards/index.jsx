@@ -17,6 +17,7 @@ const Cards = React.memo(({
   setTotalNumberOfCards,
   totalNumberOfCards,
   searchResults,
+  setMinReads
 }) => {
   const [cards, setCards] = useState();
 
@@ -34,6 +35,14 @@ const Cards = React.memo(({
   
       // This is to give the TopBar awareness of the number of cards so that it can adjust its UI
       setTotalNumberOfCards(cards.length);
+
+      // This is to give the app awareness of what the typical number of reads (i.e. card flips)
+      // have been up to now. This is so that when we create new cards we can give them the
+      // same number of reads as other cards so that the new cards don't end up at the top of the
+      // pile every time we load the app
+      if (cards.length !==0){
+        setMinReads(cards[0].reads);
+      }
   
       // If we have searched for a card we need to filter the cards based on the results
       if (searchResults !== undefined) {
