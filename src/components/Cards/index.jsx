@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import { seedFunc as randomSeedFunc, sequence as randomSequence } from 'aimless.js'
 
@@ -8,7 +8,7 @@ import { db } from "../../services/storage";
 
 import styles from "./styles.module.css";
 
-const Cards = ({
+const Cards = React.memo(({
   setShowEditModal,
   setCardToEdit,
   setShowDeleteModal,
@@ -164,6 +164,6 @@ const Cards = ({
       );
     }
   }
-};
+});
 
 export default Cards;
