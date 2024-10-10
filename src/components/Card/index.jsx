@@ -7,8 +7,9 @@ import { renderMathInElement } from "mathlive";
 
 const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
   const [flipped, setFlipped] = useState(false);
+  const [reads, setReads] = useState(card.reads);
 
-  
+
   const cardColor = { backgroundColor: card.color };
 
   const cardRef = useRef(null);
@@ -31,11 +32,11 @@ const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
     if (flipped) {
       setTimeout(async () => {
         // update read number on cards in storage
-        console.log("hi")
-        console.log(card.reads)
         await db.update(card.id, {
-          reads: card.reads + 1,
+          reads: reads + 1,
         });
+        // update local reads value to match storage
+        setReads((prev) => prev+1)
 
         handleRead(card);
       }, 500);
