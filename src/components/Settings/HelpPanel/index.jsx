@@ -2,13 +2,18 @@ import { useState } from "react";
 import Panel from "../../Panel";
 import Modal from "../../Modal";
 
-import Feedback from "./Feedback"
+import Feedback from "./Feedback";
+import Share from "./Share";
+import Reset from "./Reset";
+import Welcome from "../../Welcome";
 
 
 function HelpPanel({ children }) {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+
 
 
   return (
@@ -16,17 +21,18 @@ function HelpPanel({ children }) {
       <button onClick={() => setShowFeedbackModal(true)}>Send Feedback</button>
       <br />
       <br />
-      <button>Show welcome screen again</button>
+      <button onClick={() => setShowWelcomeModal(true)}>Show welcome screen again</button>
       <br />
       <br />
-      <div>
-        <button>Share my cards</button>
-        <br />
-        <br />
-      </div>
-      <button>Reset App</button> <br />
+      <button onClick={() => setShowShareModal(true)}>Share my cards</button>
       <br />
-      {showFeedbackModal && (<Feedback  close={() => setShowFeedbackModal(false)} />)}
+      <br />
+      <button onClick={() => setShowResetModal(true)}>Reset App</button> <br />
+      <br />
+      {showFeedbackModal && (<Feedback close={() => setShowFeedbackModal(false)} />)}
+      {showWelcomeModal && (<Welcome close={() => setShowWelcomeModal(false)} />)}
+      {showShareModal && (<Share close={() => setShowShareModal(false)} />)}
+      {showResetModal && (<Reset close={() => setShowResetModal(false)} />)}
     </Panel>
   );
 }
