@@ -16,7 +16,7 @@ body {
 
 /* Form */
 
-.flashcard-form {
+.edit-flashcard {
   position: relative;
 }
 
@@ -44,7 +44,7 @@ form:invalid button {
   pointer-events: none;
 }
 
-.flashcard-form input {
+.edit-flashcard input {
   width: 50%;
 }
 

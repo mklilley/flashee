@@ -67,7 +67,7 @@ function EditCard({ close, card, setReloadCards, minReads }) {
 
   return (
     <Modal close={close}>
-      <form className="flashcard-form purple" onSubmit={saveCard}>
+      <form className="edit-flashcard purple" onSubmit={saveCard}>
         <input
           placeholder="Question"
           value={question}
