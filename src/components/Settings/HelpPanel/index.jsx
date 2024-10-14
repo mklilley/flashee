@@ -110,7 +110,7 @@ function HelpPanel({ children }) {
       {showFeedbackModal && (
         <Modal close={() => setShowFeedbackModal(false)}>
             <h2>Feedback</h2>
-            <form onSubmit={sendFeedback}>
+            <form className="feedback" onSubmit={sendFeedback}>
               <input
                 maxLength="10000"
                 required
