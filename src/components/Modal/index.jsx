@@ -1,10 +1,13 @@
+import { createPortal } from 'react-dom';
+
 import styles from "./styles.module.css";
 
 function Modal({ children, close }) {
+  const modalRoot = document.body
   function stop(e) {
     e.stopPropagation();
   }
-  return (
+  return createPortal(
     <div className={styles["modal-mask"]}>
       <div className={styles["modal-wrapper"]} onClick={close}>
         <div className={styles["modal-container"]} onClick={stop}>
@@ -14,8 +17,8 @@ function Modal({ children, close }) {
           <div className={styles["modal-body"]}>{children}</div>
         </div>
       </div>
-    </div>
-  );
+    </div>,
+  modalRoot);
 }
 
 export default Modal;
