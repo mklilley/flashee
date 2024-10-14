@@ -109,7 +109,6 @@ function HelpPanel({ children }) {
       <br />
       {showFeedbackModal && (
         <Modal close={() => setShowFeedbackModal(false)}>
-          <div className="center">
             <h2>Feedback</h2>
             <form onSubmit={sendFeedback}>
               <input
@@ -152,7 +151,6 @@ function HelpPanel({ children }) {
               )}
 
             </form>
-          </div>
         </Modal>
       )}
     </Panel>
