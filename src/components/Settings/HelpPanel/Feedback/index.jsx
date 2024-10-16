@@ -79,9 +79,9 @@ function Feedback({close}) {
   }
 
   return (
-    <Modal close={close}>
+    <Modal close={close} color="purple">
       <h2>Feedback</h2>
-      <form className="feedback purple" onSubmit={sendFeedback}>
+      <form className="feedback" onSubmit={sendFeedback}>
         <input
           maxLength="10000"
           required
