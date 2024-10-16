@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useLayoutEffect } from "react";
 
 import Modal from "../Modal";
 import Panel from "../Panel";
@@ -10,6 +10,30 @@ function Welcome({ close }) {
   const [boxID, setBoxID] = useState("1234");
   const [apiKey, setApiKey] = useState("1234");
   const [useRemoteStorage, setUseRemoteStorage] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(true);
+  const [addToHomeScreenURL, setAddToHomeScreenURL] = useState("");
+
+  useLayoutEffect(() => {
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      setIsMobileDevice(true);
+      if (/Android/i.test(navigator.userAgent)) {
+        setAddToHomeScreenURL(
+          "https://browserhow.com/how-to-add-to-home-screen-shortcut-links-with-chrome-android/"
+        );
+      }
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        setAddToHomeScreenURL(
+          "https://www.macrumors.com/how-to/add-a-web-link-to-home-screen-iphone-ipad/"
+        );
+      }
+    } else {
+      setIsMobileDevice(false);
+    }
+  }, []);
 
   function closeWelcome() {
     // TODO: Send this to a global storage service to handle
@@ -54,19 +78,18 @@ function Welcome({ close }) {
           . Enjoy!
         </Panel>
         <br />
-        <Panel heading="Add to home screen" color="purple">
-          For the best experience, add Flashee to your home screen - you can
-          then view your cards in full screen mode 🙌.{" "}
-          <a
-            vue-if="addToHomeScreenURL"
-            target="_blank"
-            rel="noopener"
-            href="addToHomeScreenURL">
-            Here's help on how to do that.
-          </a>
-        </Panel>
-        <br />
-
+        {isMobileDevice && (
+          <>
+            <Panel heading="Add to home screen" color="purple">
+              For the best experience, add Flashee to your home screen - you can
+              then view your cards in full screen mode 🙌.{" "}
+              <a target="_blank" rel="noopener" href={addToHomeScreenURL}>
+                Here's help on how to do that.
+              </a>
+            </Panel>
+            <br />
+          </>
+        )}
         <Panel heading="Local data storage" color="purple">
           Your flash cards are stored on your device using your browser's{" "}
           <a
@@ -81,7 +104,7 @@ function Welcome({ close }) {
 
         <Panel heading="Online data storage" color="purple">
           {useRemoteStorage ? (
-            <span v-if="useRemoteStorage">
+            <span>
               Your flash cards will also be backed up in an online storage "box"
               for free (you can turn this off in settings).
               <br />
@@ -113,7 +136,7 @@ function Welcome({ close }) {
               <br />
             </span>
           ) : (
-            <span v-else>Currently disabled in settings</span>
+            <span>Currently disabled in settings</span>
           )}
         </Panel>
         <br />
