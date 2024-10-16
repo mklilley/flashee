@@ -1,4 +1,4 @@
-function Panel({ children, heading, color }) {
+function Panel({ children, heading, color="purple" }) {
 
   return (
 
