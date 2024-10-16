@@ -42,7 +42,7 @@ function Welcome({ close }) {
   }
 
   return (
-    <Modal close={close}>
+    <Modal close={close} color="purple">
       <h1>
         <img src={logo} alt="Flashee logo" />
         <br />
@@ -62,7 +62,7 @@ function Welcome({ close }) {
       <br />
       <br />
       <div className="left">
-        <Panel heading="The story" color="purple">
+        <Panel heading="The story">
           I built a basic version of Flashee in the Christmas holidays of 2018.
           The idea was to help me remember physics facts. Since then, I've
           enjoyed using it every day as part of my casual physics morning
