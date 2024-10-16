@@ -2,7 +2,7 @@ import { createPortal } from 'react-dom';
 
 import styles from "./styles.module.css";
 
-function Modal({ children, close }) {
+function Modal({ children, close, color="" }) {
   const modalRoot = document.body
   function stop(e) {
     e.stopPropagation();
@@ -14,7 +14,7 @@ function Modal({ children, close }) {
           <span className={styles["close"]} onClick={close}>
             <i className={styles["gg-close-o"]}></i>
           </span>
-          <div className={styles["modal-body"]}>{children}</div>
+          <div className={`${styles["modal-body"]} ${color}`}>{children}</div>
         </div>
       </div>
     </div>,
