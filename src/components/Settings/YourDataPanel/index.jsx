@@ -136,7 +136,6 @@ function YourDataPanel({ totalNumberOfCards, setReloadCards, minReads }) {
           }
       );
     }
-    console.log(cardsToCreate)
 
     // Show the waiting icon on the add data button while we wait for data to be added
     setImportingData(true);
