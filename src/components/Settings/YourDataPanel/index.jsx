@@ -173,7 +173,7 @@ function YourDataPanel({ totalNumberOfCards, setReloadCards, minReads }) {
             <button onClick={handleImportData}>Import data from file</button>
           </div>
           {showDeleteAllModal && (
-            <Modal close={() => setShowDeleteAllModal(false)}>
+            <Modal close={() => setShowDeleteAllModal(false)} color="yellow">
               <div className="center">
                 <h2>Delete all data</h2>
                 <span className="error"> Problem with online storage. Only local data will be deleted.</span><br/>
@@ -183,7 +183,7 @@ function YourDataPanel({ totalNumberOfCards, setReloadCards, minReads }) {
             </Modal>
            )}
           {showImportDataModal && (
-            <Modal close={() => setShowImportDataModal(false)}>
+            <Modal close={() => setShowImportDataModal(false)} color="yellow">
               <div className="center">
                 <h2>Add data from file</h2>
                 <input type="file" onChange={readFile}/> <br/><br/>
