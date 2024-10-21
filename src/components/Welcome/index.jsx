@@ -12,6 +12,7 @@ function Welcome({ close }) {
   const [useRemoteStorage, setUseRemoteStorage] = useState(false);
   const [isMobileDevice, setIsMobileDevice] = useState(true);
   const [addToHomeScreenURL, setAddToHomeScreenURL] = useState("");
+  const [copiedText, setCopiedText] = useState(null);
 
   useLayoutEffect(() => {
     if (
@@ -34,6 +35,19 @@ function Welcome({ close }) {
       setIsMobileDevice(false);
     }
   }, []);
+
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        console.log("Async: Copying to clipboard was successful!");
+        setCopiedText(text);
+        setTimeout(() => setCopiedText(null), 1000);
+      },
+      (err) => {
+        console.error("Async: Could not copy text: ", err);
+      }
+    );
+  }
 
   function closeWelcome() {
     // TODO: Send this to a global storage service to handle
@@ -122,7 +136,8 @@ function Welcome({ close }) {
               <br />
               <strong>{apiKey}</strong> <br />
               <br />
-              <button>Copy your box ID and key</button> and keep them safe -
+              <button className={copiedText === `boxID: ${boxID} \nstorageKey: ${apiKey}` ? "copied" : ""} 
+              onClick={() => copyToClipboard(`boxID: ${boxID} \nstorageKey: ${apiKey}`)}>Copy your box ID and key</button> and keep them safe -
               anyone with your box ID can view your data and anyone with your
               key can edit and delete your data. <br />
               <br />
