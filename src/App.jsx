@@ -40,7 +40,6 @@ function App() {
         setShowSettingsModal = {setShowSettingsModal}
         setShowEditModal={setShowEditModal}
         setCardToEdit={setCardToEdit}
-        totalNumberOfCards={totalNumberOfCards}
         reloadCards={reloadCards}
         setSearchResults={setSearchResults}
       />
@@ -50,8 +49,6 @@ function App() {
         setCardToDelete={setCardToDelete}
         setShowDeleteModal={setShowDeleteModal}
         reloadCards={reloadCards}
-        setTotalNumberOfCards={setTotalNumberOfCards}
-        totalNumberOfCards={totalNumberOfCards}
         searchResults={searchResults}
         setMinReads={setMinReads}
       />
@@ -73,7 +70,6 @@ function App() {
         {showSettingsModal && (
         <Settings
           close={() => setShowSettingsModal(false)}
-          totalNumberOfCards={totalNumberOfCards}
           setReloadCards={setReloadCards}
           minReads={minReads}
         />
