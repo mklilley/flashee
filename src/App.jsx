@@ -22,10 +22,6 @@ function App() {
   // This is to ensure that the updated cards in local storage get reloaded into the app
   const [reloadCards, setReloadCards] = useState(0);
 
-  // This is to ensure the top-bar has awareness of the number of cards in order to present different UI for zero cards vs non-zero
-  // The totalNumberOfCards is set in the cards component after the cards have been rendered
-  const [totalNumberOfCards, setTotalNumberOfCards] = useState();
-
   // This is to ensure that SearchBar (inside of TopBar) can set the search results and the Cards component can read the search results
   // in order to display a filtered view
   const [searchResults, setSearchResults] = useState(undefined);
