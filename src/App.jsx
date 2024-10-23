@@ -26,10 +26,6 @@ function App() {
   // in order to display a filtered view
   const [searchResults, setSearchResults] = useState(undefined);
 
-  // This allows us to create cards with the same number of "reads" as the other cards in the deck.
-  // This is used to ensure that new cards don't perpetually stay at the top of the pile
-  const [minReads, setMinReads] = useState(0);
-
   return (
     <>
       <TopBar
@@ -46,14 +42,12 @@ function App() {
         setShowDeleteModal={setShowDeleteModal}
         reloadCards={reloadCards}
         searchResults={searchResults}
-        setMinReads={setMinReads}
       />
       {showEditModal && (
         <EditCard
           card={cardToEdit}
           close={() => setShowEditModal(false)}
           setReloadCards={setReloadCards}
-          minReads={minReads}
         />
       )}
       {showDeleteModal && (
@@ -67,7 +61,6 @@ function App() {
         <Settings
           close={() => setShowSettingsModal(false)}
           setReloadCards={setReloadCards}
-          minReads={minReads}
         />
       )}
     </>
