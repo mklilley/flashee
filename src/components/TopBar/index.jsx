@@ -9,7 +9,6 @@ function TopBar({
   setShowSettingsModal,
   setCardToEdit,
   setShowEditModal,
-  reloadCards,
   setSearchResults,
 }) {
   const [searchVisible, setSearchVisible] = useState(false);
@@ -55,7 +54,6 @@ function TopBar({
         </div>
         {searchVisible && totalNumberOfCards !== 0 && (
           <SearchBar
-            rebuildSearchIndex={reloadCards}
             setSearchResults={setSearchResults}></SearchBar>
         )}
       </>

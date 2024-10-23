@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { totalNumberOfCardsState, minReadsState } from '@globalState';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import { totalNumberOfCardsState, minReadsState, reloadCardsState } from '@globalState';
 
 import { seedFunc as randomSeedFunc, sequence as randomSequence } from 'aimless.js'
 
@@ -15,12 +15,12 @@ const Cards = React.memo(({
   setCardToEdit,
   setShowDeleteModal,
   setCardToDelete,
-  reloadCards,
   searchResults
 }) => {
   const [cards, setCards] = useState();
   const [totalNumberOfCards, setTotalNumberOfCards] = useRecoilState(totalNumberOfCardsState);
   const setMinReads = useSetRecoilState(minReadsState);
+  const reloadCards = useRecoilValue(reloadCardsState);
 
   // seed allows us to reshuffle cards if we want to
   const [seed, setSeed] = useState(Date.now());
@@ -28,6 +28,7 @@ const Cards = React.memo(({
   useEffect(() => {
 
     async function loadCards(options = {}) {
+      console.log(reloadCards)
       let cards = await db.read(options);
       // After deck is shuffled, sort the array so that the least seen cards
       // come to the top of the list. This is to stop you from seeing the same

@@ -1,8 +1,13 @@
 import Modal from "../Modal";
 
+import { useSetRecoilState } from 'recoil';
+import { reloadCardsState } from '@globalState';
+
 import { db } from "../../services/storage";
 
-function DeleteCard({ close, card, setReloadCards }) {
+function DeleteCard({ close, card }) {
+  const setReloadCards = useSetRecoilState(reloadCardsState);
+
   async function deleteCard() {
     await db.delete(card.id, { remote: false });
     setReloadCards((prev) => prev + 1);

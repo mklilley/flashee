@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useRecoilValue } from 'recoil';
-import { totalNumberOfCardsState, minReadsState } from '@globalState';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { totalNumberOfCardsState, minReadsState, reloadCardsState } from '@globalState';
 
 import Panel from "../../Panel"
 import Modal from "../../Modal";
 
 import { db } from "../../../services/storage";
 
-function YourDataPanel({setReloadCards}) {
+function YourDataPanel() {
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [showImportDataModal, setShowImportDataModal] = useState(false);
   const [fileError, setFileError] = useState("");
@@ -17,6 +17,8 @@ function YourDataPanel({setReloadCards}) {
   const [importingData, setImportingData] = useState(false);
   const totalNumberOfCards = useRecoilValue(totalNumberOfCardsState);
   const minReads = useRecoilValue(minReadsState);
+  const setReloadCards = useSetRecoilState(reloadCardsState);
+
 
 
   function handleDeleteAllData(){

@@ -19,9 +19,6 @@ function App() {
   // This is for the settings modal
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
-  // This is to ensure that the updated cards in local storage get reloaded into the app
-  const [reloadCards, setReloadCards] = useState(0);
-
   // This is to ensure that SearchBar (inside of TopBar) can set the search results and the Cards component can read the search results
   // in order to display a filtered view
   const [searchResults, setSearchResults] = useState(undefined);
@@ -32,7 +29,6 @@ function App() {
         setShowSettingsModal = {setShowSettingsModal}
         setShowEditModal={setShowEditModal}
         setCardToEdit={setCardToEdit}
-        reloadCards={reloadCards}
         setSearchResults={setSearchResults}
       />
       <Cards
@@ -40,27 +36,23 @@ function App() {
         setCardToEdit={setCardToEdit}
         setCardToDelete={setCardToDelete}
         setShowDeleteModal={setShowDeleteModal}
-        reloadCards={reloadCards}
         searchResults={searchResults}
       />
       {showEditModal && (
         <EditCard
           card={cardToEdit}
           close={() => setShowEditModal(false)}
-          setReloadCards={setReloadCards}
         />
       )}
       {showDeleteModal && (
         <DeleteCard
           card={cardToDelete}
           close={() => setShowDeleteModal(false)}
-          setReloadCards={setReloadCards}
         />
       )}
         {showSettingsModal && (
         <Settings
           close={() => setShowSettingsModal(false)}
-          setReloadCards={setReloadCards}
         />
       )}
     </>

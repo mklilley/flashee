@@ -7,12 +7,12 @@ import HelpPanel from "./HelpPanel";
 // import { db } from "../../services/storage";
 
 
-function Settings({ close, setReloadCards }) {
+function Settings({ close }) {
   return (
     <Modal close={close}>
         <h2> Settings </h2>
         <div className="left">
-          <YourDataPanel setReloadCards={setReloadCards}></YourDataPanel>
+          <YourDataPanel></YourDataPanel>
           <br />
           <OnlineStoragePanel></OnlineStoragePanel>
           <br />

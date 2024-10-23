@@ -28,7 +28,9 @@ export const showSettingsModalState = atom({
   default: false,
 });
 
-// This is to ensure that the updated cards in local storage get reloaded into the app
+// This is to ensure that the updated cards in local storage get reloaded into the app.
+// This is set wherever the cards update: EditCard, DeleteCard, YourDataPanel.
+// This is used by Cards and also the SearchBar which uses it to trigger reindexing
 export const reloadCardsState = atom({
   key: 'reloadCardsState',
   default: 0,

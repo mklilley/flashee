@@ -1,14 +1,18 @@
 import styles from "./styles.module.css";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useRecoilValue } from 'recoil';
+import { reloadCardsState } from '@globalState';
+
 import debounce from "lodash.debounce";
 import lunr from "lunr";
 
 import { db } from "../../services/storage";
 
-function SearchBar({ rebuildSearchIndex, setSearchResults }) {
+function SearchBar({ setSearchResults }) {
   const [searchIdx, setSearchIdx] = useState(null);
   const [isIndexBuilding, setIsIndexBuilding] = useState(true);
   const inputRef = useRef(null)
+  const rebuildSearchIndex = useRecoilValue(reloadCardsState);
 
 
   useEffect(() => {
