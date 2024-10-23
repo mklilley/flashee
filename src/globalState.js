@@ -51,6 +51,8 @@ export const searchResultsState = atom({
 
 // This allows us to create cards with the same number of "reads" as the other cards in the deck.
 // This is used to ensure that new cards don't perpetually stay at the top of the pile
+// This is set inside the Cards component and used wherever new cards are made, i.e. the EditCard and YourDataPanel
+// components
 export const minReadsState = atom({
   key: 'minReadsState',
   default: 0,
