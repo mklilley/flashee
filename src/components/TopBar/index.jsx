@@ -9,7 +9,6 @@ function TopBar({
   setShowSettingsModal,
   setCardToEdit,
   setShowEditModal,
-  setSearchResults,
 }) {
   const [searchVisible, setSearchVisible] = useState(false);
   const totalNumberOfCards = useRecoilValue(totalNumberOfCardsState);
@@ -53,8 +52,7 @@ function TopBar({
           </div>
         </div>
         {searchVisible && totalNumberOfCards !== 0 && (
-          <SearchBar
-            setSearchResults={setSearchResults}></SearchBar>
+          <SearchBar></SearchBar>
         )}
       </>
     );

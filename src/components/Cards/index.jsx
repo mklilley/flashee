@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
-import { totalNumberOfCardsState, minReadsState, reloadCardsState } from '@globalState';
+import { totalNumberOfCardsState, minReadsState, reloadCardsState, searchResultsState } from '@globalState';
 
 import { seedFunc as randomSeedFunc, sequence as randomSequence } from 'aimless.js'
 
@@ -14,13 +14,13 @@ const Cards = React.memo(({
   setShowEditModal,
   setCardToEdit,
   setShowDeleteModal,
-  setCardToDelete,
-  searchResults
+  setCardToDelete
 }) => {
   const [cards, setCards] = useState();
   const [totalNumberOfCards, setTotalNumberOfCards] = useRecoilState(totalNumberOfCardsState);
   const setMinReads = useSetRecoilState(minReadsState);
   const reloadCards = useRecoilValue(reloadCardsState);
+  const searchResults = useRecoilValue(searchResultsState);
 
   // seed allows us to reshuffle cards if we want to
   const [seed, setSeed] = useState(Date.now());

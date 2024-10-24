@@ -19,24 +19,18 @@ function App() {
   // This is for the settings modal
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
-  // This is to ensure that SearchBar (inside of TopBar) can set the search results and the Cards component can read the search results
-  // in order to display a filtered view
-  const [searchResults, setSearchResults] = useState(undefined);
-
   return (
     <>
       <TopBar
         setShowSettingsModal = {setShowSettingsModal}
         setShowEditModal={setShowEditModal}
         setCardToEdit={setCardToEdit}
-        setSearchResults={setSearchResults}
       />
       <Cards
         setShowEditModal={setShowEditModal}
         setCardToEdit={setCardToEdit}
         setCardToDelete={setCardToDelete}
         setShowDeleteModal={setShowDeleteModal}
-        searchResults={searchResults}
       />
       {showEditModal && (
         <EditCard
