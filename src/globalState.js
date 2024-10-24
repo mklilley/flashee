@@ -1,6 +1,8 @@
 import { atom } from 'recoil';
 
-// This is for the edit card modal
+// This is for the edit card modal. It's set when the EditModal is closed. It's also
+// set when a user taps on edit icon in the Card component and also when the user taps on
+// the blank placeholder card in Cards.
 export const showEditModalState = atom({
   key: 'showEditModalState',
   default: false,
@@ -11,7 +13,8 @@ export const cardToEditState = atom({
   default: {},
 });
 
-// This is for the delete card modal
+// This is for the delete card modal. It's set when the DeleteModal is closed. It's also
+// set when the user taps on the delete icon in the Card component
 export const showDeleteModalState = atom({
   key: 'showDeleteModalState',
   default: false,
