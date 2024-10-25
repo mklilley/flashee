@@ -27,7 +27,6 @@ const Cards = React.memo(() => {
   useEffect(() => {
 
     async function loadCards(options = {}) {
-      console.log(reloadCards)
       let cards = await db.read(options);
       // After deck is shuffled, sort the array so that the least seen cards
       // come to the top of the list. This is to stop you from seeing the same
