@@ -14,28 +14,17 @@ function App() {
   const [showDeleteModal, setShowDeleteModal] = useRecoilState(showDeleteModalState);
   const [showSettingsModal, setShowSettingsModal] = useRecoilState(showSettingsModalState);
 
-
-
-  const [cardToEdit, setCardToEdit] = useState({});
-  const [cardToDelete, setCardToDelete] = useState({});
-
-
   return (
     <>
-      <TopBar setCardToEdit={setCardToEdit}/>
-      <Cards
-        setCardToEdit={setCardToEdit}
-        setCardToDelete={setCardToDelete}
-      />
+      <TopBar/>
+      <Cards/>
       {showEditModal && (
         <EditCard
-          card={cardToEdit}
           close={() => setShowEditModal(false)}
         />
       )}
       {showDeleteModal && (
         <DeleteCard
-          card={cardToDelete}
           close={() => setShowDeleteModal(false)}
         />
       )}

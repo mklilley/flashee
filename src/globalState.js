@@ -7,7 +7,9 @@ export const showEditModalState = atom({
   key: 'showEditModalState',
   default: false,
 });
-// This is for the edit card modal
+// This is for the edit card modal. It is set from Cards when a user taps on edit in the Card 
+// component. It can also be set from TopBar when user creates a new card. It's used in the EditCard
+// component.
 export const cardToEditState = atom({
   key: 'cardToEditState',
   default: {},
@@ -19,7 +21,8 @@ export const showDeleteModalState = atom({
   key: 'showDeleteModalState',
   default: false,
 });
-// This is for the delete card modal
+// This is for the delete card modal.  It is set from Cards when a user taps on delete in the Card 
+// component.  It's used in the DeleteCard component.
 export const cardToDeleteState = atom({
   key: 'cardToDeleteState',
   default: {},

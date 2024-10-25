@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { totalNumberOfCardsState, showEditModalState, showSettingsModalState } from '@globalState';
+import { totalNumberOfCardsState, showEditModalState, showSettingsModalState, cardToEditState } from '@globalState';
 
 import styles from "./styles.module.css";
 import SearchBar from "../SearchBar";
 
-function TopBar({
-  setCardToEdit,
-}) {
+function TopBar() {
   const [searchVisible, setSearchVisible] = useState(false);
   const totalNumberOfCards = useRecoilValue(totalNumberOfCardsState);
   const setShowSettingsModal = useSetRecoilState(showSettingsModalState);
   const setShowEditModal = useSetRecoilState(showEditModalState);
+  const setCardToEdit = useSetRecoilState(cardToEditState);
+
 
 
 

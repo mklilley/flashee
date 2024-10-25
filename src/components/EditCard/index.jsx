@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { minReadsState, reloadCardsState } from '@globalState';
+import { minReadsState, reloadCardsState, cardToEditState } from '@globalState';
 
 import Modal from "../Modal";
 
@@ -9,13 +9,14 @@ import { db } from "../../services/storage";
 import MathLive from "../MathLive";
 
 // This component can be used to update an existing card of create a new card
-function EditCard({ close, card }) {
+function EditCard({ close }) {
   const [question, setQuestion] = useState(card.question);
   const [answer, setAnswer] = useState(card.answer);
   const [showMathQuestion, setShowMathQuestion] = useState(false);
   const [showMathAnswer, setShowMathAnswer] = useState(false);
   const minReads = useRecoilValue(minReadsState);
   const setReloadCards = useSetRecoilState(reloadCardsState);
+  const card = useRecoilValue(cardToEditState);
 
   function handleQuestionChange(e) {
     setQuestion(e.target.value);
