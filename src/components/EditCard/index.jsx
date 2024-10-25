@@ -10,13 +10,13 @@ import MathLive from "../MathLive";
 
 // This component can be used to update an existing card of create a new card
 function EditCard({ close }) {
+  const minReads = useRecoilValue(minReadsState);
+  const setReloadCards = useSetRecoilState(reloadCardsState);
+  const card = useRecoilValue(cardToEditState);
   const [question, setQuestion] = useState(card.question);
   const [answer, setAnswer] = useState(card.answer);
   const [showMathQuestion, setShowMathQuestion] = useState(false);
   const [showMathAnswer, setShowMathAnswer] = useState(false);
-  const minReads = useRecoilValue(minReadsState);
-  const setReloadCards = useSetRecoilState(reloadCardsState);
-  const card = useRecoilValue(cardToEditState);
 
   function handleQuestionChange(e) {
     setQuestion(e.target.value);
