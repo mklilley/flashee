@@ -8,7 +8,7 @@ import Reset from "./Reset";
 import Welcome from "../../Welcome";
 
 
-function HelpPanel({ children }) {
+function HelpPanel() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);

@@ -1,6 +1,6 @@
 import Panel from "../../Panel"
 
-function OnlineStoragePanel({ children }) {
+function OnlineStoragePanel() {
 
   return (
       <Panel heading="Online storage" color="blue">
