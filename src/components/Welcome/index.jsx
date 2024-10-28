@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect } from "react";
 import { useSetRecoilState} from 'recoil';
-import { haveSeenWelcome } from '@globalState';
+import { haveSeenWelcomeState } from '@globalState';
 
 
 import Modal from "../Modal";
@@ -16,7 +16,7 @@ function Welcome({ close }) {
   const [isMobileDevice, setIsMobileDevice] = useState(true);
   const [addToHomeScreenURL, setAddToHomeScreenURL] = useState("");
   const [copiedText, setCopiedText] = useState(null);
-  const setHaveSeenWelcome = useSetRecoilState(haveSeenWelcome);
+  const setHaveSeenWelcome = useSetRecoilState(haveSeenWelcomeState);
 
   useLayoutEffect(() => {
     if (
