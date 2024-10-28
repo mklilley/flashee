@@ -47,7 +47,8 @@ export const cardToDeleteState = atom({
   default: {},
 });
 
-// This is for the settings modal
+// This is for the settings modal. It's set to be true from the TopBar component and is used
+// to display the Settings component from App.
 export const showSettingsModalState = atom({
   key: 'showSettingsModalState',
   default: false,
