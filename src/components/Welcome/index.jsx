@@ -1,4 +1,7 @@
 import { useState, useLayoutEffect } from "react";
+import { useSetRecoilState} from 'recoil';
+import { haveSeenWelcome } from '@globalState';
+
 
 import Modal from "../Modal";
 import Panel from "../Panel";
@@ -13,6 +16,7 @@ function Welcome({ close }) {
   const [isMobileDevice, setIsMobileDevice] = useState(true);
   const [addToHomeScreenURL, setAddToHomeScreenURL] = useState("");
   const [copiedText, setCopiedText] = useState(null);
+  const setHaveSeenWelcome = useSetRecoilState(haveSeenWelcome);
 
   useLayoutEffect(() => {
     if (
@@ -50,8 +54,7 @@ function Welcome({ close }) {
   }
 
   function closeWelcome() {
-    // TODO: Send this to a global storage service to handle
-    localStorage.setItem("haveSeenWelcome", true);
+    setHaveSeenWelcome(true);
     close();
   }
 
@@ -157,7 +160,7 @@ function Welcome({ close }) {
         <br />
       </div>
       <button onClick={closeWelcome}>OK</button>
-    </Modal>
+      <p style={{ marginTop: 0 }}>(don't show again)</p>    </Modal>
   );
 }
 

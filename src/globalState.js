@@ -1,4 +1,23 @@
-import { atom } from 'recoil';
+import { atom, DefaultValue } from 'recoil';
+
+// This is used when we want to keep recoil atoms in sync with local storage
+const localStorageEffect = key => ({ setSelf, onSet }) => {
+  // Load the initial value from localStorage
+  const savedValue = localStorage.getItem(key);
+  if (savedValue != null) {
+    setSelf(JSON.parse(savedValue));
+  }
+
+  // Update localStorage whenever the atom's value changes
+  onSet(newValue => {
+    if (newValue instanceof DefaultValue) {
+      // This gets called if we use recoil to reset an atom
+      localStorage.removeItem(key);
+    } else {
+      localStorage.setItem(key, JSON.stringify(newValue));
+    }
+  });
+};
 
 // This is for the edit card modal. It's set when the EditModal is closed. It's also
 // set when a user taps on edit icon in the Card component and also when the user taps on
@@ -64,4 +83,12 @@ export const searchResultsState = atom({
 export const minReadsState = atom({
   key: 'minReadsState',
   default: 0,
+});
+
+export const haveSeenWelcome = atom({
+  key: 'haveSeenWelcome',
+  default: false,
+  effects: [
+    localStorageEffect('haveSeenWelcome'),
+  ],
 });
