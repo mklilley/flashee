@@ -85,6 +85,8 @@ export const minReadsState = atom({
   default: 0,
 });
 
+// This keeps track of wether the user has seen the welcome screen before so that the app
+// can show it on first time the app is loaded. This is set to be true in the Welcome component
 export const haveSeenWelcome = atom({
   key: 'haveSeenWelcome',
   default: false,
