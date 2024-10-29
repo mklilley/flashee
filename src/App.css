@@ -173,10 +173,10 @@ button.wait::after {
 }
 
 .panel .items {
-    box-sizing: border-box;
-    border-radius: 0px 0px 5px 5px;
-    width: 100%;
-    padding: 10px;
+  box-sizing: border-box;
+  border-radius: 0px 0px 5px 5px;
+  width: 100%;
+  padding: 10px;
 }
 
 .yellow button {
@@ -221,7 +221,6 @@ button.wait::after {
   padding: 10px;
 }
 
-
 .purple h3 {
   background-color: rgb(161, 125, 233);
 }
@@ -238,14 +237,14 @@ input[type="search"] {
   font-size: 1.21em;
   font-weight: normal;
   width: auto !important;
-  display:flex !important;
+  display: flex !important;
 }
 
 .ML__base {
-  flex:1;
-  display:flex !important;
-  flex-wrap:wrap;
-  gap: 10px 0px ;
+  flex: 1;
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 10px 0px;
   width: auto !important;
   justify-content: center;
 }
