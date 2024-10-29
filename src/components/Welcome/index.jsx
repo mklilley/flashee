@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect } from "react";
-import { useSetRecoilState} from 'recoil';
-import { haveSeenWelcomeState } from '@globalState';
+import { useSetRecoilState, useRecoilValue} from 'recoil';
+import { haveSeenWelcomeState, useRemoteStorageState } from '@globalState';
 
 
 import Modal from "../Modal";
@@ -12,11 +12,12 @@ import githubOctocat from "../../assets/github.png";
 function Welcome({ close }) {
   const [boxID, setBoxID] = useState("1234");
   const [apiKey, setApiKey] = useState("1234");
-  const [useRemoteStorage, setUseRemoteStorage] = useState(false);
   const [isMobileDevice, setIsMobileDevice] = useState(true);
   const [addToHomeScreenURL, setAddToHomeScreenURL] = useState("");
   const [copiedText, setCopiedText] = useState(null);
   const setHaveSeenWelcome = useSetRecoilState(haveSeenWelcomeState);
+  const useRemoteStorage = useRecoilValue(useRemoteStorageState);
+
 
   useLayoutEffect(() => {
     if (
