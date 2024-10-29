@@ -1,7 +1,6 @@
 import { useState, useLayoutEffect } from "react";
-import { useSetRecoilState, useRecoilValue} from 'recoil';
-import { haveSeenWelcomeState, useRemoteStorageState } from '@globalState';
-
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { haveSeenWelcomeState, useRemoteStorageState } from "@globalState";
 
 import Modal from "../Modal";
 import Panel from "../Panel";
@@ -18,12 +17,9 @@ function Welcome({ close }) {
   const setHaveSeenWelcome = useSetRecoilState(haveSeenWelcomeState);
   const useRemoteStorage = useRecoilValue(useRemoteStorageState);
 
-
   useLayoutEffect(() => {
     if (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      )
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
     ) {
       setIsMobileDevice(true);
       if (/Android/i.test(navigator.userAgent)) {
@@ -67,10 +63,7 @@ function Welcome({ close }) {
         Flashee
       </h1>
       <h2>The free & simple flash card app</h2>
-      <a
-        href="https://www.buymeacoffee.com/mklilley"
-        target="_blank"
-        rel="noopener">
+      <a href="https://www.buymeacoffee.com/mklilley" target="_blank" rel="noopener">
         <img
           src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
           alt="Buy Me A Coffee"
@@ -81,16 +74,12 @@ function Welcome({ close }) {
       <br />
       <div className="left">
         <Panel heading="The story">
-          I built a basic version of Flashee in the Christmas holidays of 2018.
-          The idea was to help me remember physics facts. Since then, I've
-          enjoyed using it every day as part of my casual physics morning
-          routine 🤓 . I thought other people might also find it useful, so in
-          the Christmas of 2020 I decided to clean it up and make it available
-          to everyone for free. You can find the source code on{" "}
-          <a
-            target="_blank"
-            href="https://github.com/mklilley/flashee"
-            rel="noopener">
+          I built a basic version of Flashee in the Christmas holidays of 2018. The idea was to help
+          me remember physics facts. Since then, I've enjoyed using it every day as part of my
+          casual physics morning routine 🤓 . I thought other people might also find it useful, so
+          in the Christmas of 2020 I decided to clean it up and make it available to everyone for
+          free. You can find the source code on{" "}
+          <a target="_blank" href="https://github.com/mklilley/flashee" rel="noopener">
             GitHub <img src={githubOctocat} height="20" alt="GitHub logo" />
           </a>
           . Enjoy!
@@ -99,8 +88,8 @@ function Welcome({ close }) {
         {isMobileDevice && (
           <>
             <Panel heading="Add to home screen" color="purple">
-              For the best experience, add Flashee to your home screen - you can
-              then view your cards in full screen mode 🙌.{" "}
+              For the best experience, add Flashee to your home screen - you can then view your
+              cards in full screen mode 🙌.{" "}
               <a target="_blank" rel="noopener" href={addToHomeScreenURL}>
                 Here's help on how to do that.
               </a>
@@ -113,7 +102,8 @@ function Welcome({ close }) {
           <a
             href="https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/."
             target="_blank"
-            rel="noopener">
+            rel="noopener"
+          >
             localStorage
           </a>
           .
@@ -123,12 +113,11 @@ function Welcome({ close }) {
         <Panel heading="Online data storage" color="purple">
           {useRemoteStorage ? (
             <span>
-              Your flash cards will also be backed up in an online storage "box"
-              for free (you can turn this off in settings).
+              Your flash cards will also be backed up in an online storage "box" for free (you can
+              turn this off in settings).
               <br />
               <br />
-              If you don't use the app for a year, however, your data will be
-              deleted. <br />
+              If you don't use the app for a year, however, your data will be deleted. <br />
               <br />
               Here is your storage box ID:
               <br />
@@ -140,17 +129,21 @@ function Welcome({ close }) {
               <br />
               <strong>{apiKey}</strong> <br />
               <br />
-              <button className={copiedText === `boxID: ${boxID} \nstorageKey: ${apiKey}` ? "copied" : ""} 
-              onClick={() => copyToClipboard(`boxID: ${boxID} \nstorageKey: ${apiKey}`)}>Copy your box ID and key</button> and keep them safe -
-              anyone with your box ID can view your data and anyone with your
+              <button
+                className={copiedText === `boxID: ${boxID} \nstorageKey: ${apiKey}` ? "copied" : ""}
+                onClick={() => copyToClipboard(`boxID: ${boxID} \nstorageKey: ${apiKey}`)}
+              >
+                Copy your box ID and key
+              </button>{" "}
+              and keep them safe - anyone with your box ID can view your data and anyone with your
               key can edit and delete your data. <br />
               <br />
-              There is no backup of the online data, so if your data is lost due
-              to some technical issues, it's lost forever.
+              There is no backup of the online data, so if your data is lost due to some technical
+              issues, it's lost forever.
               <br />
               <br />
-              Please don't use this app to store sensitive information - it's
-              not been stress tested for data security bugs.
+              Please don't use this app to store sensitive information - it's not been stress tested
+              for data security bugs.
               <br />
               <br />
             </span>
@@ -161,7 +154,8 @@ function Welcome({ close }) {
         <br />
       </div>
       <button onClick={closeWelcome}>OK</button>
-      <p style={{ marginTop: 0 }}>(don't show again)</p>    </Modal>
+      <p style={{ marginTop: 0 }}>(don't show again)</p>{" "}
+    </Modal>
   );
 }
 

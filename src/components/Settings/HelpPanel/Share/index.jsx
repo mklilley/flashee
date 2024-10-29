@@ -33,9 +33,8 @@ function Share({ close }) {
       </button>
       <br />
       <br />
-      They can then use the "Switch to another storage box" button in the
-      "Online Storage" settings. This is best for those who already have Flashee
-      installed.
+      They can then use the "Switch to another storage box" button in the "Online Storage" settings.
+      This is best for those who already have Flashee installed.
       <br /> <br />
       Alternatively, anyone can see your cards via this link:
       <br /> <br />

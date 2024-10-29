@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { totalNumberOfCardsState, minReadsState, reloadCardsState } from '@globalState';
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { totalNumberOfCardsState, minReadsState, reloadCardsState } from "@globalState";
 
-import Panel from "../../Panel"
+import Panel from "../../Panel";
 import Modal from "../../Modal";
 
 import { db } from "../../../services/storage";
@@ -19,13 +19,11 @@ function YourDataPanel() {
   const minReads = useRecoilValue(minReadsState);
   const setReloadCards = useSetRecoilState(reloadCardsState);
 
-
-
-  function handleDeleteAllData(){
+  function handleDeleteAllData() {
     setShowDeleteAllModal(true);
   }
 
-  async function deleteAllData(){
+  async function deleteAllData() {
     // Delete button shows wait icon while delete all is happening
     setDeletingAll(true);
 
@@ -39,26 +37,25 @@ function YourDataPanel() {
     setDeletingAll(false);
 
     // Hide the delete all modal
-    setShowDeleteAllModal(false)
+    setShowDeleteAllModal(false);
   }
 
-  async function downloadData(){
+  async function downloadData() {
     //  Adapted from https://ourcodeworld.com/articles/read/189/how-to-create-a-file-and-generate-a-download-with-javascript-in-the-browser-without-a-server
-    
+
     // Load cards from the database
     const cards = await db.read({});
 
     // Remove card data relating to how many times the card has been read, the difficulty, etc
     // and just retain the question and answer
-    let dataForDownload = cards.map(function(card) {
+    let dataForDownload = cards.map(function (card) {
       return { question: card.question, answer: card.answer };
     });
 
     const element = document.createElement("a");
     element.setAttribute(
       "href",
-      "data:text/plain;charset=utf-8," +
-        encodeURIComponent(JSON.stringify(dataForDownload))
+      "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(dataForDownload))
     );
     element.setAttribute("download", "flashee.json");
 
@@ -70,7 +67,7 @@ function YourDataPanel() {
     document.body.removeChild(element);
   }
 
-  function handleImportData(){
+  function handleImportData() {
     setFileError(false);
     setFileOK(false);
     setShowImportDataModal(true);
@@ -78,12 +75,12 @@ function YourDataPanel() {
 
   function validateFileContent(parsedFile) {
     if (!Array.isArray(parsedFile)) {
-      return "Error: File must contain a list of questions and answers in the form [{\"question\":\"2x2\", \"answer\":\"4\"},{...},...]";
+      return 'Error: File must contain a list of questions and answers in the form [{"question":"2x2", "answer":"4"},{...},...]';
     }
 
     for (const item of parsedFile) {
       if (typeof item !== "object" || item === null) {
-        return "Error: Each item in the list must be in the form {\"question\":\"2x2\", \"answer\":\"4\"}.";
+        return 'Error: Each item in the list must be in the form {"question":"2x2", "answer":"4"}.';
       }
       if (!item.hasOwnProperty("question") || !item.hasOwnProperty("answer")) {
         return 'Error: Each item must contain a "question" and and "answer".';
@@ -99,7 +96,7 @@ function YourDataPanel() {
   function readFile(event) {
     setFileOK(false);
     setFileError("");
-  
+
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -129,19 +126,17 @@ function YourDataPanel() {
     }
   }
 
-  async function importData(){
+  async function importData() {
     let cardsToCreate = [];
     // let reads = this.cards[0] ? this.cards[0].reads : 0;
     for (let card of file) {
-      cardsToCreate.push(
-          {
-            question: card.question,
-            answer: card.answer,
-            flipped: false,
-            reads: minReads,
-            difficulty: 0,
-          }
-      );
+      cardsToCreate.push({
+        question: card.question,
+        answer: card.answer,
+        flipped: false,
+        reads: minReads,
+        difficulty: 0,
+      });
     }
 
     // Show the waiting icon on the add data button while we wait for data to be added
@@ -160,46 +155,57 @@ function YourDataPanel() {
     setShowImportDataModal(false);
   }
 
-
-
   return (
-      <Panel heading="Your data" color="yellow">
-          Number of cards: <strong>{totalNumberOfCards}</strong> <br />
-          <br />
-          <div>
-            <button onClick={downloadData}>Download your data</button>
+    <Panel heading="Your data" color="yellow">
+      Number of cards: <strong>{totalNumberOfCards}</strong> <br />
+      <br />
+      <div>
+        <button onClick={downloadData}>Download your data</button>
+        <br />
+        <br />
+      </div>
+      <div>
+        <button onClick={handleDeleteAllData}>Delete all your data</button>
+        <br />
+        <br />
+      </div>
+      <div>
+        <button onClick={handleImportData}>Import data from file</button>
+      </div>
+      {showDeleteAllModal && (
+        <Modal close={() => setShowDeleteAllModal(false)} color="yellow">
+          <div className="center">
+            <h2>Delete all data</h2>
+            <span className="error">
+              {" "}
+              Problem with online storage. Only local data will be deleted.
+            </span>
+            <br />
+            <button onClick={deleteAllData} className={deletingAll ? "wait" : ""}>
+              Yes, delete everything
+            </button>{" "}
             <br />
             <br />
+            <button onClick={() => setShowDeleteAllModal(false)}>No, take me back</button>
           </div>
-          <div>
-            <button onClick={handleDeleteAllData}>Delete all your data</button>
+        </Modal>
+      )}
+      {showImportDataModal && (
+        <Modal close={() => setShowImportDataModal(false)} color="yellow">
+          <div className="center">
+            <h2>Add data from file</h2>
+            <input type="file" onChange={readFile} /> <br />
             <br />
-            <br />
+            {fileError && <span className="error">{fileError}</span>}
+            {fileOK && (
+              <button onClick={importData} className={importingData ? "wait" : ""}>
+                Add data
+              </button>
+            )}
           </div>
-          <div>
-            <button onClick={handleImportData}>Import data from file</button>
-          </div>
-          {showDeleteAllModal && (
-            <Modal close={() => setShowDeleteAllModal(false)} color="yellow">
-              <div className="center">
-                <h2>Delete all data</h2>
-                <span className="error"> Problem with online storage. Only local data will be deleted.</span><br/>
-                <button onClick={deleteAllData} className={deletingAll ? 'wait' : ''}>Yes, delete everything</button> <br/><br/>
-                <button onClick={() => setShowDeleteAllModal(false)}>No, take me back</button>
-              </div>
-            </Modal>
-           )}
-          {showImportDataModal && (
-            <Modal close={() => setShowImportDataModal(false)} color="yellow">
-              <div className="center">
-                <h2>Add data from file</h2>
-                <input type="file" onChange={readFile}/> <br/><br/>
-                {fileError && (<span className="error">{fileError}</span>)}
-                {fileOK && (<button onClick={importData} className={importingData ? 'wait' : ''}>Add data</button>)}
-              </div>
-            </Modal>
-           )}
-      </Panel>
+        </Modal>
+      )}
+    </Panel>
   );
 }
 

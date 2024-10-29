@@ -121,15 +121,12 @@ const box = {
     // If user entered a newApiKey for this box, then check it is a valid UUID
     let isUUID;
     if (newApiKey) {
-      isUUID = newApiKey.match(
-        "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
-      );
+      isUUID = newApiKey.match("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
     }
 
     let errorMessage = "";
     if (isHex20 === null) {
-      errorMessage +=
-        "Opps! Box ID must be 20 characters made up of numbers and the letters a-f. ";
+      errorMessage += "Opps! Box ID must be 20 characters made up of numbers and the letters a-f. ";
     }
     if (isUUID === null) {
       errorMessage += "Storage key must be a valid UUID.";

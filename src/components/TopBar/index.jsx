@@ -1,6 +1,12 @@
 import { useState } from "react";
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { totalNumberOfCardsState, showEditModalState, showSettingsModalState, cardToEditState, searchResultsState } from '@globalState';
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  totalNumberOfCardsState,
+  showEditModalState,
+  showSettingsModalState,
+  cardToEditState,
+  searchResultsState,
+} from "@globalState";
 
 import styles from "./styles.module.css";
 import SearchBar from "../SearchBar";
@@ -51,9 +57,7 @@ function TopBar() {
             <i className={styles["gg-menu-boxed"]} onClick={showSettings}></i>
           </div>
         </div>
-        {searchVisible && totalNumberOfCards !== 0 && (
-          <SearchBar></SearchBar>
-        )}
+        {searchVisible && totalNumberOfCards !== 0 && <SearchBar></SearchBar>}
       </>
     );
   }

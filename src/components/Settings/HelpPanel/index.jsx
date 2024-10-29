@@ -7,14 +7,11 @@ import Share from "./Share";
 import Reset from "./Reset";
 import Welcome from "../../Welcome";
 
-
 function HelpPanel() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-
-
 
   return (
     <Panel heading="Help" color="purple">
@@ -29,10 +26,10 @@ function HelpPanel() {
       <br />
       <button onClick={() => setShowResetModal(true)}>Reset App</button> <br />
       <br />
-      {showFeedbackModal && (<Feedback close={() => setShowFeedbackModal(false)} />)}
-      {showWelcomeModal && (<Welcome close={() => setShowWelcomeModal(false)} />)}
-      {showShareModal && (<Share close={() => setShowShareModal(false)} />)}
-      {showResetModal && (<Reset close={() => setShowResetModal(false)} />)}
+      {showFeedbackModal && <Feedback close={() => setShowFeedbackModal(false)} />}
+      {showWelcomeModal && <Welcome close={() => setShowWelcomeModal(false)} />}
+      {showShareModal && <Share close={() => setShowShareModal(false)} />}
+      {showResetModal && <Reset close={() => setShowResetModal(false)} />}
     </Panel>
   );
 }

@@ -1,7 +1,7 @@
 import Modal from "../Modal";
 
-import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { reloadCardsState, cardToDeleteState } from '@globalState';
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { reloadCardsState, cardToDeleteState } from "@globalState";
 
 import { db } from "../../services/storage";
 

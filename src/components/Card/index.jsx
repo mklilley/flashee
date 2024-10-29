@@ -9,7 +9,6 @@ const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
   const [flipped, setFlipped] = useState(false);
   const [reads, setReads] = useState(card.reads);
 
-
   const cardColor = { backgroundColor: card.color };
 
   const cardRef = useRef(null);
@@ -36,7 +35,7 @@ const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
           reads: reads + 1,
         });
         // update local reads value to match storage
-        setReads((prev) => prev+1)
+        setReads((prev) => prev + 1);
 
         handleRead(card);
       }, 500);
@@ -58,10 +57,7 @@ const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
 
   return (
     <li onClick={flipCard} className={`${styles.card}`} ref={cardRef}>
-      <div
-        className={`${styles["flip-card-inner"]} ${
-          flipped ? styles["flipped"] : ""
-        }`}>
+      <div className={`${styles["flip-card-inner"]} ${flipped ? styles["flipped"] : ""}`}>
         <div className={styles["flip-card-front"]} style={cardColor}>
           <span>{card.question}</span>
         </div>

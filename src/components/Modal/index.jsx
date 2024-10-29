@@ -1,9 +1,9 @@
-import { createPortal } from 'react-dom';
+import { createPortal } from "react-dom";
 
 import styles from "./styles.module.css";
 
-function Modal({ children, close, color="" }) {
-  const modalRoot = document.body
+function Modal({ children, close, color = "" }) {
+  const modalRoot = document.body;
   function stop(e) {
     e.stopPropagation();
   }
@@ -18,7 +18,8 @@ function Modal({ children, close, color="" }) {
         </div>
       </div>
     </div>,
-  modalRoot);
+    modalRoot
+  );
 }
 
 export default Modal;

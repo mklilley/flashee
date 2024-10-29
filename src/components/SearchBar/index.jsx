@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { reloadCardsState, searchResultsState } from '@globalState';
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { reloadCardsState, searchResultsState } from "@globalState";
 
 import debounce from "lodash.debounce";
 import lunr from "lunr";
@@ -11,11 +11,9 @@ import { db } from "../../services/storage";
 function SearchBar() {
   const [searchIdx, setSearchIdx] = useState(null);
   const [isIndexBuilding, setIsIndexBuilding] = useState(true);
-  const inputRef = useRef(null)
+  const inputRef = useRef(null);
   const rebuildSearchIndex = useRecoilValue(reloadCardsState);
   const setSearchResults = useSetRecoilState(searchResultsState);
-
-
 
   useEffect(() => {
     async function buildIndex() {
@@ -45,30 +43,29 @@ function SearchBar() {
     buildIndex();
   }, [rebuildSearchIndex]);
 
-    // Focus the input field when the component is rendered
-    useEffect(() => {
-      if (inputRef.current) {
-        setTimeout(() => {
-          inputRef.current.focus();
-        }, 0); // Delay the focus until the next tick otherwise focus doesn't work for reasons I don't fully understand.
-      }
-    }, []);
+  // Focus the input field when the component is rendered
+  useEffect(() => {
+    if (inputRef.current) {
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 0); // Delay the focus until the next tick otherwise focus doesn't work for reasons I don't fully understand.
+    }
+  }, []);
 
+  const searchDeck = useCallback(
+    debounce(function (query) {
+      if (!searchIdx) return; // Prevent search if index isn't ready
 
- const searchDeck = useCallback(
-  debounce(function (query) {
-    if (!searchIdx) return; // Prevent search if index isn't ready
+      let searchResults = searchIdx.search(query);
 
-    let searchResults = searchIdx.search(query);
+      searchResults = searchResults.map(function (result) {
+        return result.ref;
+      });
 
-    searchResults = searchResults.map(function (result) {
-      return result.ref;
-    });
-
-    setSearchResults(searchResults);
-  }, 600),
-  [searchIdx]
-);
+      setSearchResults(searchResults);
+    }, 600),
+    [searchIdx]
+  );
 
   function handleQuery(e) {
     searchDeck(e.target.value);

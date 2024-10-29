@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 import Modal from "../../../Modal";
 
-import ReCAPTCHA from 'react-google-recaptcha';
+import ReCAPTCHA from "react-google-recaptcha";
 
-function Feedback({close}) {
+function Feedback({ close }) {
   const [feedbackEmail, setFeedbackEmail] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [gRecaptchaResponse, setGRecaptchaResponse] = useState(null);
@@ -27,7 +27,7 @@ function Feedback({close}) {
 
     jsonForm.email = feedbackEmail;
     jsonForm.message = feedbackMessage;
-    jsonForm["g-recaptcha-response"] = gRecaptchaResponse
+    jsonForm["g-recaptcha-response"] = gRecaptchaResponse;
 
     let options = {
       body: JSON.stringify(jsonForm),
@@ -37,10 +37,7 @@ function Feedback({close}) {
 
     setSendingFeedback(true);
 
-    const response = await fetch(
-      "https://formspree.io/f/xeqprbgl",
-      options
-    ).catch((err) => {
+    const response = await fetch("https://formspree.io/f/xeqprbgl", options).catch((err) => {
       this.error = true;
       console.log(err);
       handleCaptchaError();
@@ -61,20 +58,18 @@ function Feedback({close}) {
     return;
   }
 
-  function handleCaptchaChange(recaptchaValue){
-    if(recaptchaValue === null){
+  function handleCaptchaChange(recaptchaValue) {
+    if (recaptchaValue === null) {
       // recaptcha expired so need to reset the form
       recaptchaRef.current.reset();
-    }
-    else{
+    } else {
       // If recaptcha callenge was successful then save the response
-      setGRecaptchaResponse(recaptchaValue)
+      setGRecaptchaResponse(recaptchaValue);
     }
-
   }
 
-  function handleCaptchaError(){
-    setGRecaptchaResponse(null)
+  function handleCaptchaError() {
+    setGRecaptchaResponse(null);
     recaptchaRef.current.reset();
   }
 
@@ -99,7 +94,8 @@ function Feedback({close}) {
           onChange={handleFeedbackMessageChange}
           value={feedbackMessage}
           name="message"
-          placeholder="Your message"></textarea>{" "}
+          placeholder="Your message"
+        ></textarea>{" "}
         <br />
         <br />
         <ReCAPTCHA
@@ -110,8 +106,7 @@ function Feedback({close}) {
         />
         {sendFeedbackError && (
           <span className="error">
-            Problem sending your feedback. Please check your internet connection
-            and try again.
+            Problem sending your feedback. Please check your internet connection and try again.
           </span>
         )}
         <br />

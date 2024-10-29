@@ -28,7 +28,8 @@ function MathLive({ latex, saveMath, close }) {
           fontSize: "32px",
         }}
         ref={mathfieldRef}
-        math-virtual-keyboard-policy="auto">
+        math-virtual-keyboard-policy="auto"
+      >
         {latex}
       </math-field>
       <br />

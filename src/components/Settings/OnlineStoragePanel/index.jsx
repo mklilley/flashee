@@ -1,36 +1,35 @@
-import Panel from "../../Panel"
+import Panel from "../../Panel";
 
 import { useState } from "react";
-import { useRecoilState } from 'recoil';
-import { useRemoteStorageState } from '@globalState';
+import { useRecoilState } from "recoil";
+import { useRemoteStorageState } from "@globalState";
 
-
-useRemoteStorageState
+useRemoteStorageState;
 
 function OnlineStoragePanel() {
   const [useRemoteStorage, setUseRemoteStorage] = useRecoilState(useRemoteStorageState);
 
-  function handleToggleOnlineStorage(){
-    setUseRemoteStorage(prev => !prev)
+  function handleToggleOnlineStorage() {
+    setUseRemoteStorage((prev) => !prev);
   }
 
   return (
-      <Panel heading="Online storage" color="blue">
-          <span className="error"> Problem with online storage</span>
-          <br />
-          
-          <div>
-            <label className="switch">
-              Toggle online storage
-              <input type="checkbox" onChange={handleToggleOnlineStorage} checked={useRemoteStorage}/>
-              <span className="slider round"></span>
-            </label>
-            <br />
-            <br />
-          </div>
-          
-          {useRemoteStorage &&
-          <>
+    <Panel heading="Online storage" color="blue">
+      <span className="error"> Problem with online storage</span>
+      <br />
+
+      <div>
+        <label className="switch">
+          Toggle online storage
+          <input type="checkbox" onChange={handleToggleOnlineStorage} checked={useRemoteStorage} />
+          <span className="slider round"></span>
+        </label>
+        <br />
+        <br />
+      </div>
+
+      {useRemoteStorage && (
+        <>
           <label className="switch">
             Toggle sync warnings
             <input type="checkbox" />
@@ -38,7 +37,6 @@ function OnlineStoragePanel() {
             <br />
             <br />
           </label>
-          
 
           <div>
             My storage box ID:
@@ -60,10 +58,9 @@ function OnlineStoragePanel() {
               <br />
             </div>
           </div>
-
-          </>
-        }
-      </Panel>
+        </>
+      )}
+    </Panel>
   );
 }
 
