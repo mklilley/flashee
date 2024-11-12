@@ -102,6 +102,7 @@ export const useRemoteStorageState = atom({
 
 // This keeps track of the jsonbox ID. It pulls it in from local storage when the app loads
 // It's displayed on the welcome screen and in settings
+// This is initalised in localstorage before the app loads in man.jsx
 export const boxIDState = atom({
   key: "boxIDState",
   default: undefined,
@@ -110,6 +111,7 @@ export const boxIDState = atom({
 
 // This keeps track of the jsonbox apiKey. It pulls it in from local storage when the app loads
 // It's displayed on the welcome screen and in settings
+// This is initalised in localstorage before the app loads in man.jsx
 export const apiKeyState = atom({
   key: "apiKeyState",
   default: undefined,
