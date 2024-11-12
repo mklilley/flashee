@@ -96,6 +96,6 @@ export const haveSeenWelcomeState = atom({
 // in addition to affecting the creation and modification of cards in the storage service
 export const useRemoteStorageState = atom({
   key: "useRemoteStorageState",
-  default: false,
+  default: true,
   effects: [localStorageEffect("useRemoteStorage")],
 });
