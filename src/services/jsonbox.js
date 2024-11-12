@@ -23,38 +23,11 @@ function createUUID() {
   });
 }
 
-// This API_BASE is used to make most api requests to create, read, update and
-// delete data
-const API_BASE = "https://json.lilley.io/flash_";
-
-// This API_BASE_META is being used to test if the service is available
-const API_BASE_META = "https://json.lilley.io/_meta/flash_";
-
-// Check to see if the app is already storing data in a jsonbox and if not then
-// create a new boxID to be used as such.
-let boxID = localStorage.getItem("jsonbox");
-if (boxID === null) {
-  boxID = createUniqueID();
-  localStorage.setItem("jsonbox", boxID);
-  // Set another storage key for the purpose of identifying the users personal
-  // jsonbox which might be different from the current box
-  localStorage.setItem("myJsonbox", boxID);
-}
-
-// Check to see if the app has an apiKey set and if not then create one.
-let apiKey = localStorage.getItem("apiKey");
-if (apiKey === null) {
-  apiKey = createUUID();
-  localStorage.setItem("apiKey", apiKey);
-  // Set another storage key for the purpose of identifying the users personal
-  // apiKey which might be different from the current apiKey
-  localStorage.setItem("myApiKey", apiKey);
-}
-
-let API_URL = API_BASE + boxID;
-let API_META_URL = API_BASE_META + boxID;
-
 // Box object is composed of:
+// API_BASE: Used to make most api requests to create, read, update and delete data
+// API_BASE_META: Used to test if the service is available
+// API_URL: The complete URL for most api requests
+// API_META_URL: The complete URL for service checks
 // id     : The jsonbox ID currently being used
 // apiKey : The jsonbox apiKey assigned to the current jsonbox
 // status : Function to check whether jsonbox is up and running
@@ -65,31 +38,73 @@ let API_META_URL = API_BASE_META + boxID;
 // update : Function to update the data for a specific "document" from the jsonbox
 // delete : Function to delete a specific "document" from the jsonbox
 const box = {
+  API_BASE: "https://json.lilley.io/flash_",
+  API_BASE_META: "https://json.lilley.io/_meta/flash_",
+  API_URL: "",
+  API_META_URL: "",
+
+  init: async function (boxID, apiKey) {
+    if (boxID === undefined && apiKey === undefined) {
+      // No arguments supplied to the function - load data from local storage or
+      // create jsonbox credentials
+
+      // Check to see if the app is already storing data in a jsonbox and if not then
+      // create a new boxID to be used as such.
+      boxID = JSON.parse(localStorage.getItem("jsonbox"));
+      if (boxID === null) {
+        boxID = createUniqueID();
+        localStorage.setItem("jsonbox", JSON.stringify(boxID));
+        // Set another storage key for the purpose of identifying the users personal
+        // jsonbox which might be different from the current box
+        localStorage.setItem("myJsonbox", JSON.stringify(boxID));
+      }
+
+      apiKey = JSON.parse(localStorage.getItem("apiKey"));
+      if (apiKey === null) {
+        apiKey = createUUID();
+        localStorage.setItem("apiKey", JSON.stringify(apiKey));
+        // Set another storage key for the purpose of identifying the users personal
+        // apiKey which might be different from the current apiKey
+        localStorage.setItem("myApiKey", JSON.stringify(apiKey));
+      }
+    } else {
+      // If arguments are supplied to init then we're switching json box
+      localStorage.setItem("jsonbox", JSON.stringify(boxID));
+      localStorage.setItem("myApiKey", JSON.stringify(apiKey));
+    }
+
+    this.API_URL = `${this.API_BASE}${boxID}`;
+    this.API_META_URL = `${this.API_BASE_META}${boxID}`;
+
+    return true;
+  },
+
   id: async function (options = {}) {
     let boxID;
     if (options.my === true) {
-      boxID = localStorage.getItem("myJsonbox");
+      boxID = JSON.parse(localStorage.getItem("myJsonbox"));
     } else {
-      boxID = localStorage.getItem("jsonbox");
+      boxID = JSON.parse(localStorage.getItem("jsonbox"));
     }
     return boxID;
   },
+
   apiKey: async function (options = {}) {
     let apiKey;
     if (options.my === true) {
-      apiKey = localStorage.getItem("myApiKey");
+      apiKey = JSON.parse(localStorage.getItem("myApiKey"));
     } else {
-      apiKey = localStorage.getItem("apiKey");
+      apiKey = JSON.parse(localStorage.getItem("apiKey"));
     }
-
     return apiKey;
   },
+
   status: async function () {
     const options = {
       method: "GET",
     };
 
-    const response = await fetch(API_META_URL, options).catch((err) => {
+    const response = await fetch(this.API_META_URL, options).catch((err) => {
       console.log(err);
     });
 
@@ -110,6 +125,7 @@ const box = {
       return false;
     }
   },
+
   switch: async function (newBoxID, newApiKey) {
     // In case the HTML code doesn't work as expected, lower case and trim user input
     newBoxID = newBoxID.toLowerCase().trim();
@@ -136,30 +152,27 @@ const box = {
       throw new Error(errorMessage);
     }
 
-    // In there are no validation errors in newBoxID or newApiKey then change boxID and apikey
-    localStorage.setItem("jsonbox", newBoxID);
-
-    API_URL = API_BASE + newBoxID;
-    API_META_URL = API_BASE_META + newBoxID;
-
-    // if no apiKey is supplied then store blank apiKey (this will evetually be)
+    // If no apiKey is supplied then we'll store a blank apiKey (this will eventually be
     // treated as a publicly editable box TODO
-    apiKey = newApiKey ? newApiKey : "";
-    localStorage.setItem("apiKey", apiKey);
+    const apiKey = newApiKey ? newApiKey : "";
+    // In there are no validation errors in newBoxID or newApiKey then change boxID and apiKey
+    this.init(newBoxID, apiKey);
 
     return true;
   },
+
   create: async function (data) {
     const options = {
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
       method: "POST",
     };
+    const apiKey = await this.apiKey();
     if (apiKey) {
       options.headers["X-API-KEY"] = apiKey;
     }
 
-    const response = await fetch(API_URL, options).catch((err) => {
+    const response = await fetch(this.API_URL, options).catch((err) => {
       console.log(err);
     });
 
@@ -168,18 +181,17 @@ const box = {
       //  the response echos back the data with _id, and _createdOn. We will rename
       // the _id for convenience in referencing in the app.
       let json = await response.json();
-
       json.forEach((el, idx) => {
         el.id = el["_id"];
         delete el["_id"];
         json[idx] = el;
       });
-
       return json;
     } else {
       return false;
     }
   },
+
   read: async function (id) {
     const options = {
       method: "GET",
@@ -187,19 +199,17 @@ const box = {
     let response;
 
     if (id === undefined) {
-      options;
-      response = await fetch(API_URL + "?limit=1000", options).catch((err) => {
+      response = await fetch(`${this.API_URL}?limit=1000`, options).catch((err) => {
         console.log(err);
       });
     } else {
-      response = await fetch(API_URL + "/" + id, options).catch((err) => {
+      response = await fetch(`${this.API_URL}/${id}`, options).catch((err) => {
         console.log(err);
       });
     }
 
     if ((response || {}).ok) {
       let json = await response.json();
-
       let allItems = {};
 
       // Rename the json data "_id" keys to "id"
@@ -215,17 +225,19 @@ const box = {
       return false;
     }
   },
+
   update: async function (id, data) {
     const options = {
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
       method: "PUT",
     };
+    const apiKey = await this.apiKey();
     if (apiKey) {
       options.headers["X-API-KEY"] = apiKey;
     }
 
-    const response = await fetch(API_URL + "/" + id, options).catch((err) => {
+    const response = await fetch(`${this.API_URL}/${id}`, options).catch((err) => {
       console.log(err);
     });
 
@@ -236,18 +248,18 @@ const box = {
       return false;
     }
   },
+
   delete: async function (id) {
     const options = {
       method: "DELETE",
     };
+    const apiKey = await this.apiKey();
     if (apiKey) {
       options.headers = { "X-API-KEY": apiKey };
     }
-    let response;
-
     // can delete a single record or all of the records
-    const URL = id ? API_URL + "/" + id : API_URL;
-    response = await fetch(URL, options).catch((err) => {
+    const URL = id ? `${this.API_URL}/${id}` : this.API_URL;
+    const response = await fetch(URL, options).catch((err) => {
       console.log(err);
     });
 
@@ -260,4 +272,4 @@ const box = {
   },
 };
 
-export { box };
+export { box, createUniqueID, createUUID };
