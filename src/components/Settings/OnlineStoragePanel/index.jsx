@@ -1,13 +1,13 @@
 import Panel from "../../Panel";
 
 import { useState } from "react";
-import { useRecoilState } from "recoil";
-import { useRemoteStorageState } from "@globalState";
-
-useRemoteStorageState;
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useRemoteStorageState, boxIDState, apiKeyState } from "@globalState";
 
 function OnlineStoragePanel() {
   const [useRemoteStorage, setUseRemoteStorage] = useRecoilState(useRemoteStorageState);
+  const boxID = useRecoilValue(boxIDState);
+  const apiKey = useRecoilValue(apiKeyState);
 
   function handleToggleOnlineStorage() {
     setUseRemoteStorage((prev) => !prev);
@@ -41,12 +41,12 @@ function OnlineStoragePanel() {
           <div>
             My storage box ID:
             <br />
-            <strong>boxID</strong> <button>copy</button>
+            <strong>{boxID}</strong> <button>copy</button>
             <br />
             <br />
             My storage box key:
             <br />
-            <strong>apiKey</strong> <button>copy</button>
+            <strong>{apiKey}</strong> <button>copy</button>
             <br />
             <br />
             <button>Switch to another storage box</button>
