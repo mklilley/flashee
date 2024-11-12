@@ -1,4 +1,4 @@
-import { atom, DefaultValue } from "recoil";
+import { atom, selector } from "recoil";
 
 // This is used when we want to keep recoil atoms in sync with local storage
 const localStorageEffect =
@@ -98,4 +98,20 @@ export const useRemoteStorageState = atom({
   key: "useRemoteStorageState",
   default: true,
   effects: [localStorageEffect("useRemoteStorage")],
+});
+
+// This keeps track of the jsonbox ID. It pulls it in from local storage when the app loads
+// It's displayed on the welcome screen and in settings
+export const boxIDState = atom({
+  key: "boxIDState",
+  default: undefined,
+  effects: [localStorageEffect("jsonbox")],
+});
+
+// This keeps track of the jsonbox apiKey. It pulls it in from local storage when the app loads
+// It's displayed on the welcome screen and in settings
+export const apiKeyState = atom({
+  key: "apiKeyState",
+  default: undefined,
+  effects: [localStorageEffect("apiKey")],
 });
