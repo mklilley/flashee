@@ -11,13 +11,8 @@ const localStorageEffect =
     }
 
     // Update localStorage whenever the atom's value changes
-    onSet((newValue) => {
-      if (newValue instanceof DefaultValue) {
-        // This gets called if we use recoil to reset an atom
-        localStorage.removeItem(key);
-      } else {
-        localStorage.setItem(key, JSON.stringify(newValue));
-      }
+    onSet((newValue, _, isReset) => {
+      isReset ? localStorage.removeItem(key) : localStorage.setItem(key, JSON.stringify(newValue));
     });
   };
 
