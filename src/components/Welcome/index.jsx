@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect } from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { haveSeenWelcomeState, useRemoteStorageState } from "@globalState";
+import { haveSeenWelcomeState, useRemoteStorageState, boxIDState, apiKeyState } from "@globalState";
 
 import Modal from "../Modal";
 import Panel from "../Panel";
@@ -9,8 +9,8 @@ import logo from "../../assets/logo.svg";
 import githubOctocat from "../../assets/github.png";
 
 function Welcome({ close }) {
-  const [boxID, setBoxID] = useState("1234");
-  const [apiKey, setApiKey] = useState("1234");
+  const boxID = useRecoilValue(boxIDState);
+  const apiKey = useRecoilValue(apiKeyState);
   const [isMobileDevice, setIsMobileDevice] = useState(true);
   const [addToHomeScreenURL, setAddToHomeScreenURL] = useState("");
   const [copiedText, setCopiedText] = useState(null);
