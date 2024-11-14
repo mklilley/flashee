@@ -1,8 +1,11 @@
 import Modal from "../../../Modal";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { boxIDState, apiKeyState } from "@globalState";
 
 function Share({ close }) {
-  const [boxID, setBoxID] = useState("1234");
+  const boxID = useRecoilValue(boxIDState);
+  const apiKey = useRecoilValue(apiKeyState);
   const [copiedText, setCopiedText] = useState(null);
 
   function copyToClipboard(text) {
