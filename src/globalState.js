@@ -117,3 +117,10 @@ export const apiKeyState = atom({
   default: undefined,
   effects: [localStorageEffect("apiKey")],
 });
+
+// This keeps track of whether the remote storage is working. It's set in App and used in components
+// that need to call the database, e.g. deleting cards, creating cards.
+export const boxStatusState = atom({
+  key: "boxStatusState",
+  default: false,
+});
