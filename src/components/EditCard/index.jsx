@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { minReadsState, reloadCardsState, cardToEditState, useRemoteStorage } from "@globalState";
+import {
+  minReadsState,
+  reloadCardsState,
+  cardToEditState,
+  useRemoteStorageState,
+} from "@globalState";
 
 import Modal from "../Modal";
 
