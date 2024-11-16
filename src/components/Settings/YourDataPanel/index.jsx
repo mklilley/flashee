@@ -36,7 +36,7 @@ function YourDataPanel() {
     setDeletingAll(true);
 
     // Actually do the delete all
-    await db.delete(null, { remote: false });
+    await db.delete(null, { remote: useRemoteStorage });
 
     // Trigger the app to reload the cards (which should now be empty)
     setReloadCards((prev) => prev + 1);
@@ -151,7 +151,7 @@ function YourDataPanel() {
     setImportingData(true);
 
     // Add the cards to the database
-    await db.create(cardsToCreate, { remote: false });
+    await db.create(cardsToCreate, { remote: useRemoteStorage });
 
     // Trigger the app to reload the cards which should now included the newly imported ones
     setReloadCards((prev) => prev + 1);

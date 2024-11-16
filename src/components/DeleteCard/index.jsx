@@ -17,7 +17,7 @@ function DeleteCard({ close }) {
   const useRemoteStorage = useRecoilValue(useRemoteStorageState);
 
   async function deleteCard() {
-    await db.delete(card.id, { remote: false });
+    await db.delete(card.id, { remote: useRemoteStorage });
     setReloadCards((prev) => prev + 1);
     close();
   }

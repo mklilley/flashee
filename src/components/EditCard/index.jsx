@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { minReadsState, reloadCardsState, cardToEditState } from "@globalState";
+import { minReadsState, reloadCardsState, cardToEditState, useRemoteStorage } from "@globalState";
 
 import Modal from "../Modal";
 
@@ -17,6 +17,7 @@ function EditCard({ close }) {
   const [answer, setAnswer] = useState(card.answer);
   const [showMathQuestion, setShowMathQuestion] = useState(false);
   const [showMathAnswer, setShowMathAnswer] = useState(false);
+  const useRemoteStorage = useRecoilValue(useRemoteStorageState);
 
   function handleQuestionChange(e) {
     setQuestion(e.target.value);
@@ -36,7 +37,7 @@ function EditCard({ close }) {
           question: question,
           answer: answer,
         },
-        { remote: false }
+        { remote: useRemoteStorage }
       );
     }
     // If card prop has no id then this is a new card that needs to be created
@@ -51,7 +52,7 @@ function EditCard({ close }) {
             difficulty: 0,
           },
         ],
-        { remote: false }
+        { remote: useRemoteStorage }
       );
     }
     setReloadCards((prev) => prev + 1);
