@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { totalNumberOfCardsState, minReadsState, reloadCardsState } from "@globalState";
+import {
+  totalNumberOfCardsState,
+  minReadsState,
+  reloadCardsState,
+  boxStatusState,
+} from "@globalState";
 
 import Panel from "../../Panel";
 import Modal from "../../Modal";
@@ -18,6 +23,7 @@ function YourDataPanel() {
   const totalNumberOfCards = useRecoilValue(totalNumberOfCardsState);
   const minReads = useRecoilValue(minReadsState);
   const setReloadCards = useSetRecoilState(reloadCardsState);
+  const boxStatus = useRecoilValue(boxStatusState);
 
   function handleDeleteAllData() {
     setShowDeleteAllModal(true);
@@ -176,11 +182,15 @@ function YourDataPanel() {
         <Modal close={() => setShowDeleteAllModal(false)} color="yellow">
           <div className="center">
             <h2>Delete all data</h2>
-            <span className="error">
-              {" "}
-              Problem with online storage. Only local data will be deleted.
-            </span>
-            <br />
+            {!boxStatus && (
+              <>
+                <span className="error">
+                  {" "}
+                  Problem with online storage. Only local data will be deleted.
+                </span>
+                <br />
+              </>
+            )}
             <button onClick={deleteAllData} className={deletingAll ? "wait" : ""}>
               Yes, delete everything
             </button>{" "}
