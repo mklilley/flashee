@@ -5,6 +5,7 @@ import {
   minReadsState,
   reloadCardsState,
   boxStatusState,
+  useRemoteStorageState,
 } from "@globalState";
 
 import Panel from "../../Panel";
@@ -24,6 +25,7 @@ function YourDataPanel() {
   const minReads = useRecoilValue(minReadsState);
   const setReloadCards = useSetRecoilState(reloadCardsState);
   const boxStatus = useRecoilValue(boxStatusState);
+  const useRemoteStorage = useRecoilValue(useRemoteStorageState);
 
   function handleDeleteAllData() {
     setShowDeleteAllModal(true);
@@ -182,7 +184,7 @@ function YourDataPanel() {
         <Modal close={() => setShowDeleteAllModal(false)} color="yellow">
           <div className="center">
             <h2>Delete all data</h2>
-            {!boxStatus && (
+            {!boxStatus && useRemoteStorage && (
               <>
                 <span className="error">
                   {" "}
