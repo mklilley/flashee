@@ -20,6 +20,7 @@ function OnlineStoragePanel() {
   const boxStatus = useRecoilValue(boxStatusState);
   const setReloadCards = useSetRecoilState(reloadCardsState);
   const usingMyBox = useRecoilValue(usingMyBoxState);
+  const [copiedText, setCopiedText] = useState(null);
 
   function handleToggleOnlineStorage() {
     setUseRemoteStorage((prev) => {
@@ -83,6 +84,19 @@ function OnlineStoragePanel() {
     setReloadCards((prev) => prev + 1);
   }
 
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        console.log("Async: Copying to clipboard was successful!");
+        setCopiedText(text);
+        setTimeout(() => setCopiedText(null), 1000);
+      },
+      (err) => {
+        console.error("Async: Could not copy text: ", err);
+      }
+    );
+  }
+
   return (
     <Panel heading="Online storage" color="blue">
       {!boxStatus && (
@@ -120,12 +134,24 @@ function OnlineStoragePanel() {
           <div>
             My storage box ID:
             <br />
-            <strong>{boxID}</strong> <button>copy</button>
+            <strong>{boxID}</strong>{" "}
+            <button
+              className={copiedText === boxID ? "copied" : ""}
+              onClick={() => copyToClipboard(boxID)}
+            >
+              copy
+            </button>
             <br />
             <br />
             My storage box key:
             <br />
-            <strong>{apiKey}</strong> <button>copy</button>
+            <strong>{apiKey}</strong>{" "}
+            <button
+              className={copiedText === apiKey ? "copied" : ""}
+              onClick={() => copyToClipboard(apiKey)}
+            >
+              copy
+            </button>
             <br />
             <br />
             <button disabled={!boxStatus}>Switch to another storage box</button>
