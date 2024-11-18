@@ -124,3 +124,19 @@ export const boxStatusState = atom({
   key: "boxStatusState",
   default: false,
 });
+
+// This keeps track of whether a user has switched to another storage in order to give them
+// options to switch back. This is set as a selector here and is used in Online storage panel
+export const usingMyBoxState = selector({
+  key: "usingMyBoxState",
+  get: ({ get }) => {
+    // Get the user's own box ID from local storage
+    const myBoxID = JSON.parse(localStorage.getItem("myJsonbox"));
+    // Get the currently active box ID from Recoil state
+    const currentBoxID = get(boxIDState);
+    console.log(currentBoxID, myBoxID);
+
+    // Compare the two IDs to determine if the user is using their own box
+    return myBoxID === currentBoxID;
+  },
+});
