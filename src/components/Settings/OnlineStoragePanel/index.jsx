@@ -8,6 +8,7 @@ import {
   apiKeyState,
   boxStatusState,
   reloadCardsState,
+  usingMyBoxState,
 } from "@globalState";
 
 import { db } from "../../../services/storage";
@@ -18,6 +19,7 @@ function OnlineStoragePanel() {
   const apiKey = useRecoilValue(apiKeyState);
   const boxStatus = useRecoilValue(boxStatusState);
   const setReloadCards = useSetRecoilState(reloadCardsState);
+  const usingMyBox = useRecoilValue(usingMyBoxState);
 
   function handleToggleOnlineStorage() {
     setUseRemoteStorage((prev) => {
@@ -129,11 +131,13 @@ function OnlineStoragePanel() {
             <button disabled={!boxStatus}>Switch to another storage box</button>
             <br />
             <br />
-            <div>
-              <button disabled={!boxStatus}>Switch back to my storage box</button>
-              <br />
-              <br />
-            </div>
+            {!usingMyBox && (
+              <div>
+                <button disabled={!boxStatus}>Switch back to my storage box</button>
+                <br />
+                <br />
+              </div>
+            )}
           </div>
         </>
       )}
