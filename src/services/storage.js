@@ -22,8 +22,8 @@ function recordRemoteFail(id, typeOfFail) {
 const key = "cards";
 
 const db = {
-  init: async function (storageID, apiKey) {
-    return await remote.init(storageID, apiKey);
+  init: async function () {
+    return await remote.init();
   },
   id: async function (options = {}) {
     return await remote.id(options);
