@@ -11,9 +11,12 @@ import {
   usingMyBoxState,
 } from "@globalState";
 
+import Switch from "./Switch";
+
 import { db } from "../../../services/storage";
 
 function OnlineStoragePanel() {
+  const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [useRemoteStorage, setUseRemoteStorage] = useRecoilState(useRemoteStorageState);
   const boxID = useRecoilValue(boxIDState);
   const apiKey = useRecoilValue(apiKeyState);
@@ -152,7 +155,9 @@ function OnlineStoragePanel() {
             </button>
             <br />
             <br />
-            <button disabled={!boxStatus}>Switch to another storage box</button>
+            <button onClick={() => setShowSwitchModal(true)} disabled={!boxStatus}>
+              Switch to another storage box
+            </button>
             <br />
             <br />
             {!usingMyBox && (
@@ -165,6 +170,7 @@ function OnlineStoragePanel() {
           </div>
         </>
       )}
+      {showSwitchModal && <Switch close={() => setShowSwitchModal(false)} />}
     </Panel>
   );
 }
