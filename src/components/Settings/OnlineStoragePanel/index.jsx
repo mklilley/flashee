@@ -115,7 +115,6 @@ function OnlineStoragePanel() {
             onChange={handleToggleOnlineStorage}
             checked={useRemoteStorage}
           />
-          <span className="slider round"></span>
         </label>
         <br />
         <br />
@@ -126,7 +125,6 @@ function OnlineStoragePanel() {
           <label className="switch">
             Toggle sync warnings
             <input disabled={!boxStatus} type="checkbox" />
-            <span className="slider round"></span>
             <br />
             <br />
           </label>
