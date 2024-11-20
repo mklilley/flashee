@@ -1,11 +1,10 @@
 import Modal from "../../../Modal";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { boxIDState, apiKeyState } from "@globalState";
+import { myBoxIDState } from "@globalState";
 
 function Share({ close }) {
-  const boxID = useRecoilValue(boxIDState);
-  const apiKey = useRecoilValue(apiKeyState);
+  const myBoxID = useRecoilValue(myBoxIDState);
   const [copiedText, setCopiedText] = useState(null);
 
   function copyToClipboard(text) {
@@ -27,10 +26,10 @@ function Share({ close }) {
       To share your cards with others, give them your storage box ID:
       <br />
       <br />
-      <strong>{boxID}</strong>{" "}
+      <strong>{myBoxID}</strong>{" "}
       <button
-        className={copiedText === boxID ? "copied" : ""}
-        onClick={() => copyToClipboard(boxID)}
+        className={copiedText === myBoxID ? "copied" : ""}
+        onClick={() => copyToClipboard(myBoxID)}
       >
         Copy
       </button>
@@ -41,10 +40,10 @@ function Share({ close }) {
       <br /> <br />
       Alternatively, anyone can see your cards via this link:
       <br /> <br />
-      <strong>https://flashee.lilley.io?box={boxID}</strong>{" "}
+      <strong>https://flashee.lilley.io?box={myBoxID}</strong>{" "}
       <button
-        className={copiedText === `https://flashee.lilley.io?box=${boxID}` ? "copied" : ""}
-        onClick={() => copyToClipboard(`https://flashee.lilley.io?box=${boxID}`)}
+        className={copiedText === `https://flashee.lilley.io?box=${myBoxID}` ? "copied" : ""}
+        onClick={() => copyToClipboard(`https://flashee.lilley.io?box=${myBoxID}`)}
       >
         Copy
       </button>

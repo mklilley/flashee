@@ -1,6 +1,11 @@
 import { useState, useLayoutEffect } from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { haveSeenWelcomeState, useRemoteStorageState, boxIDState, apiKeyState } from "@globalState";
+import {
+  haveSeenWelcomeState,
+  useRemoteStorageState,
+  myBoxIDState,
+  myApiKeyState,
+} from "@globalState";
 
 import Modal from "../Modal";
 import Panel from "../Panel";
@@ -9,8 +14,8 @@ import logo from "../../assets/logo.svg";
 import githubOctocat from "../../assets/github.png";
 
 function Welcome({ close }) {
-  const boxID = useRecoilValue(boxIDState);
-  const apiKey = useRecoilValue(apiKeyState);
+  const myBoxID = useRecoilValue(myBoxIDState);
+  const myApiKey = useRecoilValue(myApiKeyState);
   const [isMobileDevice, setIsMobileDevice] = useState(true);
   const [addToHomeScreenURL, setAddToHomeScreenURL] = useState("");
   const [copiedText, setCopiedText] = useState(null);
@@ -122,16 +127,18 @@ function Welcome({ close }) {
               Here is your storage box ID:
               <br />
               <br />
-              <strong>{boxID}</strong> <br />
+              <strong>{myBoxID}</strong> <br />
               <br />
               Here is your personal storage key:
               <br />
               <br />
-              <strong>{apiKey}</strong> <br />
+              <strong>{myApiKey}</strong> <br />
               <br />
               <button
-                className={copiedText === `boxID: ${boxID} \nstorageKey: ${apiKey}` ? "copied" : ""}
-                onClick={() => copyToClipboard(`boxID: ${boxID} \nstorageKey: ${apiKey}`)}
+                className={
+                  copiedText === `boxID: ${myBoxID} \nstorageKey: ${myApiKey}` ? "copied" : ""
+                }
+                onClick={() => copyToClipboard(`boxID: ${myBoxID} \nstorageKey: ${myApiKey}`)}
               >
                 Copy your box ID and key
               </button>{" "}

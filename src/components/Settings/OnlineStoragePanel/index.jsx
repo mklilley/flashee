@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   useRemoteStorageState,
-  boxIDState,
-  apiKeyState,
+  myBoxIDState,
+  myApiKeyState,
   boxStatusState,
   reloadCardsState,
   usingMyBoxState,
@@ -18,8 +18,8 @@ import { db } from "../../../services/storage";
 function OnlineStoragePanel() {
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [useRemoteStorage, setUseRemoteStorage] = useRecoilState(useRemoteStorageState);
-  const boxID = useRecoilValue(boxIDState);
-  const apiKey = useRecoilValue(apiKeyState);
+  const myBoxID = useRecoilValue(myBoxIDState);
+  const myApiKey = useRecoilValue(myApiKeyState);
   const boxStatus = useRecoilValue(boxStatusState);
   const setReloadCards = useSetRecoilState(reloadCardsState);
   const usingMyBox = useRecoilValue(usingMyBoxState);
@@ -135,10 +135,10 @@ function OnlineStoragePanel() {
           <div>
             My storage box ID:
             <br />
-            <strong>{boxID}</strong>{" "}
+            <strong>{myBoxID}</strong>{" "}
             <button
-              className={copiedText === boxID ? "copied" : ""}
-              onClick={() => copyToClipboard(boxID)}
+              className={copiedText === myBoxID ? "copied" : ""}
+              onClick={() => copyToClipboard(myBoxID)}
             >
               copy
             </button>
@@ -146,10 +146,10 @@ function OnlineStoragePanel() {
             <br />
             My storage box key:
             <br />
-            <strong>{apiKey}</strong>{" "}
+            <strong>{myApiKey}</strong>{" "}
             <button
-              className={copiedText === apiKey ? "copied" : ""}
-              onClick={() => copyToClipboard(apiKey)}
+              className={copiedText === myApiKey ? "copied" : ""}
+              onClick={() => copyToClipboard(myApiKey)}
             >
               copy
             </button>

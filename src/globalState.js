@@ -100,22 +100,22 @@ export const useRemoteStorageState = atom({
   effects: [localStorageEffect("useRemoteStorage")],
 });
 
-// This keeps track of the jsonbox ID. It pulls it in from local storage when the app loads
+// This keeps track of the user's jsonbox ID. It pulls it in from local storage when the app loads
 // It's displayed on the welcome screen and in settings
 // This is initalised in localstorage before the app loads in man.jsx
-export const boxIDState = atom({
-  key: "boxIDState",
+export const myBoxIDState = atom({
+  key: "myBoxIDState",
   default: undefined,
-  effects: [localStorageEffect("jsonbox")],
+  effects: [localStorageEffect("myJsonbox")],
 });
 
-// This keeps track of the jsonbox apiKey. It pulls it in from local storage when the app loads
+// This keeps track of the user's jsonbox apiKey. It pulls it in from local storage when the app loads
 // It's displayed on the welcome screen and in settings
 // This is initalised in localstorage before the app loads in man.jsx
-export const apiKeyState = atom({
-  key: "apiKeyState",
+export const myApiKeyState = atom({
+  key: "myApiKeyState",
   default: undefined,
-  effects: [localStorageEffect("apiKey")],
+  effects: [localStorageEffect("myApiKey")],
 });
 
 // This keeps track of whether the remote storage is working. It's set in App and used in components
@@ -130,13 +130,12 @@ export const boxStatusState = atom({
 export const usingMyBoxState = selector({
   key: "usingMyBoxState",
   get: ({ get }) => {
-    // Get the user's own box ID from local storage
-    const myBoxID = JSON.parse(localStorage.getItem("myJsonbox"));
-    // Get the currently active box ID from Recoil state
-    const currentBoxID = get(boxIDState);
-    console.log(currentBoxID, myBoxID);
-
+    // Get the user's own box ID from Recoil state
+    const myBoxID = get(myBoxIDState);
+    // Get the currently active box ID from local storage
+    const currentBoxID = JSON.parse(localStorage.getItem("jsonbox"));
     // Compare the two IDs to determine if the user is using their own box
     return myBoxID === currentBoxID;
   },
 });
+// Get the user's own box ID from local storage
