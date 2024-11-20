@@ -100,6 +100,15 @@ function OnlineStoragePanel() {
     );
   }
 
+  async function switchToMyBox() {
+    // Change the current box and api keys back to the users own
+    await db.switch(myBoxID, myApiKey);
+    // Pull the cards data from the remote database and save to local storage
+    await db.read({ remote: true });
+    // Load the cards into view
+    setReloadCards((prev) => prev + 1);
+  }
+
   return (
     <Panel heading="Online storage" color="blue">
       {!boxStatus && (
@@ -162,7 +171,9 @@ function OnlineStoragePanel() {
             <br />
             {!usingMyBox && (
               <div>
-                <button disabled={!boxStatus}>Switch back to my storage box</button>
+                <button onclick={switchToMyBox} disabled={!boxStatus}>
+                  Switch back to my storage box
+                </button>
                 <br />
                 <br />
               </div>
