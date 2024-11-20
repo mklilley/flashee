@@ -20,7 +20,8 @@ function Feedback({ close }) {
     setFeedbackMessage(e.target.value);
   }
 
-  async function sendFeedback() {
+  async function sendFeedback(e) {
+    e.preventDefault();
     setSendFeedbackError(false);
 
     let jsonForm = {};
@@ -49,7 +50,7 @@ function Feedback({ close }) {
     if ((response || {}).ok) {
       setFeedbackEmail("");
       setFeedbackMessage("");
-      showFeedbackModal(true);
+      close();
     } else {
       setSendFeedbackError(true);
       handleCaptchaError();
