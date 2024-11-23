@@ -22,7 +22,7 @@ function OnlineStoragePanel() {
   const myApiKey = useRecoilValue(myApiKeyState);
   const boxStatus = useRecoilValue(boxStatusState);
   const setReloadCards = useSetRecoilState(reloadCardsState);
-  const usingMyBox = useRecoilValue(usingMyBoxState);
+  const [usingMyBox, setUsingMyBox] = useRecoilState(usingMyBoxState);
   const [copiedText, setCopiedText] = useState(null);
 
   function handleToggleOnlineStorage() {
@@ -107,6 +107,8 @@ function OnlineStoragePanel() {
     await db.read({ remote: true });
     // Load the cards into view
     setReloadCards((prev) => prev + 1);
+
+    setUsingMyBox(true);
   }
 
   return (
