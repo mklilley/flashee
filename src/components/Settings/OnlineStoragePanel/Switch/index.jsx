@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useLayoutEffect } from "react";
 
 import { useSetRecoilState } from "recoil";
 import { reloadCardsState, usingMyBoxState } from "@globalState";
@@ -7,13 +7,19 @@ import Modal from "../../../Modal";
 
 import { db } from "../../../../services/storage";
 
-function Switch({ close }) {
+function Switch({ close, boxID }) {
   const [switchBoxID, setSwitchBoxID] = useState("");
   const [switchApiKey, setSwitchApiKey] = useState("");
   const [switchBoxError, setSwitchBoxError] = useState("");
   const [canEdit, setCanEdit] = useState(false);
   const setReloadCards = useSetRecoilState(reloadCardsState);
   const setUsingMyBox = useSetRecoilState(usingMyBoxState);
+
+  useLayoutEffect(() => {
+    if (boxID) {
+      setSwitchBoxID(boxID);
+    }
+  }, []);
 
   function handleKeyDown(event) {
     if (event.key === "Enter") {
@@ -68,12 +74,16 @@ function Switch({ close }) {
         type="text"
         placeholder="New box ID"
       />{" "}
-      <br />
-      <br />
-      <label className="switch">
-        Do you want to edit these cards?
-        <input type="checkbox" onChange={handleToggleCanEdit} checked={canEdit} />
-      </label>
+      {!boxID && (
+        <>
+          <br />
+          <br />
+          <label className="switch">
+            Do you want to edit these cards?
+            <input type="checkbox" onChange={handleToggleCanEdit} checked={canEdit} />
+          </label>
+        </>
+      )}
       {canEdit && (
         <input
           value={switchApiKey}
