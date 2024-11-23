@@ -171,7 +171,7 @@ function OnlineStoragePanel() {
             <br />
             {!usingMyBox && (
               <div>
-                <button onclick={switchToMyBox} disabled={!boxStatus}>
+                <button onClick={switchToMyBox} disabled={!boxStatus}>
                   Switch back to my storage box
                 </button>
                 <br />
