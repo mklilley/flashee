@@ -17,6 +17,7 @@ import EditCard from "./components/EditCard";
 import DeleteCard from "./components/DeleteCard";
 import Settings from "./components/Settings";
 import Welcome from "./components/Welcome";
+import Switch from "./components/Settings/OnlineStoragePanel/Switch";
 
 function App() {
   const setBoxStatus = useSetRecoilState(boxStatusState);
@@ -27,6 +28,9 @@ function App() {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const haveSeenWelcome = useRecoilValue(haveSeenWelcomeState);
 
+  const [showSwitchModal, setShowSwitchModal] = useState(false);
+  const [boxIDFromURL, setBoxIDFromURL] = useState("");
+
   useEffect(() => {
     const init = async () => {
       // Check on the remote storage box status even if user hasn't opted for it
@@ -34,6 +38,16 @@ function App() {
       // We always want to know if there is a problem with online
       const boxStatus = await db.status();
       setBoxStatus(boxStatus);
+
+      // Check URL for box parameter. If it exists then load cards from the Online
+      // storage box with the corresponding ID.
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("box")) {
+        // TODO set canEdit
+        setBoxIDFromURL(params.get("box"));
+        setShowSwitchModal(true);
+        window.history.replaceState(null, null, window.location.pathname);
+      }
     };
 
     init();
@@ -47,6 +61,7 @@ function App() {
       {showDeleteModal && <DeleteCard close={() => setShowDeleteModal(false)} />}
       {showSettingsModal && <Settings close={() => setShowSettingsModal(false)} />}
       {showWelcomeModal && !haveSeenWelcome && <Welcome close={() => setShowWelcomeModal(false)} />}
+      {showSwitchModal && <Switch boxID={boxIDFromURL} close={() => setShowSwitchModal(false)} />}
     </>
   );
 }
