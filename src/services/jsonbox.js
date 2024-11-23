@@ -70,7 +70,7 @@ const box = {
     } else {
       // If arguments are supplied to init then we're switching json box
       localStorage.setItem("jsonbox", JSON.stringify(boxID));
-      localStorage.setItem("myApiKey", JSON.stringify(apiKey));
+      localStorage.setItem("apiKey", JSON.stringify(apiKey));
     }
 
     this.API_URL = `${this.API_BASE}${boxID}`;
