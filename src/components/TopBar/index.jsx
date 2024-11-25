@@ -14,6 +14,7 @@ import SearchBar from "../SearchBar";
 function TopBar() {
   const [searchVisible, setSearchVisible] = useState(false);
   const totalNumberOfCards = useRecoilValue(totalNumberOfCardsState);
+  const readOnlyBox = useRecoilValue(readOnlyBoxState);
   const setShowSettingsModal = useSetRecoilState(showSettingsModalState);
   const setSearchResults = useSetRecoilState(searchResultsState);
   const setShowEditModal = useSetRecoilState(showEditModalState);
@@ -47,9 +48,17 @@ function TopBar() {
               </i>
             </div>
           )}
-          {totalNumberOfCards !== 0 && (
+          {totalNumberOfCards !== 0 && !readOnlyBox && (
             <div>
               <i className={styles["gg-add"]} onClick={createCard}></i>
+            </div>
+          )}
+
+          {readOnlyBox && (
+            <div className="misc">
+              {" "}
+              View only mode. <br /> Edit your own cards{" "}
+              <button onClick={switchToMyBox}>here </button>
             </div>
           )}
 

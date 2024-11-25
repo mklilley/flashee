@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   showEditModalState,
@@ -55,7 +55,9 @@ function App() {
 
   return (
     <>
-      <TopBar />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TopBar />
+      </Suspense>
       <Cards />
       {showEditModal && <EditCard close={() => setShowEditModal(false)} />}
       {showDeleteModal && <DeleteCard close={() => setShowDeleteModal(false)} />}
