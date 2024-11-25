@@ -1,5 +1,7 @@
 import { atom, selector } from "recoil";
 
+import { db } from "./services/storage";
+
 // This is used when we want to keep recoil atoms in sync with local storage
 const localStorageEffect =
   (key) =>
@@ -132,4 +134,23 @@ export const usingMyBoxState = atom({
   key: "usingMyBoxState",
   default: true,
   effects: [localStorageEffect("usingMyJsonBox")],
+});
+
+// This responds to changes in usingMyBoxState and checks to see whether the user
+// has specified an ApiKey. If not then it's a read only box.
+export const readOnlyBoxState = selector({
+  key: "readOnlyBoxState",
+  get: async ({ get }) => {
+    const usingMyBox = get(usingMyBoxState);
+    if (!usingMyBox) {
+      try {
+        const apiKey = await db.apiKey();
+        return apiKey === "";
+      } catch (error) {
+        console.error("Error fetching API key:", error);
+        throw error;
+      }
+    }
+    return false;
+  },
 });
