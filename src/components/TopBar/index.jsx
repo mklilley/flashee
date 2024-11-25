@@ -6,12 +6,16 @@ import {
   showSettingsModalState,
   cardToEditState,
   searchResultsState,
+  readOnlyBoxState,
 } from "@globalState";
 
 import styles from "./styles.module.css";
 import SearchBar from "../SearchBar";
 
+import { useSwitchToMyBox } from "../../hooks/useSwitchToMyBox";
+
 function TopBar() {
+  const switchToMyBox = useSwitchToMyBox();
   const [searchVisible, setSearchVisible] = useState(false);
   const totalNumberOfCards = useRecoilValue(totalNumberOfCardsState);
   const readOnlyBox = useRecoilValue(readOnlyBoxState);

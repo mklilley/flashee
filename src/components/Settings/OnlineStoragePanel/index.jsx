@@ -15,6 +15,8 @@ import Switch from "./Switch";
 
 import { db } from "../../../services/storage";
 
+import { useSwitchToMyBox } from "../../../hooks/useSwitchToMyBox";
+
 function OnlineStoragePanel() {
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [useRemoteStorage, setUseRemoteStorage] = useRecoilState(useRemoteStorageState);
@@ -24,6 +26,7 @@ function OnlineStoragePanel() {
   const setReloadCards = useSetRecoilState(reloadCardsState);
   const [usingMyBox, setUsingMyBox] = useRecoilState(usingMyBoxState);
   const [copiedText, setCopiedText] = useState(null);
+  const switchToMyBox = useSwitchToMyBox();
 
   function handleToggleOnlineStorage() {
     setUseRemoteStorage((prev) => {
@@ -98,17 +101,6 @@ function OnlineStoragePanel() {
         console.error("Async: Could not copy text: ", err);
       }
     );
-  }
-
-  async function switchToMyBox() {
-    // Change the current box and api keys back to the users own
-    await db.switch(myBoxID, myApiKey);
-    // Pull the cards data from the remote database and save to local storage
-    await db.read({ remote: true });
-    // Load the cards into view
-    setReloadCards((prev) => prev + 1);
-
-    setUsingMyBox(true);
   }
 
   return (
