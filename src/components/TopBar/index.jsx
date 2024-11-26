@@ -59,7 +59,7 @@ function TopBar() {
           )}
 
           {readOnlyBox && (
-            <div className="misc">
+            <div className="purple">
               {" "}
               View only mode. <br /> Edit your own cards{" "}
               <button onClick={switchToMyBox}>here </button>
