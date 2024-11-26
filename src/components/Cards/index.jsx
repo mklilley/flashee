@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Suspense } from "react";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import {
   totalNumberOfCardsState,
@@ -160,13 +160,15 @@ const Cards = React.memo(() => {
         <>
           <ul>
             {cards.map((card) => (
-              <Card
-                key={card.id}
-                card={card}
-                handleDelete={handleCardDelete}
-                handleEdit={handleCardEdit}
-                handleRead={handleCardRead}
-              ></Card>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Card
+                  key={card.id}
+                  card={card}
+                  handleDelete={handleCardDelete}
+                  handleEdit={handleCardEdit}
+                  handleRead={handleCardRead}
+                ></Card>
+              </Suspense>
             ))}
           </ul>
         </>

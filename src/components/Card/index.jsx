@@ -1,6 +1,9 @@
 import styles from "./styles.module.css";
 import React, { useState, useRef, useLayoutEffect } from "react";
 
+import { useRecoilValue } from "recoil";
+import { readOnlyBoxState } from "@globalState";
+
 import { db } from "../../services/storage";
 
 import { renderMathInElement } from "mathlive";
@@ -8,6 +11,7 @@ import { renderMathInElement } from "mathlive";
 const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
   const [flipped, setFlipped] = useState(false);
   const [reads, setReads] = useState(card.reads);
+  const readOnlyBox = useRecoilValue(readOnlyBoxState);
 
   const cardColor = { backgroundColor: card.color };
 
@@ -62,12 +66,16 @@ const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
           <span>{card.question}</span>
         </div>
         <div className={styles["flip-card-back"]} style={cardColor}>
-          <span className={styles["delete-card"]} onClick={confirmDelete}>
-            <i className={styles["gg-trash"]}></i>
-          </span>
-          <span className={styles["edit-card"]} onClick={editCard}>
-            <i className={styles["gg-pen"]}></i>
-          </span>
+          {!readOnlyBox && (
+            <>
+              <span className={styles["delete-card"]} onClick={confirmDelete}>
+                <i className={styles["gg-trash"]}></i>
+              </span>
+              <span className={styles["edit-card"]} onClick={editCard}>
+                <i className={styles["gg-pen"]}></i>
+              </span>
+            </>
+          )}
           <span>{card.answer}</span>
           <span className={styles.difficulty}>
             <span onClick={(e) => updateDifficulty(1)}>hard</span>
