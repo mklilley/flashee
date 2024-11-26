@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Modal from "../Modal";
 
 import YourDataPanel from "./YourDataPanel";
@@ -11,9 +12,13 @@ function Settings({ close }) {
     <Modal close={close}>
       <h2> Settings </h2>
       <div className="left">
-        <YourDataPanel></YourDataPanel>
+        <Suspense fallback={<div>Loading...</div>}>
+          <YourDataPanel></YourDataPanel>
+        </Suspense>
         <br />
-        <OnlineStoragePanel></OnlineStoragePanel>
+        <Suspense fallback={<div>Loading...</div>}>
+          <OnlineStoragePanel></OnlineStoragePanel>
+        </Suspense>
         <br />
         <HelpPanel></HelpPanel>
         <br />

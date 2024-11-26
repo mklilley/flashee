@@ -9,6 +9,7 @@ import {
   boxStatusState,
   reloadCardsState,
   usingMyBoxState,
+  readOnlyBoxState,
 } from "@globalState";
 
 import Switch from "./Switch";
@@ -27,6 +28,7 @@ function OnlineStoragePanel() {
   const [usingMyBox, setUsingMyBox] = useRecoilState(usingMyBoxState);
   const [copiedText, setCopiedText] = useState(null);
   const switchToMyBox = useSwitchToMyBox();
+  const readOnlyBox = useRecoilValue(readOnlyBoxState);
 
   function handleToggleOnlineStorage() {
     setUseRemoteStorage((prev) => {
@@ -112,19 +114,21 @@ function OnlineStoragePanel() {
         </>
       )}
 
-      <div>
-        <label className="switch">
-          Toggle online storage
-          <input
-            type="checkbox"
-            disabled={!boxStatus}
-            onChange={handleToggleOnlineStorage}
-            checked={useRemoteStorage}
-          />
-        </label>
-        <br />
-        <br />
-      </div>
+      {!readOnlyBox && (
+        <div>
+          <label className="switch">
+            Toggle online storage
+            <input
+              type="checkbox"
+              disabled={!boxStatus}
+              onChange={handleToggleOnlineStorage}
+              checked={useRemoteStorage}
+            />
+          </label>
+          <br />
+          <br />
+        </div>
+      )}
 
       {useRemoteStorage && (
         <>
