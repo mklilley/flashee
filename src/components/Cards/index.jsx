@@ -160,9 +160,8 @@ const Cards = React.memo(() => {
         <>
           <ul>
             {cards.map((card) => (
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Loading...</div>} key={card.id}>
                 <Card
-                  key={card.id}
                   card={card}
                   handleDelete={handleCardDelete}
                   handleEdit={handleCardEdit}
