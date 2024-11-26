@@ -9,6 +9,7 @@ import {
   showDeleteModalState,
   cardToEditState,
   cardToDeleteState,
+  readOnlyBoxState,
 } from "@globalState";
 
 import { seedFunc as randomSeedFunc, sequence as randomSequence } from "aimless.js";
@@ -29,6 +30,7 @@ const Cards = React.memo(() => {
   const setShowDeleteModal = useSetRecoilState(showDeleteModalState);
   const setCardToEdit = useSetRecoilState(cardToEditState);
   const setCardToDelete = useSetRecoilState(cardToDeleteState);
+  const readOnlyBox = useRecoilValue(readOnlyBoxState);
 
   // seed allows us to reshuffle cards if we want to
   const [seed, setSeed] = useState(Date.now());
@@ -126,7 +128,7 @@ const Cards = React.memo(() => {
     // Cards haven't yet loaded so don't render anything
     return null;
   } else {
-    if (totalNumberOfCards === 0) {
+    if (totalNumberOfCards === 0 && !readOnlyBox) {
       // No cards exist - Give user the option to tap to create a new one
       return (
         <>

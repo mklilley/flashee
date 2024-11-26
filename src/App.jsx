@@ -57,8 +57,8 @@ function App() {
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <TopBar />
+        <Cards />
       </Suspense>
-      <Cards />
       {showEditModal && <EditCard close={() => setShowEditModal(false)} />}
       {showDeleteModal && <DeleteCard close={() => setShowDeleteModal(false)} />}
       {showSettingsModal && <Settings close={() => setShowSettingsModal(false)} />}
