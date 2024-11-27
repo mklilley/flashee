@@ -43,7 +43,6 @@ function App() {
       // storage box with the corresponding ID.
       const params = new URLSearchParams(window.location.search);
       if (params.has("box")) {
-        // TODO set canEdit
         setBoxIDFromURL(params.get("box"));
         setShowSwitchModal(true);
         window.history.replaceState(null, null, window.location.pathname);
