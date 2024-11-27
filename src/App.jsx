@@ -32,7 +32,7 @@ function App() {
   const [boxIDFromURL, setBoxIDFromURL] = useState("");
 
   useEffect(() => {
-    const init = async () => {
+    async function init() {
       // Check on the remote storage box status even if user hasn't opted for it
       // We do this in case the user decides they want to start using remote storage.
       // We always want to know if there is a problem with online
@@ -48,7 +48,7 @@ function App() {
         setShowSwitchModal(true);
         window.history.replaceState(null, null, window.location.pathname);
       }
-    };
+    }
 
     init();
   }, []);
