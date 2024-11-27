@@ -50,7 +50,30 @@ function App() {
       }
     }
 
+    async function keepDataAlive() {
+      // Data in jsonbox is only stored for 360 days. Every time the user reads/updates
+      // a card on the database, the 360 day countdown is reset for that card.
+      // db.keepAlive() reads all cards from the database and thus resets the clock for
+      // all of them.
+      let msInDay = 1000 * 60 * 60 * 24;
+      let numDaysSinceKeepAlive =
+        (new Date() - Date.parse(localStorage.lastKeepAliveDate)) / msInDay;
+      if (numDaysSinceKeepAlive > 90) {
+        let keepAliveSuccess = await db.keepAlive();
+        if (keepAliveSuccess) {
+          localStorage.lastKeepAliveDate = new Date();
+        } else {
+          alert(
+            `Your online storage data will be deleted in ${Math.round(
+              360 - numDaysSinceKeepAlive
+            )} days`
+          );
+        }
+      }
+    }
+
     init();
+    keepDataAlive();
   }, []);
 
   return (
