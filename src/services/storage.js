@@ -52,7 +52,8 @@ const db = {
         newCards = result;
         // Store last update time in local storage so we can check when local storage
         // is out of sync with server
-        localStorage.setItem("remoteUpdatedOn", result[0]["_createdOn"]);
+        let status = await this.status();
+        localStorage.setItem("remoteUpdatedOn", status.remoteUpdatedOn);
       }
       // The call to the remote is unsuccessful
       if (!result) {
@@ -134,7 +135,8 @@ const db = {
         allCards[id]["_updatedOn"] = result["_updatedOn"];
         // Store last update time in local storage so we can check when local storage
         // is out of sync with server
-        localStorage.setItem("remoteUpdatedOn", result["_updatedOn"]);
+        let status = await this.status();
+        localStorage.setItem("remoteUpdatedOn", status.remoteUpdatedOn);
       }
       // The call to the remote is unsuccessful
       else {
@@ -161,12 +163,18 @@ const db = {
 
       // Only delete data on the remote database if remote flag is true
       if (options.remote === true) {
-        await remote.delete(id).then((success) => {
+        result = await remote.delete(id);
+        // The call to the remote is successful
+        if (result) {
+          // Store last update time in local storage so we can check when local storage
+          // is out of sync with server
+          let status = await this.status();
+          localStorage.setItem("remoteUpdatedOn", status.remoteUpdatedOn);
+        } else {
+          // The call to the remote is unsuccessful
           // If the remote database fails, we need to log the failure
-          if (!success) {
-            recordRemoteFail(id, "delete");
-          }
-        });
+          recordRemoteFail(id, "delete");
+        }
       }
     } else {
       // deleting all cards
@@ -174,12 +182,18 @@ const db = {
       localStorage.setItem(key, JSON.stringify({}));
 
       if (options.remote === true) {
-        await remote.delete().then((success) => {
+        result = await remote.delete(id);
+        // The call to the remote is successful
+        if (result) {
+          // Store last update time in local storage so we can check when local storage
+          // is out of sync with server
+          let status = await this.status();
+          localStorage.setItem("remoteUpdatedOn", status.remoteUpdatedOn);
+        } else {
+          // The call to the remote is unsuccessful
           // If the remote database fails, we need to log the failure
-          if (!success) {
-            recordRemoteFail("all", "delete");
-          }
-        });
+          recordRemoteFail(id, "delete");
+        }
       }
     }
   },
