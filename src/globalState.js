@@ -102,6 +102,14 @@ export const useRemoteStorageState = atom({
   effects: [localStorageEffect("useRemoteStorage")],
 });
 
+// This keeps track of whether the user has opted to see warnings about when their locally stored cards
+// are out of sync with the remote storage. This is set in the Settings component.
+export const useSyncWarningsState = atom({
+  key: "useSyncWarningsState",
+  default: true,
+  effects: [localStorageEffect("useSyncWarnings")],
+});
+
 // This keeps track of the user's jsonbox ID. It pulls it in from local storage when the app loads
 // It's displayed on the welcome screen and in settings
 // This is initalised in localstorage before the app loads in man.jsx
