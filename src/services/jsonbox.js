@@ -111,12 +111,10 @@ const box = {
     if ((response || {}).ok) {
       let json = await response.json();
       // eslint-disable-next-line
-      let { _count, _createdOn, _updatedOn, ...discarded } = json;
+      let { _count, _boxLastModified, ...discarded } = json;
       let subset;
-      if (_updatedOn) {
-        subset = { numCards: _count, remoteUpdatedOn: _updatedOn };
-      } else if (_createdOn) {
-        subset = { numCards: _count, remoteUpdatedOn: _createdOn };
+      if (_boxLastModified) {
+        subset = { numCards: _count, remoteUpdatedOn: _boxLastModified };
       } else {
         subset = { numCards: _count };
       }
