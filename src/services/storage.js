@@ -163,7 +163,7 @@ const db = {
 
       // Only delete data on the remote database if remote flag is true
       if (options.remote === true) {
-        result = await remote.delete(id);
+        const result = await remote.delete(id);
         // The call to the remote is successful
         if (result) {
           // Store last update time in local storage so we can check when local storage
@@ -182,7 +182,7 @@ const db = {
       localStorage.setItem(key, JSON.stringify({}));
 
       if (options.remote === true) {
-        result = await remote.delete(id);
+        const result = await remote.delete();
         // The call to the remote is successful
         if (result) {
           // Store last update time in local storage so we can check when local storage
