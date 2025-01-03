@@ -6,6 +6,8 @@ import {
   showSettingsModalState,
   haveSeenWelcomeState,
   boxStatusState,
+  useRemoteStorageState,
+  useSyncWarningsState,
 } from "@globalState";
 
 import { db } from "./services/storage";
@@ -18,9 +20,10 @@ import DeleteCard from "./components/DeleteCard";
 import Settings from "./components/Settings";
 import Welcome from "./components/Welcome";
 import Switch from "./components/Settings/OnlineStoragePanel/Switch";
+import Sync from "./components/Sync";
 
 function App() {
-  const setBoxStatus = useSetRecoilState(boxStatusState);
+  const [boxStatus, setBoxStatus] = useRecoilState(boxStatusState);
   const [showEditModal, setShowEditModal] = useRecoilState(showEditModalState);
   const [showDeleteModal, setShowDeleteModal] = useRecoilState(showDeleteModalState);
   const [showSettingsModal, setShowSettingsModal] = useRecoilState(showSettingsModalState);
@@ -31,13 +34,28 @@ function App() {
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [boxIDFromURL, setBoxIDFromURL] = useState("");
 
+  const useRemoteStorage = useRecoilValue(useRemoteStorageState);
+  const useSyncWarnings = useRecoilValue(useSyncWarningsState);
+  const [showSyncModal, setShowSyncModal] = useState(false);
+
   useEffect(() => {
     async function init() {
       // Check on the remote storage box status even if user hasn't opted for it
       // We do this in case the user decides they want to start using remote storage.
-      // We always want to know if there is a problem with online
+      // We always want to know if there is a problem with online storage.
       const boxStatus = await db.status();
       setBoxStatus(boxStatus);
+
+      if (useRemoteStorage && boxStatus) {
+        // If the user has opted to use remote storage then we want to keep the data alive
+        // because the data in jsonbox is only stored for 360 days.
+        keepDataAlive();
+        // If the user has opted to see sync warnings then we want to check if the
+        // locally stored cards are out of sync with the remote storage.
+        if (useSyncWarnings && boxStatus.remoteUpdatedOn) {
+          checkForRemoteCardChanges(boxStatus);
+        }
+      }
 
       // Check URL for box parameter. If it exists then load cards from the Online
       // storage box with the corresponding ID.
@@ -46,6 +64,14 @@ function App() {
         setBoxIDFromURL(params.get("box"));
         setShowSwitchModal(true);
         window.history.replaceState(null, null, window.location.pathname);
+      }
+    }
+
+    function checkForRemoteCardChanges(boxStatus) {
+      // If the user has opted to see sync warnings then we want to check if the
+      // locally stored cards are out of sync with the remote storage.
+      if (new Date(boxStatus.remoteUpdatedOn) > new Date(localStorage.remoteUpdatedOn)) {
+        setShowSyncModal(true);
       }
     }
 
@@ -72,7 +98,6 @@ function App() {
     }
 
     init();
-    keepDataAlive();
   }, []);
 
   return (
@@ -86,6 +111,7 @@ function App() {
       {showSettingsModal && <Settings close={() => setShowSettingsModal(false)} />}
       {showWelcomeModal && !haveSeenWelcome && <Welcome close={() => setShowWelcomeModal(false)} />}
       {showSwitchModal && <Switch boxID={boxIDFromURL} close={() => setShowSwitchModal(false)} />}
+      {showSyncModal && <Sync boxStatus={boxStatus} close={() => setShowSyncModal(false)} />}
     </>
   );
 }
