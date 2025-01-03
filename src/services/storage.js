@@ -192,7 +192,7 @@ const db = {
         } else {
           // The call to the remote is unsuccessful
           // If the remote database fails, we need to log the failure
-          recordRemoteFail(id, "delete");
+          recordRemoteFail("all", "delete");
         }
       }
     }
