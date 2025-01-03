@@ -10,6 +10,7 @@ import {
   reloadCardsState,
   usingMyBoxState,
   readOnlyBoxState,
+  useSyncWarningsState,
 } from "@globalState";
 
 import Switch from "./Switch";
@@ -21,6 +22,7 @@ import { useSwitchToMyBox } from "../../../hooks/useSwitchToMyBox";
 function OnlineStoragePanel() {
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [useRemoteStorage, setUseRemoteStorage] = useRecoilState(useRemoteStorageState);
+  const [useSyncWarnings, setUseSyncWarnings] = useRecoilState(useSyncWarningsState);
   const myBoxID = useRecoilValue(myBoxIDState);
   const myApiKey = useRecoilValue(myApiKeyState);
   const boxStatus = useRecoilValue(boxStatusState);
@@ -44,6 +46,10 @@ function OnlineStoragePanel() {
 
       return newValue;
     });
+  }
+
+  function handleToggleSyncWarnings() {
+    setUseSyncWarnings((prev) => !prev);
   }
 
   async function recreateCardsLocally() {
@@ -134,7 +140,12 @@ function OnlineStoragePanel() {
         <>
           <label className="switch">
             Toggle sync warnings
-            <input disabled={!boxStatus} type="checkbox" />
+            <input
+              type="checkbox"
+              disabled={!boxStatus}
+              onChange={handleToggleSyncWarnings}
+              checked={useSyncWarnings}
+            />
             <br />
             <br />
           </label>
