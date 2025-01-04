@@ -14,8 +14,15 @@ function id() {
 // also what function failed, e.g. "create", "update" etc
 function recordRemoteFail(id, typeOfFail) {
   const remoteFails = JSON.parse(localStorage.getItem("remoteFails")) || [];
-  remoteFails.push({ id: id, type: typeOfFail });
-  localStorage.setItem("remoteFails", JSON.stringify(remoteFails));
+
+  // Check if the entry already exists
+  const isDuplicate = remoteFails.some((fail) => fail.id === id && fail.type === typeOfFail);
+
+  // Only add if not a duplicate
+  if (!isDuplicate) {
+    remoteFails.push({ id, type: typeOfFail });
+    localStorage.setItem("remoteFails", JSON.stringify(remoteFails));
+  }
 }
 
 // key to identify the collection of cards in the data store
