@@ -13,8 +13,8 @@ function id() {
 // If remote database fails to respond, store the id of the failed card and
 // also what function failed, e.g. "create", "update" etc
 function recordRemoteFail(id, typeOfFail) {
-  let remoteFails = JSON.parse(localStorage.getItem("remoteFails")) || {};
-  remoteFails[id] = typeOfFail;
+  const remoteFails = JSON.parse(localStorage.getItem("remoteFails")) || [];
+  remoteFails.push({ id: id, type: typeOfFail });
   localStorage.setItem("remoteFails", JSON.stringify(remoteFails));
 }
 
