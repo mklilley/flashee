@@ -10,6 +10,8 @@ import {
   useSyncWarningsState,
 } from "@globalState";
 
+import { useRetryRemote } from "./hooks/useRetryRemote";
+
 import { db } from "./services/storage";
 
 import "./App.css";
@@ -21,6 +23,7 @@ import Settings from "./components/Settings";
 import Welcome from "./components/Welcome";
 import Switch from "./components/Settings/OnlineStoragePanel/Switch";
 import Sync from "./components/Sync";
+import { use } from "react";
 
 function App() {
   const [boxStatus, setBoxStatus] = useRecoilState(boxStatusState);
@@ -37,6 +40,8 @@ function App() {
   const useRemoteStorage = useRecoilValue(useRemoteStorageState);
   const useSyncWarnings = useRecoilValue(useSyncWarningsState);
   const [showSyncModal, setShowSyncModal] = useState(false);
+
+  const retryRemote = useRetryRemote();
 
   useEffect(() => {
     async function init() {
@@ -55,6 +60,8 @@ function App() {
         if (useSyncWarnings && boxStatus.remoteUpdatedOn) {
           checkForRemoteCardChanges(boxStatus);
         }
+        // Finally, we want to retry any failed remote operations
+        retryRemote();
       }
 
       // Check URL for box parameter. If it exists then load cards from the Online
