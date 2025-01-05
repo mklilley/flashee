@@ -57,14 +57,33 @@ const db = {
       }
       // The call to the remote is unsuccessful
       if (!result) {
-        // If the remote database fails, we need to log the failure and provide
-        // an id for the card so we can save it in the localStorage
+        if (!options.retry) {
+          // If the remote database fails and we're trying to create for the first time,
+          // we need to log the failure and provide  an id for the card so we can save
+          // it in the localStorage and log the failure
+          newCards.forEach((el, idx) => {
+            let i = id();
+            newCards[idx].id = i;
+            recordRemoteFail(i, "create");
+          });
 
-        newCards.forEach((el, idx) => {
-          let i = id();
-          newCards[idx].id = i;
-          recordRemoteFail(i, "create");
-        });
+          // Get all the cards
+          let allCards = JSON.parse(localStorage.getItem(key)) || {};
+
+          newCards.forEach((el) => {
+            // Add the new cards to cards collection
+            allCards[el.id] = el;
+          });
+
+          // Save the updated cards collection
+          localStorage.setItem(key, JSON.stringify(allCards));
+
+          return false;
+        } else {
+          // If the remote database fails when we're retrying a failed create operation, then
+          // we don't want to recreate a local card again, we'll simply return false
+          return false;
+        }
       }
     } else {
       // If only using local storage we need to provide an
@@ -85,6 +104,8 @@ const db = {
 
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
+
+    return true;
   },
   read: async function (options = {}) {
     let cards;
@@ -140,26 +161,41 @@ const db = {
       }
       // The call to the remote is unsuccessful
       else {
-        // If the remote database fails, we need to log the failure
-        recordRemoteFail(id, "update");
+        // The call to the remote is unsuccessful and it's the first time we're trying to update
+        // then we need to log the failure
+        if (!options.retry) {
+          recordRemoteFail(id, "update");
+        }
+
+        // Save the updated cards collection
+        localStorage.setItem(key, JSON.stringify(allCards));
+
+        return false;
       }
     }
 
     // Save the updated cards collection
     localStorage.setItem(key, JSON.stringify(allCards));
+
+    return true;
   },
   delete: async function (id, options = {}) {
     if (id) {
       // deleting a specific card
+      if (!options.retry) {
+        // If retry flag is not set then we're attempting to delete for the first time
+        // so we need to remove the card from local storage. If delete on remote fails then
+        // we'll only need to retry delete on the remote database.
 
-      // Get all the cards
-      let allCards = JSON.parse(localStorage.getItem(key)) || {};
+        // Get all the cards
+        let allCards = JSON.parse(localStorage.getItem(key)) || {};
 
-      // delete the card from the cards collection
-      delete allCards[id];
+        // delete the card from the cards collection
+        delete allCards[id];
 
-      // Save the updated cards collection
-      localStorage.setItem(key, JSON.stringify(allCards));
+        // Save the updated cards collection
+        localStorage.setItem(key, JSON.stringify(allCards));
+      }
 
       // Only delete data on the remote database if remote flag is true
       if (options.remote === true) {
@@ -171,15 +207,25 @@ const db = {
           let status = await this.status();
           localStorage.setItem("remoteUpdatedOn", status.remoteUpdatedOn);
         } else {
-          // The call to the remote is unsuccessful
-          // If the remote database fails, we need to log the failure
-          recordRemoteFail(id, "delete");
+          // The call to the remote is unsuccessful and it's the first time we're trying to delete
+          // then we need to log the failure
+          if (!options.retry) {
+            recordRemoteFail(id, "delete");
+          }
+
+          return false;
         }
       }
     } else {
       // deleting all cards
 
-      localStorage.setItem(key, JSON.stringify({}));
+      if (!options.retry) {
+        // If retry flag is not set then we're attempting to delete for the first time
+        // so we need to remove all cards from local storage. If delete on remote fails then
+        // we'll only need to retry delete on the remote database.
+
+        localStorage.setItem(key, JSON.stringify({}));
+      }
 
       if (options.remote === true) {
         const result = await remote.delete();
@@ -190,12 +236,17 @@ const db = {
           let status = await this.status();
           localStorage.setItem("remoteUpdatedOn", status.remoteUpdatedOn);
         } else {
-          // The call to the remote is unsuccessful
-          // If the remote database fails, we need to log the failure
-          recordRemoteFail("all", "delete");
+          // The call to the remote is unsuccessful and it's the first time we're trying to delete
+          // then we need to log the failure
+          if (!options.retry) {
+            recordRemoteFail("all", "delete");
+          }
+          return false;
         }
       }
     }
+
+    return true;
   },
 };
 
