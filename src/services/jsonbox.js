@@ -129,6 +129,12 @@ const box = {
     newBoxID = newBoxID.toLowerCase().trim();
     newApiKey = newApiKey.toLowerCase().trim();
 
+    // Check that the user isn't trying to switch to the current box they are already in
+    const currentBoxID = await this.id();
+    if (newBoxID === currentBoxID) {
+      throw new Error("You are already viewing cards from this box.");
+    }
+
     // Check that the user has entered a valid boxID, i.e.
     // 20 character HEX string
     let isHex20 = newBoxID.match("^[0-9a-f]{20}$");
