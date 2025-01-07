@@ -18,7 +18,13 @@ const Card = React.memo(({ card, handleEdit, handleDelete, handleRead }) => {
   const cardRef = useRef(null);
 
   useLayoutEffect(() => {
-    renderMathInElement(cardRef.current);
+    renderMathInElement(cardRef.current, {
+      TeX: {
+        delimiters: {
+          inline: [["$$", "$$"]],
+        },
+      },
+    });
   }, [card]);
 
   function editCard(e) {
