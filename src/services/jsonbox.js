@@ -23,6 +23,9 @@ function createUUID() {
   });
 }
 
+// API_BASE: "https://json.lilley.io/flash_",
+// API_BASE_META: "https://json.lilley.io/_meta/flash_",
+
 // Box object is composed of:
 // API_BASE: Used to make most api requests to create, read, update and delete data
 // API_BASE_META: Used to test if the service is available
@@ -38,8 +41,8 @@ function createUUID() {
 // update : Function to update the data for a specific "document" from the jsonbox
 // delete : Function to delete a specific "document" from the jsonbox
 const box = {
-  API_BASE: "https://json.lilley.io/flash_",
-  API_BASE_META: "https://json.lilley.io/_meta/flash_",
+  API_BASE: "http://localhost:3000/flash_",
+  API_BASE_META: "http://localhost:3000/_meta/flash_",
   API_URL: "",
   API_META_URL: "",
 
@@ -50,27 +53,27 @@ const box = {
 
       // Check to see if the app is already storing data in a jsonbox and if not then
       // create a new boxID to be used as such.
-      boxID = JSON.parse(localStorage.getItem("jsonbox"));
+      boxID = localStorage.getItem("jsonbox");
       if (boxID === null) {
         boxID = createUniqueID();
-        localStorage.setItem("jsonbox", JSON.stringify(boxID));
+        localStorage.setItem("jsonbox", boxID);
         // Set another storage key for the purpose of identifying the users personal
         // jsonbox which might be different from the current box
-        localStorage.setItem("myJsonbox", JSON.stringify(boxID));
+        localStorage.setItem("myJsonbox", boxID);
       }
 
-      apiKey = JSON.parse(localStorage.getItem("apiKey"));
+      apiKey = localStorage.getItem("apiKey");
       if (apiKey === null) {
         apiKey = createUUID();
-        localStorage.setItem("apiKey", JSON.stringify(apiKey));
+        localStorage.setItem("apiKey", apiKey);
         // Set another storage key for the purpose of identifying the users personal
         // apiKey which might be different from the current apiKey
-        localStorage.setItem("myApiKey", JSON.stringify(apiKey));
+        localStorage.setItem("myApiKey", apiKey);
       }
     } else {
       // If arguments are supplied to init then we're switching json box
-      localStorage.setItem("jsonbox", JSON.stringify(boxID));
-      localStorage.setItem("apiKey", JSON.stringify(apiKey));
+      localStorage.setItem("jsonbox", boxID);
+      localStorage.setItem("apiKey", apiKey);
     }
 
     this.API_URL = `${this.API_BASE}${boxID}`;
@@ -82,9 +85,9 @@ const box = {
   id: async function (options = {}) {
     let boxID;
     if (options.my === true) {
-      boxID = JSON.parse(localStorage.getItem("myJsonbox"));
+      boxID = localStorage.getItem("myJsonbox");
     } else {
-      boxID = JSON.parse(localStorage.getItem("jsonbox"));
+      boxID = localStorage.getItem("jsonbox");
     }
     return boxID;
   },
@@ -92,9 +95,9 @@ const box = {
   apiKey: async function (options = {}) {
     let apiKey;
     if (options.my === true) {
-      apiKey = JSON.parse(localStorage.getItem("myApiKey"));
+      apiKey = localStorage.getItem("myApiKey");
     } else {
-      apiKey = JSON.parse(localStorage.getItem("apiKey"));
+      apiKey = localStorage.getItem("apiKey");
     }
     return apiKey;
   },

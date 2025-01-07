@@ -9,12 +9,16 @@ const localStorageEffect =
     // Load the initial value from localStorage
     const savedValue = localStorage.getItem(key);
     if (savedValue != null) {
-      setSelf(JSON.parse(savedValue));
+      try {
+        setSelf(JSON.parse(savedValue));
+      } catch (error) {
+        setSelf(savedValue);
+      }
     }
 
     // Update localStorage whenever the atom's value changes
     onSet((newValue, _, isReset) => {
-      isReset ? localStorage.removeItem(key) : localStorage.setItem(key, JSON.stringify(newValue));
+      isReset ? localStorage.removeItem(key) : localStorage.setItem(key, newValue);
     });
   };
 
