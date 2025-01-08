@@ -93,7 +93,7 @@ function App() {
       if (numDaysSinceKeepAlive > 90) {
         let keepAliveSuccess = await db.keepAlive();
         if (keepAliveSuccess) {
-          localStorage.lastKeepAliveDate = new Date();
+          localStorage.lastKeepAliveDate = new Date().toISOString();
         } else {
           alert(
             `Your online storage data will be deleted in ${Math.round(
