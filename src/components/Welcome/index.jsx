@@ -10,8 +10,8 @@ import {
 import Modal from "../Modal";
 import Panel from "../Panel";
 
-import logo from "../../assets/logo.svg";
-import githubOctocat from "../../assets/github.png";
+import logo from "../../assets/img/logo.svg";
+import githubOctocat from "../../assets/img/github.png";
 
 function Welcome({ close }) {
   const myBoxID = useRecoilValue(myBoxIDState);
