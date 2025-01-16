@@ -62,6 +62,10 @@ function App() {
         }
         // Finally, we want to retry any failed remote operations
         retryRemote();
+      } else if (useRemoteStorage && !boxStatus) {
+        // If the user has opted to use remote storage but there is a problem with the
+        // online storage then we want to show the user a warning.
+        alert("There was a problem with the online storage.");
       }
 
       // Check URL for box parameter. If it exists then load cards from the Online
