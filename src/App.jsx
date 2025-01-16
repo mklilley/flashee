@@ -23,7 +23,7 @@ import Settings from "./components/Settings";
 import Welcome from "./components/Welcome";
 import Switch from "./components/Settings/OnlineStoragePanel/Switch";
 import Sync from "./components/Sync";
-import { use } from "react";
+import ReloadPrompt from "./components/ReloadPrompt";
 
 function App() {
   const [boxStatus, setBoxStatus] = useRecoilState(boxStatusState);
@@ -123,6 +123,7 @@ function App() {
       {showWelcomeModal && !haveSeenWelcome && <Welcome close={() => setShowWelcomeModal(false)} />}
       {showSwitchModal && <Switch boxID={boxIDFromURL} close={() => setShowSwitchModal(false)} />}
       {showSyncModal && <Sync boxStatus={boxStatus} close={() => setShowSyncModal(false)} />}
+      <ReloadPrompt />
     </>
   );
 }
