@@ -23,8 +23,8 @@ function createUUID() {
   });
 }
 
-// API_BASE: "https://json.lilley.io/flash_",
-// API_BASE_META: "https://json.lilley.io/_meta/flash_",
+// API_BASE: "http://localhost:3000/flash_",
+// API_BASE_META: "http://localhost:3000/_meta/flash_",
 
 // Box object is composed of:
 // API_BASE: Used to make most api requests to create, read, update and delete data
@@ -41,8 +41,8 @@ function createUUID() {
 // update : Function to update the data for a specific "document" from the jsonbox
 // delete : Function to delete a specific "document" from the jsonbox
 const box = {
-  API_BASE: "http://localhost:3000/flash_",
-  API_BASE_META: "http://localhost:3000/_meta/flash_",
+  API_BASE: "https://json.lilley.io/flash_",
+  API_BASE_META: "https://json.lilley.io0/_meta/flash_",
   API_URL: "",
   API_META_URL: "",
 
