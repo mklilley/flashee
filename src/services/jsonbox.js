@@ -42,7 +42,7 @@ function createUUID() {
 // delete : Function to delete a specific "document" from the jsonbox
 const box = {
   API_BASE: "https://json.lilley.io/flash_",
-  API_BASE_META: "https://json.lilley.io0/_meta/flash_",
+  API_BASE_META: "https://json.lilley.io/_meta/flash_",
   API_URL: "",
   API_META_URL: "",
 
