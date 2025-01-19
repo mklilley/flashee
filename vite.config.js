@@ -2,20 +2,16 @@ import { defineConfig } from "vite";
 import path from "path";
 import react from "@vitejs/plugin-react-swc";
 import { VitePWA } from "vite-plugin-pwa";
-import compression from 'vite-plugin-compression';
+import compression from "vite-plugin-compression";
 
-
-// https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     VitePWA({
-      strategies: "generateSW",
-      registerType: "prompt",
-      injectRegister: "auto",
-      workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+      devOptions: {
+        enabled: mode === "development",
       },
+      includeAssets: ["assets/**/*"],
       manifest: {
         start_url: "./index.html",
         name: "Flashee",
@@ -101,7 +97,7 @@ export default defineConfig({
         ],
       },
     }),
-    compression()
+    compression(),
   ],
   base: "",
   resolve: {
@@ -109,4 +105,4 @@ export default defineConfig({
       "@globalState": path.resolve(__dirname, "./src/globalState"),
     },
   },
-});
+}));
