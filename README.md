@@ -14,7 +14,7 @@ I originally built Flashee using [Vue.js version 2](https://v2.vuejs.org/) and y
 
 In early 2023, I decided to rebuild the app using React. I'd recently finished teaching at a coding bootcamp and wanted to consolidate my React knowledge into a real project.
 
-The refactoring was very start stop (mostly stop), so it took me almost 2 years to finish the job 😅! Although it took a long time, I'm very happy it did it; updates are going to be MUCH easier than the Vue version that had everything in one file 😱.
+The refactoring was very start stop (mostly stop, e.g. I took a 15 month "break"). So, it took me almost 2 years to finish the job 😅! Although it took a long time, I averaged an hour a day on the 80 days I worked on it; I think that's pretty respectable for a side project. And in terms of benefits, updates are going to be MUCH easier than the Vue version that had everything in one file 😱.
 
 ### Front end
 
@@ -23,6 +23,7 @@ The Flashee front end is built with [React 18](https://react.dev/blog/2022/03/29
 The most notable change to the app functionality from the Vue days is the addition of the [MathLive](https://cortexjs.io/mathlive/) keyboard to make it MUCH easier to create equations (previously you had to manaully type the LaTeX 😫).
 
 To make the app into a [Progressive Web App (PWA)](https://web.dev/progressive-web-apps/) I used the [PWA Vite Plugin](https://vite-pwa-org.netlify.app/). I used the default options for this plugin meant:
+
 - I didn't have to write any service worker code myself
 - When I make updates to the app, the user will be prompted to reload the app
 
@@ -31,7 +32,6 @@ The prompting is handled via a `ReloadPrompt` component that I created mostly by
 Because I'd generated the PWA icons when making the Vue version of the app, I didn't need to use an asset generator. However, if I was starting from scratch, I would have have used the [assets generator from the PWA Vite Plugin](https://vite-pwa-org.netlify.app/assets-generator/).
 
 [By default](https://vite-pwa-org.netlify.app/guide/static-assets.html#static-assets-handling), only the icons specified in the manifest option in `vite.config.js` are included in the PWA precache. I needed to add `includeAssets:['assets/**/*']` to include all files within the `/pulic/assets` directory.
-
 
 ### Back end
 
