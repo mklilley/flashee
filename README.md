@@ -14,7 +14,7 @@ I originally built Flashee using [Vue.js version 2](https://v2.vuejs.org/) and y
 
 In early 2023, I decided to rebuild the app using React. I'd recently finished teaching at a coding bootcamp and wanted to consolidate my React knowledge into a real project.
 
-The refactoring was very start stop (mostly stop), so it took me almost 2 years to finish the job 😅! Although it took a long time, I'm very happy it did it; updates are going to be MUCH easier than the vue version that had everything in one file 😱.
+The refactoring was very start stop (mostly stop), so it took me almost 2 years to finish the job 😅! Although it took a long time, I'm very happy it did it; updates are going to be MUCH easier than the Vue version that had everything in one file 😱.
 
 ### Front end
 
@@ -28,7 +28,7 @@ To make the app into a [Progressive Web App (PWA)](https://web.dev/progressive-w
 
 The prompting is handled via a `ReloadPrompt` component that I created mostly by copying the example from the [Prompt for update](https://vite-pwa-org.netlify.app/frameworks/react.html#prompt-for-update) section of the plugin website.
 
-Because I'd generated the PWA icons when making the vue version of the app, I didn't need to use an asset generator. However, if I was starting from scratch, I would have have used the [assets generator from the PWA Vite Plugin](https://vite-pwa-org.netlify.app/assets-generator/).
+Because I'd generated the PWA icons when making the Vue version of the app, I didn't need to use an asset generator. However, if I was starting from scratch, I would have have used the [assets generator from the PWA Vite Plugin](https://vite-pwa-org.netlify.app/assets-generator/).
 
 [By default](https://vite-pwa-org.netlify.app/guide/static-assets.html#static-assets-handling), only the icons specified in the manifest option in `vite.config.js` are included in the PWA precache. I needed to add `includeAssets:['assets/**/*']` to include all files within the `/pulic/assets` directory.
 
