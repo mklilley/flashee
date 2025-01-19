@@ -1,6 +1,6 @@
 # [Flashee](https://flashee.lilley.io/) - The free and simple flash card app
 
-<a href="https://flashee.lilley.io/" target="_blank"><img src="https://flashee.lilley.io/img/logo.441e7873.svg"></a>
+<a href="https://flashee.lilley.io/" target="_blank"><img src="ttps://flashee.lilley.io/assets/logo-98b8a6c9.svg"></a>
 
 <a href="https://www.buymeacoffee.com/mklilley" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height = "60" ></a>
 
@@ -14,13 +14,28 @@ I originally built Flashee using [Vue.js version 2](https://v2.vuejs.org/) and y
 
 In early 2023, I decided to rebuild the app using React. I'd recently finished teaching at a coding bootcamp and wanted to consolidate my React knowledge into a real project.
 
+The refactoring was very start stop (mostly stop), so it took me almost 2 years to finish the job 😅! Although it took a long time, I'm very happy it did it; updates are going to be MUCH easier than the vue version that had everything in one file 😱.
+
 ### Front end
 
-> TODO
+The Flashee front end is built with [React 18](https://react.dev/blog/2022/03/29/react-v18). For global state management, I used [Recoil](https://recoiljs.org/). I used [Vite 4](https://vite.dev/blog/announcing-vite4) as the build tool.
+
+The most notable change to the app functionality from the Vue days is the addition of the [MathLive](https://cortexjs.io/mathlive/) keyboard to make it MUCH easier to create equations (previously you had to manaully type the LaTeX 😫).
+
+To make the app into a [Progressive Web App (PWA)](https://web.dev/progressive-web-apps/) I used the [PWA Vite Plugin](https://vite-pwa-org.netlify.app/). I used the default options for this plugin meant:
+- I didn't have to write any service worker code myself
+- When I make updates to the app, the user will be prompted to reload the app
+
+The prompting is handled via a `ReloadPrompt` component that I created mostly by copying the example from the [Prompt for update](https://vite-pwa-org.netlify.app/frameworks/react.html#prompt-for-update) section of the plugin website.
+
+Because I'd generated the PWA icons when making the vue version of the app, I didn't need to use an asset generator. However, if I was starting from scratch, I would have have used the [assets generator from the PWA Vite Plugin](https://vite-pwa-org.netlify.app/assets-generator/).
+
+[By default](https://vite-pwa-org.netlify.app/guide/static-assets.html#static-assets-handling), only the icons specified in the manifest option in `vite.config.js` are included in the PWA precache. I needed to add `includeAssets:['assets/**/*']` to include all files within the `/pulic/assets` directory.
+
 
 ### Back end
 
-The app doesn't require a backend to function - the flash card data is stored on the devices [localStorage](https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/). I did, however, create an online storage option in case the localStorage gets wiped (this can sometimes happen on mobile devices). I am using an an open-source json storage system ([jsonbox](https://jsonbox.io/)) for the online storage. I [slightly adapted it](https://github.com/mklilley/jsonbox/) and deployed it on my server using the [instructions](https://github.com/mklilley/jsonbox#how-to-run-locally) that jsonbox provides.
+The app doesn't require a backend to function - the flash card data is stored on the devices [localStorage](https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/). I did, however, create an online storage option in case the localStorage gets wiped (this can sometimes happen on mobile devices). I am using an an open-source json storage system ([jsonbox](https://jsonbox.io/)) for the online storage. I [adapted it](https://github.com/mklilley/jsonbox/) and deployed it on my server using the [instructions](https://github.com/mklilley/jsonbox#how-to-run-locally) that jsonbox provides.
 
 I use [Formspree](https://formspree.io/) to process the feedback form and route responses to my personal email address.
 
